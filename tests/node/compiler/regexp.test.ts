@@ -7,7 +7,9 @@ import { tree_init, tree_set_dynamic, tree_set_static } from '@mapl/pattern-rout
 import { compile } from '@mapl/pattern-router/tree/compiler/regex-jit';
 import { isDynamicPattern } from '@mapl/pattern-router/tree/utils';
 
-import simple_api from '../../suites/simple-api.json' with { type: 'json' };
+import customer_api from '../../suites/customer-api.json' with { type: 'json' };
+import commerce_api from '../../suites/commerce-api.json' with { type: 'json' };
+import operations_api from '../../suites/operations-api.json' with { type: 'json' };
 
 const clone = (o: object) => JSON.parse(JSON.stringify(o));
 
@@ -59,6 +61,14 @@ const run = (suite: Suite) => {
   }
 };
 
-describe('Simple API', () => {
-  run(simple_api);
+describe('10 routes', () => {
+  run(customer_api);
+});
+
+describe('30 routes', () => {
+  run(commerce_api);
+});
+
+describe('50 routes', () => {
+  run(operations_api);
 });
