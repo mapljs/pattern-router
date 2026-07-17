@@ -40,3 +40,7 @@ export const findNamedGroupEnd = (path: string, startIdx: number): number => {
 
   return groupEndIdx;
 };
+
+export const isDynamicPattern = (pat: string): boolean => /[({:*]/.test(pat);
+export const isModifier = (modifier: string): boolean =>
+  modifier === '?' || modifier === '+' || modifier === '*';

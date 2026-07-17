@@ -1,6 +1,7 @@
 export interface LinearMap<K, V> {
   0: K[];
   1: V[];
+  length: number;
 }
 
 export const linear_map_index = <K>(m: LinearMap<K, any>, k: K): number => m[0].indexOf(k);

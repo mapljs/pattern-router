@@ -3,54 +3,62 @@ import assert from 'node:assert';
 
 import type { Suite } from '../../suites/types.ts';
 
-import { type Node, node_insert } from '@mapl/pattern-router/tree/node';
-import { compile } from '@mapl/pattern-router/tree/compiler/regex';
+import { tree_init, tree_set_dynamic, tree_set_static } from '@mapl/pattern-router/tree';
+import { compile } from '@mapl/pattern-router/tree/compiler/regex-jit';
+import { isDynamicPattern } from '@mapl/pattern-router/tree/utils';
+
+import simple_api from '../../suites/simple-api.json' with { type: 'json' };
+
+const clone = (o: object) => JSON.parse(JSON.stringify(o));
 
 const run = (suite: Suite) => {
-  const rootNode: Node<number> = ['', null, null, null, null, null, null];
+  const tree = tree_init<string>();
   for (let patternId = 0; patternId < suite.length; patternId++) {
     const pat = suite[patternId];
-    node_insert(rootNode, pat.pattern, 0, patternId);
+
+    isDynamicPattern(pat.pattern)
+      ? tree_set_dynamic(tree, pat.pattern, `return {id:${patternId},params:r.groups}`)
+      : tree_set_static(tree, pat.pattern, `return {id:${patternId},params:{}}`);
   }
 
-  const result = compile(rootNode),
-    regexp = new RegExp('^' + result.regex + '$');
+  const fn: (path: string) => { id: number; params: Record<string, string> } | undefined = Function(
+    'p',
+    compile(tree, 'r', 'p'),
+  ) as any;
 
   for (let patternId = 0; patternId < suite.length; patternId++) {
     const pat = suite[patternId];
     it(pat.pattern, () => {
       for (let j = 0, { tests } = pat; j < tests.length; j++) {
         const { path, expected } = tests[j],
-          matchedResult = regexp.exec(path);
+          matchedResult = fn(path);
 
         if (expected === null) {
           assert.notStrictEqual(
-            matchedResult ? result.handlers[matchedResult.indexOf('', 1)][2] : -1,
+            matchedResult?.id ?? -1,
             patternId,
             `expect ${path} to not match ${pat.pattern}`,
           );
         } else {
-          assert.ok(matchedResult !== null, `expect ${path} to match`);
+          assert.ok(matchedResult != null, `expect ${path} to match`);
 
-          const handler = result.handlers[matchedResult.indexOf('', 1)];
           assert.strictEqual(
-            handler[2],
+            matchedResult.id,
             patternId,
-            `expect ${path} to match this pattern, instead matched ${suite[handler[2]].pattern}`,
+            `expect ${path} to match this pattern, instead matched ${suite[matchedResult.id].pattern}`,
           );
 
-          const params: Record<string, string | undefined> = {};
-          for (let i = 0, keys = handler[0], indices = handler[1]; i < keys.length; i++)
-            params[keys[i]] = matchedResult[indices[i]];
-
-          assert.deepStrictEqual(expected, params, `expect ${path} to match ${pat.pattern} params`);
+          assert.deepStrictEqual(
+            clone(expected),
+            clone(matchedResult.params),
+            `expect ${path} to match ${pat.pattern} params`,
+          );
         }
       }
     });
   }
 };
 
-import simple_api from '../../suites/simple-api.json' with { type: 'json' };
 describe('Simple API', () => {
   run(simple_api);
 });
