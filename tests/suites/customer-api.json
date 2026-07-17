@@ -1,12 +1,75 @@
 [
-  { "pattern": "/api/v1/health", "tests": [{ "path": "/api/v1/health", "expected": {} }, { "path": "/api/v1/health/live", "expected": null }] },
-  { "pattern": "/api/v1/auth/login", "tests": [{ "path": "/api/v1/auth/login", "expected": {} }, { "path": "/api/v1/auth/logout", "expected": null }] },
-  { "pattern": "/api/v1/customers", "tests": [{ "path": "/api/v1/customers", "expected": {} }, { "path": "/api/v1/customer", "expected": null }] },
-  { "pattern": "/api/v1/customers/:customerId(cus_[A-Za-z0-9]+)", "tests": [{ "path": "/api/v1/customers/cus_A7f4d92", "expected": { "customerId": "cus_A7f4d92" } }, { "path": "/api/v1/customers/42", "expected": null }] },
-  { "pattern": "/api/v1/customers/:customerId(cus_[A-Za-z0-9]+)/addresses", "tests": [{ "path": "/api/v1/customers/cus_A7f4d92/addresses", "expected": { "customerId": "cus_A7f4d92" } }, { "path": "/api/v1/customers/cus_A7f4d92/address", "expected": null }] },
-  { "pattern": "/api/v1/catalog/products", "tests": [{ "path": "/api/v1/catalog/products", "expected": {} }, { "path": "/api/v1/catalog/product", "expected": null }] },
-  { "pattern": "/api/v1/catalog/products/:sku([A-Z]{3}-[0-9]{4})", "tests": [{ "path": "/api/v1/catalog/products/SHO-1042", "expected": { "sku": "SHO-1042" } }, { "path": "/api/v1/catalog/products/sho-1042", "expected": null }] },
-  { "pattern": "/api/v1/orders", "tests": [{ "path": "/api/v1/orders", "expected": {} }, { "path": "/api/v1/orders/", "expected": null }] },
-  { "pattern": "/api/v1/orders/:orderId(ord_[A-Za-z0-9]+)", "tests": [{ "path": "/api/v1/orders/ord_H83Qp91", "expected": { "orderId": "ord_H83Qp91" } }, { "path": "/api/v1/orders/H83Qp91", "expected": null }] },
-  { "pattern": "/api/v1/orders/:orderId(ord_[A-Za-z0-9]+)/refunds", "tests": [{ "path": "/api/v1/orders/ord_H83Qp91/refunds", "expected": { "orderId": "ord_H83Qp91" } }, { "path": "/api/v1/orders/ord_H83Qp91/refund", "expected": null }] }
+  {
+    "pattern": "/api/v1/health",
+    "tests": [
+      { "path": "/api/v1/health", "expected": {} },
+      { "path": "/api/v1/health/live", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/auth/login",
+    "tests": [
+      { "path": "/api/v1/auth/login", "expected": {} },
+      { "path": "/api/v1/auth/logout", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/customers",
+    "tests": [
+      { "path": "/api/v1/customers", "expected": {} },
+      { "path": "/api/v1/customer", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/customers/:customerId(cus_[A-Za-z0-9]+)",
+    "tests": [
+      { "path": "/api/v1/customers/cus_A7f4d92", "expected": { "customerId": "cus_A7f4d92" } },
+      { "path": "/api/v1/customers/42", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/customers/:customerId(cus_[A-Za-z0-9]+)/addresses",
+    "tests": [
+      {
+        "path": "/api/v1/customers/cus_A7f4d92/addresses",
+        "expected": { "customerId": "cus_A7f4d92" }
+      },
+      { "path": "/api/v1/customers/cus_A7f4d92/address", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/catalog/products",
+    "tests": [
+      { "path": "/api/v1/catalog/products", "expected": {} },
+      { "path": "/api/v1/catalog/product", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/catalog/products/:sku([A-Z]{3}-[0-9]{4})",
+    "tests": [
+      { "path": "/api/v1/catalog/products/SHO-1042", "expected": { "sku": "SHO-1042" } },
+      { "path": "/api/v1/catalog/products/sho-1042", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/orders",
+    "tests": [
+      { "path": "/api/v1/orders", "expected": {} },
+      { "path": "/api/v1/orders/", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/orders/:orderId(ord_[A-Za-z0-9]+)",
+    "tests": [
+      { "path": "/api/v1/orders/ord_H83Qp91", "expected": { "orderId": "ord_H83Qp91" } },
+      { "path": "/api/v1/orders/H83Qp91", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/orders/:orderId(ord_[A-Za-z0-9]+)/refunds",
+    "tests": [
+      { "path": "/api/v1/orders/ord_H83Qp91/refunds", "expected": { "orderId": "ord_H83Qp91" } },
+      { "path": "/api/v1/orders/ord_H83Qp91/refund", "expected": null }
+    ]
+  }
 ]

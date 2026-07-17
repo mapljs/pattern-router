@@ -1,32 +1,230 @@
 [
-  { "pattern": "/api/v2/health", "tests": [{ "path": "/api/v2/health", "expected": {} }, { "path": "/api/v2/healthz", "expected": null }] },
-  { "pattern": "/api/v2/auth/sessions", "tests": [{ "path": "/api/v2/auth/sessions", "expected": {} }, { "path": "/api/v2/auth/session", "expected": null }] },
-  { "pattern": "/api/v2/auth/sessions/:sessionId(sess_[A-Za-z0-9]+)", "tests": [{ "path": "/api/v2/auth/sessions/sess_Q9m2Kx", "expected": { "sessionId": "sess_Q9m2Kx" } }, { "path": "/api/v2/auth/sessions/Q9m2Kx", "expected": null }] },
-  { "pattern": "/api/v2/accounts", "tests": [{ "path": "/api/v2/accounts", "expected": {} }, { "path": "/api/v2/account", "expected": null }] },
-  { "pattern": "/api/v2/accounts/:accountId(acct_[A-Za-z0-9]+)", "tests": [{ "path": "/api/v2/accounts/acct_N8d71", "expected": { "accountId": "acct_N8d71" } }, { "path": "/api/v2/accounts/100", "expected": null }] },
-  { "pattern": "/api/v2/accounts/:accountId(acct_[A-Za-z0-9]+)/members", "tests": [{ "path": "/api/v2/accounts/acct_N8d71/members", "expected": { "accountId": "acct_N8d71" } }, { "path": "/api/v2/accounts/acct_N8d71/member", "expected": null }] },
-  { "pattern": "/api/v2/accounts/:accountId(acct_[A-Za-z0-9]+)/members/:memberId(usr_[A-Za-z0-9]+)", "tests": [{ "path": "/api/v2/accounts/acct_N8d71/members/usr_A0b19", "expected": { "accountId": "acct_N8d71", "memberId": "usr_A0b19" } }, { "path": "/api/v2/accounts/acct_N8d71/members/12", "expected": null }] },
-  { "pattern": "/api/v2/catalog/categories", "tests": [{ "path": "/api/v2/catalog/categories", "expected": {} }, { "path": "/api/v2/catalog/category", "expected": null }] },
-  { "pattern": "/api/v2/catalog/categories/:categorySlug([a-z0-9-]+)", "tests": [{ "path": "/api/v2/catalog/categories/running-shoes", "expected": { "categorySlug": "running-shoes" } }, { "path": "/api/v2/catalog/categories/Running-Shoes", "expected": null }] },
-  { "pattern": "/api/v2/catalog/products", "tests": [{ "path": "/api/v2/catalog/products", "expected": {} }, { "path": "/api/v2/catalog/products/", "expected": null }] },
-  { "pattern": "/api/v2/catalog/products/:productId(prod_[A-Za-z0-9]+)", "tests": [{ "path": "/api/v2/catalog/products/prod_K71pL", "expected": { "productId": "prod_K71pL" } }, { "path": "/api/v2/catalog/products/K71pL", "expected": null }] },
-  { "pattern": "/api/v2/catalog/products/:productId(prod_[A-Za-z0-9]+)/variants", "tests": [{ "path": "/api/v2/catalog/products/prod_K71pL/variants", "expected": { "productId": "prod_K71pL" } }, { "path": "/api/v2/catalog/products/prod_K71pL/variant", "expected": null }] },
-  { "pattern": "/api/v2/catalog/products/:productId(prod_[A-Za-z0-9]+)/variants/:variantId(var_[A-Za-z0-9]+)", "tests": [{ "path": "/api/v2/catalog/products/prod_K71pL/variants/var_Blue42", "expected": { "productId": "prod_K71pL", "variantId": "var_Blue42" } }, { "path": "/api/v2/catalog/products/prod_K71pL/variants/blue", "expected": null }] },
-  { "pattern": "/api/v2/inventory/warehouses", "tests": [{ "path": "/api/v2/inventory/warehouses", "expected": {} }, { "path": "/api/v2/inventory/warehouse", "expected": null }] },
-  { "pattern": "/api/v2/inventory/warehouses/:warehouseCode(WH-[A-Z]{3})", "tests": [{ "path": "/api/v2/inventory/warehouses/WH-SEA", "expected": { "warehouseCode": "WH-SEA" } }, { "path": "/api/v2/inventory/warehouses/SEA", "expected": null }] },
-  { "pattern": "/api/v2/inventory/warehouses/:warehouseCode(WH-[A-Z]{3})/stock", "tests": [{ "path": "/api/v2/inventory/warehouses/WH-SEA/stock", "expected": { "warehouseCode": "WH-SEA" } }, { "path": "/api/v2/inventory/warehouses/WH-SEA/stocks", "expected": null }] },
-  { "pattern": "/api/v2/carts", "tests": [{ "path": "/api/v2/carts", "expected": {} }, { "path": "/api/v2/cart", "expected": null }] },
-  { "pattern": "/api/v2/carts/:cartId(cart_[A-Za-z0-9]+)", "tests": [{ "path": "/api/v2/carts/cart_X4v8N", "expected": { "cartId": "cart_X4v8N" } }, { "path": "/api/v2/carts/X4v8N", "expected": null }] },
-  { "pattern": "/api/v2/carts/:cartId(cart_[A-Za-z0-9]+)/items", "tests": [{ "path": "/api/v2/carts/cart_X4v8N/items", "expected": { "cartId": "cart_X4v8N" } }, { "path": "/api/v2/carts/cart_X4v8N/item", "expected": null }] },
-  { "pattern": "/api/v2/carts/:cartId(cart_[A-Za-z0-9]+)/items/:lineItemId(li_[A-Za-z0-9]+)", "tests": [{ "path": "/api/v2/carts/cart_X4v8N/items/li_81Qr", "expected": { "cartId": "cart_X4v8N", "lineItemId": "li_81Qr" } }, { "path": "/api/v2/carts/cart_X4v8N/items/81Qr", "expected": null }] },
-  { "pattern": "/api/v2/orders", "tests": [{ "path": "/api/v2/orders", "expected": {} }, { "path": "/api/v2/order", "expected": null }] },
-  { "pattern": "/api/v2/orders/:orderId(ord_[A-Za-z0-9]+)", "tests": [{ "path": "/api/v2/orders/ord_R92jM", "expected": { "orderId": "ord_R92jM" } }, { "path": "/api/v2/orders/R92jM", "expected": null }] },
-  { "pattern": "/api/v2/orders/:orderId(ord_[A-Za-z0-9]+)/payments", "tests": [{ "path": "/api/v2/orders/ord_R92jM/payments", "expected": { "orderId": "ord_R92jM" } }, { "path": "/api/v2/orders/ord_R92jM/payment", "expected": null }] },
-  { "pattern": "/api/v2/orders/:orderId(ord_[A-Za-z0-9]+)/shipments", "tests": [{ "path": "/api/v2/orders/ord_R92jM/shipments", "expected": { "orderId": "ord_R92jM" } }, { "path": "/api/v2/orders/ord_R92jM/shipment", "expected": null }] },
-  { "pattern": "/api/v2/shipments/:shipmentId(shp_[A-Za-z0-9]+)", "tests": [{ "path": "/api/v2/shipments/shp_C3x7L", "expected": { "shipmentId": "shp_C3x7L" } }, { "path": "/api/v2/shipments/C3x7L", "expected": null }] },
-  { "pattern": "/api/v2/shipments/:shipmentId(shp_[A-Za-z0-9]+)/tracking", "tests": [{ "path": "/api/v2/shipments/shp_C3x7L/tracking", "expected": { "shipmentId": "shp_C3x7L" } }, { "path": "/api/v2/shipments/shp_C3x7L/track", "expected": null }] },
-  { "pattern": "/api/v2/billing/invoices", "tests": [{ "path": "/api/v2/billing/invoices", "expected": {} }, { "path": "/api/v2/billing/invoice", "expected": null }] },
-  { "pattern": "/api/v2/billing/invoices/:invoiceId(inv_[A-Za-z0-9]+)", "tests": [{ "path": "/api/v2/billing/invoices/inv_V42mP", "expected": { "invoiceId": "inv_V42mP" } }, { "path": "/api/v2/billing/invoices/V42mP", "expected": null }] },
-  { "pattern": "/api/v2/webhooks/endpoints", "tests": [{ "path": "/api/v2/webhooks/endpoints", "expected": {} }, { "path": "/api/v2/webhooks/endpoint", "expected": null }] },
-  { "pattern": "/api/v2/webhooks/endpoints/:endpointId(we_[A-Za-z0-9]+)", "tests": [{ "path": "/api/v2/webhooks/endpoints/we_P3d9Q", "expected": { "endpointId": "we_P3d9Q" } }, { "path": "/api/v2/webhooks/endpoints/P3d9Q", "expected": null }] }
+  {
+    "pattern": "/api/v2/health",
+    "tests": [
+      { "path": "/api/v2/health", "expected": {} },
+      { "path": "/api/v2/healthz", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/auth/sessions",
+    "tests": [
+      { "path": "/api/v2/auth/sessions", "expected": {} },
+      { "path": "/api/v2/auth/session", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/auth/sessions/:sessionId(sess_[A-Za-z0-9]+)",
+    "tests": [
+      { "path": "/api/v2/auth/sessions/sess_Q9m2Kx", "expected": { "sessionId": "sess_Q9m2Kx" } },
+      { "path": "/api/v2/auth/sessions/Q9m2Kx", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/accounts",
+    "tests": [
+      { "path": "/api/v2/accounts", "expected": {} },
+      { "path": "/api/v2/account", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/accounts/:accountId(acct_[A-Za-z0-9]+)",
+    "tests": [
+      { "path": "/api/v2/accounts/acct_N8d71", "expected": { "accountId": "acct_N8d71" } },
+      { "path": "/api/v2/accounts/100", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/accounts/:accountId(acct_[A-Za-z0-9]+)/members",
+    "tests": [
+      { "path": "/api/v2/accounts/acct_N8d71/members", "expected": { "accountId": "acct_N8d71" } },
+      { "path": "/api/v2/accounts/acct_N8d71/member", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/accounts/:accountId(acct_[A-Za-z0-9]+)/members/:memberId(usr_[A-Za-z0-9]+)",
+    "tests": [
+      {
+        "path": "/api/v2/accounts/acct_N8d71/members/usr_A0b19",
+        "expected": { "accountId": "acct_N8d71", "memberId": "usr_A0b19" }
+      },
+      { "path": "/api/v2/accounts/acct_N8d71/members/12", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/catalog/categories",
+    "tests": [
+      { "path": "/api/v2/catalog/categories", "expected": {} },
+      { "path": "/api/v2/catalog/category", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/catalog/categories/:categorySlug([a-z0-9-]+)",
+    "tests": [
+      {
+        "path": "/api/v2/catalog/categories/running-shoes",
+        "expected": { "categorySlug": "running-shoes" }
+      },
+      { "path": "/api/v2/catalog/categories/Running-Shoes", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/catalog/products",
+    "tests": [
+      { "path": "/api/v2/catalog/products", "expected": {} },
+      { "path": "/api/v2/catalog/products/", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/catalog/products/:productId(prod_[A-Za-z0-9]+)",
+    "tests": [
+      { "path": "/api/v2/catalog/products/prod_K71pL", "expected": { "productId": "prod_K71pL" } },
+      { "path": "/api/v2/catalog/products/K71pL", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/catalog/products/:productId(prod_[A-Za-z0-9]+)/variants",
+    "tests": [
+      {
+        "path": "/api/v2/catalog/products/prod_K71pL/variants",
+        "expected": { "productId": "prod_K71pL" }
+      },
+      { "path": "/api/v2/catalog/products/prod_K71pL/variant", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/catalog/products/:productId(prod_[A-Za-z0-9]+)/variants/:variantId(var_[A-Za-z0-9]+)",
+    "tests": [
+      {
+        "path": "/api/v2/catalog/products/prod_K71pL/variants/var_Blue42",
+        "expected": { "productId": "prod_K71pL", "variantId": "var_Blue42" }
+      },
+      { "path": "/api/v2/catalog/products/prod_K71pL/variants/blue", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/inventory/warehouses",
+    "tests": [
+      { "path": "/api/v2/inventory/warehouses", "expected": {} },
+      { "path": "/api/v2/inventory/warehouse", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/inventory/warehouses/:warehouseCode(WH-[A-Z]{3})",
+    "tests": [
+      { "path": "/api/v2/inventory/warehouses/WH-SEA", "expected": { "warehouseCode": "WH-SEA" } },
+      { "path": "/api/v2/inventory/warehouses/SEA", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/inventory/warehouses/:warehouseCode(WH-[A-Z]{3})/stock",
+    "tests": [
+      {
+        "path": "/api/v2/inventory/warehouses/WH-SEA/stock",
+        "expected": { "warehouseCode": "WH-SEA" }
+      },
+      { "path": "/api/v2/inventory/warehouses/WH-SEA/stocks", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/carts",
+    "tests": [
+      { "path": "/api/v2/carts", "expected": {} },
+      { "path": "/api/v2/cart", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/carts/:cartId(cart_[A-Za-z0-9]+)",
+    "tests": [
+      { "path": "/api/v2/carts/cart_X4v8N", "expected": { "cartId": "cart_X4v8N" } },
+      { "path": "/api/v2/carts/X4v8N", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/carts/:cartId(cart_[A-Za-z0-9]+)/items",
+    "tests": [
+      { "path": "/api/v2/carts/cart_X4v8N/items", "expected": { "cartId": "cart_X4v8N" } },
+      { "path": "/api/v2/carts/cart_X4v8N/item", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/carts/:cartId(cart_[A-Za-z0-9]+)/items/:lineItemId(li_[A-Za-z0-9]+)",
+    "tests": [
+      {
+        "path": "/api/v2/carts/cart_X4v8N/items/li_81Qr",
+        "expected": { "cartId": "cart_X4v8N", "lineItemId": "li_81Qr" }
+      },
+      { "path": "/api/v2/carts/cart_X4v8N/items/81Qr", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/orders",
+    "tests": [
+      { "path": "/api/v2/orders", "expected": {} },
+      { "path": "/api/v2/order", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/orders/:orderId(ord_[A-Za-z0-9]+)",
+    "tests": [
+      { "path": "/api/v2/orders/ord_R92jM", "expected": { "orderId": "ord_R92jM" } },
+      { "path": "/api/v2/orders/R92jM", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/orders/:orderId(ord_[A-Za-z0-9]+)/payments",
+    "tests": [
+      { "path": "/api/v2/orders/ord_R92jM/payments", "expected": { "orderId": "ord_R92jM" } },
+      { "path": "/api/v2/orders/ord_R92jM/payment", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/orders/:orderId(ord_[A-Za-z0-9]+)/shipments",
+    "tests": [
+      { "path": "/api/v2/orders/ord_R92jM/shipments", "expected": { "orderId": "ord_R92jM" } },
+      { "path": "/api/v2/orders/ord_R92jM/shipment", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/shipments/:shipmentId(shp_[A-Za-z0-9]+)",
+    "tests": [
+      { "path": "/api/v2/shipments/shp_C3x7L", "expected": { "shipmentId": "shp_C3x7L" } },
+      { "path": "/api/v2/shipments/C3x7L", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/shipments/:shipmentId(shp_[A-Za-z0-9]+)/tracking",
+    "tests": [
+      { "path": "/api/v2/shipments/shp_C3x7L/tracking", "expected": { "shipmentId": "shp_C3x7L" } },
+      { "path": "/api/v2/shipments/shp_C3x7L/track", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/billing/invoices",
+    "tests": [
+      { "path": "/api/v2/billing/invoices", "expected": {} },
+      { "path": "/api/v2/billing/invoice", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/billing/invoices/:invoiceId(inv_[A-Za-z0-9]+)",
+    "tests": [
+      { "path": "/api/v2/billing/invoices/inv_V42mP", "expected": { "invoiceId": "inv_V42mP" } },
+      { "path": "/api/v2/billing/invoices/V42mP", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/webhooks/endpoints",
+    "tests": [
+      { "path": "/api/v2/webhooks/endpoints", "expected": {} },
+      { "path": "/api/v2/webhooks/endpoint", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v2/webhooks/endpoints/:endpointId(we_[A-Za-z0-9]+)",
+    "tests": [
+      { "path": "/api/v2/webhooks/endpoints/we_P3d9Q", "expected": { "endpointId": "we_P3d9Q" } },
+      { "path": "/api/v2/webhooks/endpoints/P3d9Q", "expected": null }
+    ]
+  }
 ]

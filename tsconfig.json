@@ -10,7 +10,7 @@
       "DOM.AsyncIterable",
       "WebWorker.ImportScripts",
       "Webworker.Iterable",
-      "WebWorker.AsyncIterable",
+      "WebWorker.AsyncIterable"
     ],
     "target": "ESNext",
 
