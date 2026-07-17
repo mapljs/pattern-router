@@ -1,0 +1,137 @@
+[
+  {
+    "pattern": "/",
+    "tests": [
+      { "path": "/", "expected": {} },
+      { "path": "/home", "expected": null },
+      { "path": "/?", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/login",
+    "tests": [
+      { "path": "/login", "expected": {} },
+      { "path": "/log", "expected": null },
+      { "path": "/login/", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/register",
+    "tests": [
+      { "path": "/register", "expected": {} },
+      { "path": "/regist", "expected": null },
+      { "path": "/register/", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/about",
+    "tests": [
+      { "path": "/about", "expected": {} },
+      { "path": "/about/", "expected": null },
+      { "path": "/abou", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/users",
+    "tests": [
+      { "path": "/api/v1/users", "expected": {} },
+      { "path": "/api/v1/users/", "expected": null },
+      { "path": "/api/v1/user", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/users/:userId(\\d+)",
+    "tests": [
+      { "path": "/api/v1/users/123", "expected": { "userId": "123" } },
+      { "path": "/api/v1/users/abc", "expected": null },
+      { "path": "/api/v1/users/", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/users/:userId/posts",
+    "tests": [
+      { "path": "/api/v1/users/123/posts", "expected": { "userId": "123" } },
+      { "path": "/api/v1/users/abc/posts", "expected": { "userId": "abc" } },
+      { "path": "/api/v1/users/123", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/users/:userId/posts/:postId(\\d+)",
+    "tests": [
+      { "path": "/api/v1/users/123/posts/456", "expected": { "userId": "123", "postId": "456" } },
+      { "path": "/api/v1/users/123/posts/abc", "expected": null },
+      { "path": "/api/v1/users/123/posts/", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/posts",
+    "tests": [
+      { "path": "/api/v1/posts", "expected": {} },
+      { "path": "/api/v1/posts/", "expected": null },
+      { "path": "/api/v1/post", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/api/v1/posts/:postId(\\d+)/comments",
+    "tests": [
+      { "path": "/api/v1/posts/456/comments", "expected": { "postId": "456" } },
+      { "path": "/api/v1/posts/456", "expected": null },
+      { "path": "/api/v1/posts/abc/comments", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/products",
+    "tests": [
+      { "path": "/products", "expected": {} },
+      { "path": "/products/", "expected": null },
+      { "path": "/product", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/products/:productId",
+    "tests": [
+      { "path": "/products/123", "expected": { "productId": "123" } },
+      { "path": "/products/xyz", "expected": { "productId": "xyz" } },
+      { "path": "/products/", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/products/category/:category",
+    "tests": [
+      { "path": "/products/category/electronics", "expected": { "category": "electronics" } },
+      { "path": "/products/category/books", "expected": { "category": "books" } },
+      { "path": "/products/category/", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/admin",
+    "tests": [
+      { "path": "/admin", "expected": {} },
+      { "path": "/admin/", "expected": null },
+      { "path": "/admin/dashboard", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/admin/dashboard",
+    "tests": [
+      { "path": "/admin/dashboard", "expected": {} },
+      { "path": "/admin/dashboard/", "expected": null },
+      { "path": "/admin", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/docs",
+    "tests": [
+      { "path": "/docs", "expected": {} },
+      { "path": "/docs/", "expected": null },
+      { "path": "/doc", "expected": null }
+    ]
+  },
+  {
+    "pattern": "/docs/:section+",
+    "tests": [
+      { "path": "/docs/api", "expected": { "section": "api" } },
+      { "path": "/docs/api/", "expected": null }
+    ]
+  }
+]
