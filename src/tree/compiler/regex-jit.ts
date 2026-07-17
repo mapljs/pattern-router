@@ -8,7 +8,7 @@ export const compile = (tree: Tree<string>, resultId: string, pathId: string): s
 
   if (tree.length > 2) {
     reset();
-    str += `let ${resultId}=/^${compileNode(tree[2]!)}$/.exec(${pathId});if(${resultId}!==null)switch(${resultId}.indexOf('',1)){`;
+    str += `let ${resultId}=/^${compileNode(tree[2]!)}$/.exec(${pathId});if(${resultId}!==null)switch(${resultId}.lastIndexOf('')){`;
     for (let i = 1; i < HANDLERS.length; i++)
       if (HANDLERS[i] !== null) str += `case ${i}:{${HANDLERS[i]};break}`;
     str += '}';
