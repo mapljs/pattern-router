@@ -128,11 +128,6 @@ export const compileNode = <T>(
             continue walk_pattern;
           }
 
-          // Fallthrough to ':'
-          // @ts-ignore
-          case '/':
-            if (patternIdx + 1 === pattern.length || pattern[patternIdx + 1] !== ':') break;
-
           case ':': {
             const groupEndIdx = findNamedGroupEnd(pattern, patternIdx),
               parsed = parseNamedGroup(pattern, patternIdx, groupEndIdx);
