@@ -61,14 +61,14 @@ const run = (suite: Suite) => {
   }
 };
 
-describe('10 routes', () => {
+describe(`customer api (${customer_api.length} routes)`, () => {
   run(customer_api);
 });
 
-describe('30 routes', () => {
+describe(`commerce api (${commerce_api.length} routes)`, () => {
   run(commerce_api);
 });
 
-describe('50 routes', () => {
+describe(`operations api (${operations_api.length} routes)`, () => {
   run(operations_api);
 });
