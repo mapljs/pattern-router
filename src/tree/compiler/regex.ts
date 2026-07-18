@@ -98,9 +98,13 @@ export const compileNode = <T>(node: Node<T>): string => {
       i++, partsCnt++
     ) {
       let patternPrevIdx = 0,
-        pattern = patterns[i];
+        pattern = patterns[i],
+        modifier = pattern[pattern.length - 1],
+        hasModifier = modifier !== '}',
+        patternLen = pattern.length - (hasModifier ? 2 : 1);
 
-      walk_pattern: for (let patternIdx = 0; patternIdx < pattern.length; ) {
+      if (hasModifier) parts += '(:';
+      for (let patternIdx = 0; patternIdx < patternLen; ) {
         switch (pattern[patternIdx]) {
           case '(': {
             const patternRegexEnd = findUnnamedGroupEnd(pattern, patternIdx + 1);
@@ -110,7 +114,7 @@ export const compileNode = <T>(node: Node<T>): string => {
               pattern.slice(patternIdx + 1, patternRegexEnd - 1);
 
             patternPrevIdx = patternIdx = patternRegexEnd;
-            continue walk_pattern;
+            continue;
           }
 
           case ':': {
@@ -120,14 +124,17 @@ export const compileNode = <T>(node: Node<T>): string => {
             parts += pattern.slice(patternPrevIdx, patternIdx) + parsed[1];
 
             patternPrevIdx = patternIdx = groupEndIdx + 1;
-            continue walk_pattern;
+            continue;
           }
         }
 
         patternIdx++;
       }
 
-      parts += pattern.slice(patternPrevIdx) + compileConnectNode(connectNodes[i]);
+      parts +=
+        pattern.slice(patternPrevIdx) +
+        (hasModifier ? ')' + modifier : '') +
+        compileConnectNode(connectNodes[i]);
     }
   }
 

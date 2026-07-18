@@ -2,9 +2,10 @@ import {
   linear_map_add,
   linear_map_get,
   linear_map_index,
+  linear_map_remove_reordered,
   type LinearMap,
 } from '../utils/linear-map.ts';
-import { findNamedGroupEnd, findUnnamedGroupEnd } from './utils.ts';
+import { findGroupDelimEnd, findNamedGroupEnd, findUnnamedGroupEnd } from './utils.ts';
 
 // Sort by priority
 export type Node<T> = [
@@ -34,16 +35,8 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
   while (pathIdx < path.length) {
     switch (path[pathIdx]) {
       case '{': {
-        let groupEndIdx = path.indexOf('}', pathIdx + 1) + 1;
-        if (groupEndIdx < path.length)
-          switch (path[groupEndIdx]) {
-            case '+':
-            case '*':
-            case '?':
-              groupEndIdx++;
-          }
-
-        const groupKey = path.slice(pathIdx + 1, groupEndIdx);
+        const groupEndIdx = findGroupDelimEnd(path, pathIdx + 1),
+          groupKey = path.slice(pathIdx + 1, groupEndIdx);
 
         return [
           path.slice(prevIdx, pathIdx),
@@ -164,7 +157,7 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
   insert: while (true) {
     switch (path[pathIdx]) {
       case '{': {
-        const groupEndIdx = path.indexOf('}', pathIdx + 1) + 2,
+        const groupEndIdx = findGroupDelimEnd(path, pathIdx + 1),
           groupKey = path.slice(pathIdx + 1, groupEndIdx);
 
         // Create new map
@@ -314,5 +307,174 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
     }
 
     return;
+  }
+};
+
+/**
+ * @returns true if no items remain
+ */
+export const connect_node_remove_from_map = (
+  map: LinearMap<string, ConnectNode<any>>,
+  key: string,
+  path: string,
+  pathIdx: number,
+): boolean => {
+  const idx = linear_map_index(map, key);
+  return (
+    idx !== -1 &&
+    connect_node_remove(linear_map_get(map, idx), path, pathIdx) &&
+    linear_map_remove_reordered(map, idx)
+  );
+};
+
+/**
+ * @returns true if this connect node is empty
+ */
+export const connect_node_remove = (
+  node: ConnectNode<any>,
+  path: string,
+  pathIdx: number,
+): boolean => {
+  if (pathIdx === path.length) {
+    node[0] = null;
+    return node[1] === null;
+  }
+
+  if (node_remove(node[1]!, path, pathIdx)) {
+    node[1] = null;
+    return node[0] === null;
+  }
+
+  return false;
+};
+
+/**
+ * @returns true if this node is empty
+ */
+export const node_remove = (node: Node<any>, path: string, pathIdx: number): boolean => {
+  if (!path.startsWith(node[0], pathIdx)) return false;
+  pathIdx += node[0].length;
+
+  if (pathIdx === path.length) {
+    node[1] = null;
+    return (
+      node[2] === null &&
+      node[3] === null &&
+      node[4] === null &&
+      node[5] === null &&
+      node[6] === null
+    );
+  } else {
+    switch (path[pathIdx]) {
+      case '{': {
+        if (node[3] === null) return false;
+
+        const groupEndIdx = findGroupDelimEnd(path, pathIdx + 1);
+        if (
+          connect_node_remove_from_map(
+            node[3],
+            path.slice(pathIdx + 1, groupEndIdx),
+            path,
+            groupEndIdx,
+          )
+        ) {
+          node[3] = null;
+          return (
+            node[1] === null &&
+            node[2] === null &&
+            node[4] === null &&
+            node[5] === null &&
+            node[6] === null
+          );
+        }
+
+        return false;
+      }
+
+      case '(': {
+        if (node[4] === null) return false;
+
+        const groupEndIdx = findUnnamedGroupEnd(path, pathIdx + 1);
+        if (
+          connect_node_remove_from_map(
+            node[4],
+            path.slice(pathIdx + 1, groupEndIdx - 1),
+            path,
+            groupEndIdx,
+          )
+        ) {
+          node[4] = null;
+          return (
+            node[1] === null &&
+            node[2] === null &&
+            node[3] === null &&
+            node[5] === null &&
+            node[6] === null
+          );
+        }
+
+        return false;
+      }
+
+      // Fallthrough to ':'
+      // @ts-ignore
+      case '/':
+        if (pathIdx + 1 === path.length || path[pathIdx + 1] !== ':') break;
+
+      case ':': {
+        if (node[5] === null) return false;
+
+        const groupEndIdx = findNamedGroupEnd(path, pathIdx);
+        if (
+          connect_node_remove_from_map(node[5], path.slice(pathIdx, groupEndIdx), path, groupEndIdx)
+        ) {
+          node[5] = null;
+          return (
+            node[1] === null &&
+            node[2] === null &&
+            node[3] === null &&
+            node[4] === null &&
+            node[6] === null
+          );
+        }
+
+        return false;
+      }
+
+      case '*':
+        if (node[6] !== null && connect_node_remove(node[6], path, pathIdx + 1)) {
+          node[6] = null;
+          return (
+            node[1] === null &&
+            node[2] === null &&
+            node[3] === null &&
+            node[4] === null &&
+            node[5] === null
+          );
+        }
+
+        return false;
+    }
+
+    if (node[2] === null) return false;
+
+    const map = node[2],
+      idx = linear_map_index(map, path[pathIdx]);
+    if (
+      idx !== -1 &&
+      node_remove(linear_map_get(map, idx), path, pathIdx) &&
+      linear_map_remove_reordered(map, idx)
+    ) {
+      node[2] = null;
+      return (
+        node[1] === null &&
+        node[3] === null &&
+        node[4] === null &&
+        node[5] === null &&
+        node[6] === null
+      );
+    }
+
+    return false;
   }
 };

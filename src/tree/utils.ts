@@ -1,5 +1,22 @@
 /**
  * @param path
+ * @param startIdx position after {
+ * @returns position after } or a modifier
+ */
+export const findGroupDelimEnd = (path: string, startIdx: number): number => {
+  const groupEndIdx = path.indexOf('}', startIdx) + 1;
+  if (groupEndIdx < path.length)
+    switch (path[groupEndIdx]) {
+      case '+':
+      case '*':
+      case '?':
+        return groupEndIdx + 1;
+    }
+  return groupEndIdx;
+};
+
+/**
+ * @param path
  * @param startIdx position after (
  * @returns position after )
  */
@@ -42,5 +59,6 @@ export const findNamedGroupEnd = (path: string, startIdx: number): number => {
 };
 
 export const isDynamicPattern = (pat: string): boolean => /[({:*]/.test(pat);
+export const validatePattern = (pat: string): URLPattern => new URLPattern({ pathname: pat });
 export const isModifier = (modifier: string): boolean =>
   modifier === '?' || modifier === '+' || modifier === '*';

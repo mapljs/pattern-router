@@ -5,7 +5,7 @@ import type { Suite } from '../../suites/types.ts';
 
 import { tree_init, tree_set_dynamic, tree_set_static } from '@mapl/pattern-router/tree';
 import { compile } from '@mapl/pattern-router/tree/compiler/regex-jit';
-import { isDynamicPattern } from '@mapl/pattern-router/tree/utils';
+import { isDynamicPattern, validatePattern } from '@mapl/pattern-router/tree/utils';
 
 import customer_api from '../../suites/customer-api.json' with { type: 'json' };
 import commerce_api from '../../suites/commerce-api.json' with { type: 'json' };
@@ -15,47 +15,44 @@ const clone = (o: object) => JSON.parse(JSON.stringify(o));
 
 const run = (suite: Suite) => {
   const tree = tree_init<string>();
-  for (let patternId = 0; patternId < suite.length; patternId++) {
-    const pat = suite[patternId];
-
-    isDynamicPattern(pat.pattern)
-      ? tree_set_dynamic(tree, pat.pattern, `return {id:${patternId},params:r.groups}`)
-      : tree_set_static(tree, pat.pattern, `return {id:${patternId},params:{}}`);
+  for (const pattern in suite) {
+    isDynamicPattern(pattern)
+      ? tree_set_dynamic(tree, pattern, `return {id:${JSON.stringify(pattern)},params:r.groups}`)
+      : tree_set_static(tree, pattern, `return {id:${JSON.stringify(pattern)},params:{}}`);
   }
 
-  const fn: (path: string) => { id: number; params: Record<string, string> } | undefined = Function(
+  const fn: (path: string) => { id: string; params: Record<string, string> } | undefined = Function(
     'p',
     compile(tree, 'r', 'p'),
   ) as any;
 
-  for (let patternId = 0; patternId < suite.length; patternId++) {
-    const pat = suite[patternId];
-    it(pat.pattern, () => {
-      for (let j = 0, { tests } = pat; j < tests.length; j++) {
-        const { path, expected } = tests[j],
-          matchedResult = fn(path);
+  for (const pattern in suite) {
+    describe(pattern, () => {
+      for (
+        let j = 0, tests = suite[pattern], urlPattern = validatePattern(pattern);
+        j < tests.length;
+        j++
+      ) {
+        const path = tests[j],
+          matchedResult = fn(path),
+          expected = urlPattern.exec(path, 'http://example.com');
 
-        if (expected === null) {
-          assert.notStrictEqual(
-            matchedResult?.id ?? -1,
-            patternId,
-            `expect ${path} to not match ${pat.pattern}`,
-          );
-        } else {
-          assert.ok(matchedResult != null, `expect ${path} to match`);
+        if (expected === null)
+          it(`not match ${path}`, () => {
+            assert.notStrictEqual(matchedResult?.id, pattern);
+          });
+        else
+          it(`match ${path}`, () => {
+            assert.ok(matchedResult != null, `expect ${path} to match`);
 
-          assert.strictEqual(
-            matchedResult.id,
-            patternId,
-            `expect ${path} to match this pattern, instead matched ${suite[matchedResult.id].pattern}`,
-          );
+            assert.strictEqual(
+              matchedResult.id,
+              pattern,
+              `expect ${path} to match this pattern, instead matched ${matchedResult.id}`,
+            );
 
-          assert.deepStrictEqual(
-            clone(expected),
-            clone(matchedResult.params),
-            `expect ${path} to match ${pat.pattern} params`,
-          );
-        }
+            assert.deepStrictEqual(clone(expected.pathname.groups), clone(matchedResult.params));
+          });
       }
     });
   }
