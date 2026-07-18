@@ -1,5 +1,5 @@
 import { bench, env } from 'measure-loop';
-import run from './run.ts';
+import run from '../run.ts';
 
 export default run(
   import.meta,
