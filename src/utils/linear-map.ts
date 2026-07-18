@@ -4,6 +4,7 @@ export interface LinearMap<K, V> {
   length: number;
 }
 
+export const linear_map_is_empty = (m: LinearMap<any, any>): boolean => m[0].length === 0;
 export const linear_map_index = <K>(m: LinearMap<K, any>, k: K): number => m[0].indexOf(k);
 export const linear_map_get = <V>(m: LinearMap<any, V>, i: number): V => m[1][i];
 

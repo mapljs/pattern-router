@@ -2,9 +2,18 @@ import type { Tree } from '../index.ts';
 import { compileNode, HANDLERS, reset } from './regex.ts';
 
 export const compile = (tree: Tree<string>, resultId: string, pathId: string): string => {
-  let str = '';
-  for (let i = 0, keys = tree[0], values = tree[1]; i < keys.length; i++)
-    str += (i > 0 ? 'else ' : '') + `if(${pathId}===${JSON.stringify(keys[i])}){${values[i]}}`;
+  let str = '',
+    keys = tree[0],
+    values = tree[1];
+
+  if (keys.length > 0) {
+    let i = keys.length - 1,
+      prefix = `if(${pathId}===`;
+    str += prefix + JSON.stringify(keys[i]) + `){${values[i]}}`;
+
+    prefix = 'else ' + prefix;
+    while (--i >= 0) str += prefix + JSON.stringify(keys[i]) + `){${values[i]}}`;
+  }
 
   if (tree.length > 2) {
     // console.log(JSON.stringify(tree[2]!, null, 2));

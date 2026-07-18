@@ -334,19 +334,10 @@ export const connect_node_remove = (
   node: ConnectNode<any>,
   path: string,
   pathIdx: number,
-): boolean => {
-  if (pathIdx === path.length) {
-    node[0] = null;
-    return node[1] === null;
-  }
-
-  if (node_remove(node[1]!, path, pathIdx)) {
-    node[1] = null;
-    return node[0] === null;
-  }
-
-  return false;
-};
+): boolean =>
+  pathIdx === path.length
+    ? ((node[0] = null), node[1] === null)
+    : node_remove(node[1]!, path, pathIdx) && ((node[1] = null), node[0] === null);
 
 /**
  * @returns true if this node is empty
@@ -370,50 +361,40 @@ export const node_remove = (node: Node<any>, path: string, pathIdx: number): boo
         if (node[3] === null) return false;
 
         const groupEndIdx = findGroupDelimEnd(path, pathIdx + 1);
-        if (
+        return (
           connect_node_remove_from_map(
             node[3],
             path.slice(pathIdx + 1, groupEndIdx),
             path,
             groupEndIdx,
-          )
-        ) {
-          node[3] = null;
-          return (
-            node[1] === null &&
+          ) &&
+          ((node[3] = null),
+          node[1] === null &&
             node[2] === null &&
             node[4] === null &&
             node[5] === null &&
-            node[6] === null
-          );
-        }
-
-        return false;
+            node[6] === null)
+        );
       }
 
       case '(': {
         if (node[4] === null) return false;
 
         const groupEndIdx = findUnnamedGroupEnd(path, pathIdx + 1);
-        if (
+        return (
           connect_node_remove_from_map(
             node[4],
             path.slice(pathIdx + 1, groupEndIdx - 1),
             path,
             groupEndIdx,
-          )
-        ) {
-          node[4] = null;
-          return (
-            node[1] === null &&
+          ) &&
+          ((node[4] = null),
+          node[1] === null &&
             node[2] === null &&
             node[3] === null &&
             node[5] === null &&
-            node[6] === null
-          );
-        }
-
-        return false;
+            node[6] === null)
+        );
       }
 
       // Fallthrough to ':'
@@ -425,56 +406,49 @@ export const node_remove = (node: Node<any>, path: string, pathIdx: number): boo
         if (node[5] === null) return false;
 
         const groupEndIdx = findNamedGroupEnd(path, pathIdx, path.length);
-        if (
-          connect_node_remove_from_map(node[5], path.slice(pathIdx, groupEndIdx), path, groupEndIdx)
-        ) {
-          node[5] = null;
-          return (
-            node[1] === null &&
+        return (
+          connect_node_remove_from_map(
+            node[5],
+            path.slice(pathIdx, groupEndIdx),
+            path,
+            groupEndIdx,
+          ) &&
+          ((node[5] = null),
+          node[1] === null &&
             node[2] === null &&
             node[3] === null &&
             node[4] === null &&
-            node[6] === null
-          );
-        }
-
-        return false;
+            node[6] === null)
+        );
       }
 
       case '*':
-        if (node[6] !== null && connect_node_remove(node[6], path, pathIdx + 1)) {
-          node[6] = null;
-          return (
-            node[1] === null &&
+        return (
+          node[6] !== null &&
+          connect_node_remove(node[6], path, pathIdx + 1) &&
+          ((node[6] = null),
+          node[1] === null &&
             node[2] === null &&
             node[3] === null &&
             node[4] === null &&
-            node[5] === null
-          );
-        }
-
-        return false;
+            node[5] === null)
+        );
     }
 
     if (node[2] === null) return false;
 
     const map = node[2],
       idx = linear_map_index(map, path[pathIdx]);
-    if (
+    return (
       idx !== -1 &&
       node_remove(linear_map_get(map, idx), path, pathIdx) &&
-      linear_map_remove_reordered(map, idx)
-    ) {
-      node[2] = null;
-      return (
-        node[1] === null &&
+      linear_map_remove_reordered(map, idx) &&
+      ((node[2] = null),
+      node[1] === null &&
         node[3] === null &&
         node[4] === null &&
         node[5] === null &&
-        node[6] === null
-      );
-    }
-
-    return false;
+        node[6] === null)
+    );
   }
 };
