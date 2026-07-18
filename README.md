@@ -14,4 +14,4 @@ This library requires [`RegExp.escape()`](https://developer.mozilla.org/en-US/do
 ## Limitations
 - Regular expressions in patterns cannot include capture groups.
 - Wildcards and unnamed groups don't capture, use named groups instead.
-- `+` and `*` modifier doesn't work named groups in group delimiters.
+- Named groups only capture the last matched value in group delimiters with `+` and `*` modifier.
