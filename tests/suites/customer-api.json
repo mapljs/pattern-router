@@ -1,0 +1,71 @@
+{
+  "/customers/:customerId": [
+    "/customers/cus_8a71",
+    "/customers/42",
+    "/customers/acme-north",
+    "/customers/customer.with.dot",
+    "/customer/cus_8a71"
+  ],
+  "/customers/:customerId/orders/:orderId": [
+    "/customers/cus_8a71/orders/ord_001",
+    "/customers/42/orders/2024-07",
+    "/customers/acme-north/orders/online-19",
+    "/customers/customer.with.dot/orders/ord.1",
+    "/customers/cus_8a71/order/ord_001"
+  ],
+  "/customers/:customerId/orders/:orderId{/:lineItemId}?": [
+    "/customers/cus_8a71/orders/ord_001/li_01",
+    "/customers/42/orders/2024-07/2",
+    "/customers/acme/orders/online-19/item-blue",
+    "/customers/cus_8a71/orders"
+  ],
+  "/:locale(en|fr|de)/customers/:customerId": [
+    "/en/customers/cus_8a71",
+    "/fr/customers/42",
+    "/de/customers/acme-north",
+    "/en/customers/customer.with.dot",
+    "/es/customers/cus_8a71"
+  ],
+  "/accounts/:accountId/billing/:invoiceId": [
+    "/accounts/acct_01/billing/inv_001",
+    "/accounts/42/billing/2024-07",
+    "/accounts/acme-co/billing/inv.final",
+    "/accounts/acct_02/billing/overdue-19",
+    "/accounts/acct_01/invoices/inv_001"
+  ],
+  "/files/*": [
+    "/files/readme.md",
+    "/files/images/logo.svg",
+    "/files/archive/2024/report.pdf",
+    "/files/.well-known/config",
+    "/files"
+  ],
+  "/reports/:year(20[2-9][0-9])/:month(0[1-9]|1[0-2])": [
+    "/reports/2024/01",
+    "/reports/2025/12",
+    "/reports/2029/09",
+    "/reports/2030/03",
+    "/reports/2019/12"
+  ],
+  "/projects/:projectId{/tasks/:taskId}?": [
+    "/projects/proj_01",
+    "/projects/proj_01/tasks/task_1",
+    "/projects/acme-web/tasks/deploy",
+    "/projects/42/tasks/123",
+    "/projects/proj_01/task/task_1"
+  ],
+  "/api/(v1|v2)/customers/:customerId": [
+    "/api/v1/customers/cus_8a71",
+    "/api/v2/customers/42",
+    "/api/v1/customers/acme-north",
+    "/api/v2/customers/customer.with.dot",
+    "/api/v3/customers/cus_8a71"
+  ],
+  "/search/:term?": [
+    "/search",
+    "/search/router",
+    "/search/hello-world",
+    "/search/C%2B%2B",
+    "/search/router/results"
+  ]
+}

@@ -84,7 +84,7 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
         if (pathIdx + 1 === path.length || path[pathIdx + 1] !== ':') break;
 
       case ':': {
-        const groupEndIdx = findNamedGroupEnd(path, pathIdx),
+        const groupEndIdx = findNamedGroupEnd(path, pathIdx, path.length),
           groupKey = path.slice(pathIdx, groupEndIdx);
 
         return [
@@ -198,7 +198,7 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
         if (pathIdx + 1 === path.length || path[pathIdx + 1] !== ':') break;
 
       case ':': {
-        const groupEndIdx = findNamedGroupEnd(path, pathIdx),
+        const groupEndIdx = findNamedGroupEnd(path, pathIdx, path.length),
           groupKey = path.slice(pathIdx, groupEndIdx);
 
         // Create new map
@@ -424,7 +424,7 @@ export const node_remove = (node: Node<any>, path: string, pathIdx: number): boo
       case ':': {
         if (node[5] === null) return false;
 
-        const groupEndIdx = findNamedGroupEnd(path, pathIdx);
+        const groupEndIdx = findNamedGroupEnd(path, pathIdx, path.length);
         if (
           connect_node_remove_from_map(node[5], path.slice(pathIdx, groupEndIdx), path, groupEndIdx)
         ) {

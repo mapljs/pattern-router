@@ -35,9 +35,9 @@ export const findUnnamedGroupEnd = (path: string, startIdx: number): number => {
  * @param path
  * @param startIdx position of : or /:
  */
-export const findNamedGroupEnd = (path: string, startIdx: number): number => {
+export const findNamedGroupEnd = (path: string, startIdx: number, len: number): number => {
   let groupEndIdx = startIdx + 2;
-  blk: while (groupEndIdx < path.length) {
+  blk: while (groupEndIdx < len) {
     switch (path[groupEndIdx]) {
       case '/':
         return groupEndIdx;
@@ -50,6 +50,9 @@ export const findNamedGroupEnd = (path: string, startIdx: number): number => {
       case '(':
         groupEndIdx = findUnnamedGroupEnd(path, groupEndIdx + 1);
         continue blk;
+
+      case '{':
+        return groupEndIdx;
     }
 
     groupEndIdx++;

@@ -8,36 +8,34 @@ export let HANDLERS!: Handlers<any>;
 export const parseNamedGroup = (
   key: string,
   curIdx: number,
-  lastIdx: number,
+  endIdx: number,
 ): [name: string, regex: string] => {
   let autoGroupPrefixing = key[curIdx] === '/',
-    startIdx = autoGroupPrefixing ? 2 : 1;
+    startIdx = curIdx + (autoGroupPrefixing ? 2 : 1);
+  curIdx = startIdx;
 
-  // move to first pos of param name
-  curIdx += startIdx;
-
-  const modifier = key[lastIdx];
+  const modifier = key[endIdx - 1];
   while (true) {
-    if (curIdx === lastIdx) {
-      const name = key.slice(startIdx, lastIdx + (isModifier(modifier) ? 0 : 1)),
+    if (curIdx === endIdx) {
+      const name = key.slice(startIdx, endIdx + (isModifier(modifier) ? -1 : 0)),
         namedCapture = `(?<${name}>`;
 
       return [
         name,
         autoGroupPrefixing
           ? modifier === '?'
-            ? `(?:\\/${namedCapture}[^/]+)|${namedCapture}))`
+            ? `(?:\\/${namedCapture}[^/]+))?`
             : modifier === '+'
               ? `\\/${namedCapture}[^/]+(?:\\/[^/]+)*)`
               : modifier === '*'
                 ? `(?:\\/${namedCapture}[^/]+(?:\\/[^/]+)*)|${namedCapture}))`
                 : `\\/${namedCapture}[^/]+)`
-          : namedCapture + (modifier === '?' || modifier === '*' ? '[^/]*)' : '[^/]+)'),
+          : namedCapture + (modifier === '?' ? '[^/]+)?' : modifier === '*' ? '[^/]*)' : '[^/]+)'),
       ];
     }
 
     if (key[curIdx] === '(') {
-      const regex = key.slice(curIdx + 1, findUnnamedGroupEnd(key, curIdx + 1) - 1),
+      const regex = '(?:' + key.slice(curIdx + 1, findUnnamedGroupEnd(key, curIdx + 1)),
         name = key.slice(startIdx, curIdx),
         namedCapture = `(?<${name}>`;
 
@@ -45,7 +43,7 @@ export const parseNamedGroup = (
         name,
         autoGroupPrefixing
           ? modifier === '?'
-            ? `(?:\\/${namedCapture + regex})|${namedCapture}))`
+            ? `(?:\\/${namedCapture + regex}))?`
             : modifier === '+'
               ? `\\/${namedCapture + regex}(?:\\/${regex})*)`
               : modifier === '*'
@@ -53,7 +51,7 @@ export const parseNamedGroup = (
                 : `\\/${namedCapture + regex})`
           : namedCapture +
             (modifier === '?'
-              ? regex + '|)'
+              ? regex + ')?'
               : modifier === '+'
                 ? `(?:${regex})+)`
                 : modifier === '*'
@@ -66,7 +64,9 @@ export const parseNamedGroup = (
   }
 };
 
-// return a string with additional |
+/**
+ * @returns pattern with additional |
+ */
 export const compileConnectNode = <T>(connectNode: ConnectNode<T>): string => {
   if (connectNode[0] !== null) {
     HANDLERS.push(connectNode[0]);
@@ -103,25 +103,26 @@ export const compileNode = <T>(node: Node<T>): string => {
         hasModifier = modifier !== '}',
         patternLen = pattern.length - (hasModifier ? 2 : 1);
 
-      if (hasModifier) parts += '(:';
+      if (hasModifier) parts += '(?:';
       for (let patternIdx = 0; patternIdx < patternLen; ) {
         switch (pattern[patternIdx]) {
           case '(': {
             const patternRegexEnd = findUnnamedGroupEnd(pattern, patternIdx + 1);
 
             parts +=
-              pattern.slice(patternPrevIdx, patternIdx) +
-              pattern.slice(patternIdx + 1, patternRegexEnd - 1);
+              RegExp.escape(pattern.slice(patternPrevIdx, patternIdx)) +
+              '(:' +
+              pattern.slice(patternIdx + 1, patternRegexEnd);
 
             patternPrevIdx = patternIdx = patternRegexEnd;
             continue;
           }
 
           case ':': {
-            const groupEndIdx = findNamedGroupEnd(pattern, patternIdx),
+            const groupEndIdx = findNamedGroupEnd(pattern, patternIdx, patternLen),
               parsed = parseNamedGroup(pattern, patternIdx, groupEndIdx);
             HANDLERS.push(null);
-            parts += pattern.slice(patternPrevIdx, patternIdx) + parsed[1];
+            parts += RegExp.escape(pattern.slice(patternPrevIdx, patternIdx)) + parsed[1];
 
             patternPrevIdx = patternIdx = groupEndIdx + 1;
             continue;
@@ -130,9 +131,8 @@ export const compileNode = <T>(node: Node<T>): string => {
 
         patternIdx++;
       }
-
       parts +=
-        pattern.slice(patternPrevIdx) +
+        RegExp.escape(pattern.slice(patternPrevIdx, patternLen)) +
         (hasModifier ? ')' + modifier : '') +
         compileConnectNode(connectNodes[i]);
     }
@@ -144,7 +144,7 @@ export const compileNode = <T>(node: Node<T>): string => {
       i < regexps.length;
       i++, partsCnt++
     )
-      parts += regexps[i] + compileConnectNode(connectNodes[i]);
+      parts += '(?:' + regexps[i] + ')' + compileConnectNode(connectNodes[i]);
 
   if (node[5] !== null)
     for (
@@ -152,7 +152,7 @@ export const compileNode = <T>(node: Node<T>): string => {
       i < keys.length;
       i++, partsCnt++
     ) {
-      const parsed = parseNamedGroup(keys[i], 0, keys[i].length - 1);
+      const parsed = parseNamedGroup(keys[i], 0, keys[i].length);
       HANDLERS.push(null);
       parts += parsed[1] + compileConnectNode(connectNodes[i]);
     }

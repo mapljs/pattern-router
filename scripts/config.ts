@@ -13,7 +13,7 @@ export const test: import('./lib/test.ts').Config = {
 
   node: {
     args: {
-      //'test-reporter': 'dot',
+      'test-reporter': 'dot',
       'test-isolation': 'none',
     },
   },
