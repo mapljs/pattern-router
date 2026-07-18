@@ -1,4 +1,5 @@
 {
   "/:id": ["/", "", "/a", "/bac"],
-  "/:id{/:task}?": ["/", "/bac/ab", "/bac/ab/cd"]
+  "/:id{/:task}?": ["/", "/bac/ab", "/bac/ab/cd"],
+  "/book{s}+": ["/book", "/books/", "/books", "/bookssss"]
 }
