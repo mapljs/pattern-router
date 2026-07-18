@@ -50,8 +50,10 @@ const run = (name: string, suite: Suite) => {
                 `expect ${path} to match this pattern, instead matched ${matchedResult.id}`,
               );
 
+              // this router doesn't capture unnamed groups and wildcards
               const groups = expected.pathname.groups;
               for (const key in groups) if (Number.isFinite(+key)) delete groups[key];
+
               assert.deepStrictEqual(clone(matchedResult.params), clone(expected.pathname.groups));
             });
         }
