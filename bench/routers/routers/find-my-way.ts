@@ -8,7 +8,7 @@ import { simple_api } from '../suites.ts';
   router.get('/about', (_, _1, _2) => 'GET /about');
   router.get('/user/:id', (_, _1, params) => 'GET /user/:id ' + params.id!);
 
-  simple_api.it('find-my-way', (method, path) => {
+  simple_api.it('find-my-way (jit)', (method, path) => {
     let handle = router.find(method as any, path);
     // @ts-ignore
     return handle?.handler(null, null, handle.params) ?? '';

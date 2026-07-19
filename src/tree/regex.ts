@@ -1,9 +1,7 @@
-import type { ConnectNode, Node } from '../node.ts';
-import { findNamedGroupEnd, findUnnamedGroupEnd, isModifier } from '../utils.ts';
+import type { ConnectNode, Node } from './node.ts';
+import { findNamedGroupEnd, findUnnamedGroupEnd, isModifier } from './utils.ts';
 
 export type Handlers<T> = (T | null)[];
-
-export let HANDLERS!: Handlers<any>;
 
 export const escapeStaticPart = (part: string): string =>
   // lol alr so it avoids escaping things that have been escaped already
@@ -68,19 +66,21 @@ export const parseNamedGroup = (
   }
 };
 
+export let HANDLERS!: Handlers<any>;
+
 /**
  * @returns pattern with additional |
  */
-export const compileConnectNode = <T>(connectNode: ConnectNode<T>): string => {
+export const connect_node_compile_to_regexp = <T>(connectNode: ConnectNode<T>): string => {
   if (connectNode[0] !== null) {
     HANDLERS.push(connectNode[0]);
-    return connectNode[1] === null ? '()$|' : `(?:()$|${compileNode(connectNode[1])})|`;
+    return connectNode[1] === null ? '()$|' : `(?:()$|${node_compile_to_regexp(connectNode[1])})|`;
   }
 
-  return compileNode(connectNode[1]!) + '|';
+  return node_compile_to_regexp(connectNode[1]!) + '|';
 };
 
-export const compileNode = <T>(node: Node<T>): string => {
+export const node_compile_to_regexp = <T>(node: Node<T>): string => {
   let parts = '',
     partsCnt = 0;
 
@@ -93,7 +93,7 @@ export const compileNode = <T>(node: Node<T>): string => {
 
   if (node[2] !== null)
     for (let i = 0, staticChildren = node[2][1]; i < staticChildren.length; i++, partsCnt++)
-      parts += compileNode(staticChildren[i]) + '|';
+      parts += node_compile_to_regexp(staticChildren[i]) + '|';
 
   if (node[3] !== null) {
     for (
@@ -138,7 +138,7 @@ export const compileNode = <T>(node: Node<T>): string => {
       parts +=
         escapeStaticPart(pattern.slice(patternPrevIdx, patternLen)) +
         (hasModifier ? ')' + modifier : '') +
-        compileConnectNode(connectNodes[i]);
+        connect_node_compile_to_regexp(connectNodes[i]);
     }
   }
 
@@ -148,7 +148,7 @@ export const compileNode = <T>(node: Node<T>): string => {
       i < regexps.length;
       i++, partsCnt++
     )
-      parts += '(?:' + regexps[i] + ')' + compileConnectNode(connectNodes[i]);
+      parts += '(?:' + regexps[i] + ')' + connect_node_compile_to_regexp(connectNodes[i]);
 
   if (node[5] !== null)
     for (
@@ -158,12 +158,12 @@ export const compileNode = <T>(node: Node<T>): string => {
     ) {
       const parsed = parseNamedGroup(keys[i], 0, keys[i].length);
       HANDLERS.push(null);
-      parts += parsed[1] + compileConnectNode(connectNodes[i]);
+      parts += parsed[1] + connect_node_compile_to_regexp(connectNodes[i]);
     }
 
   if (node[6] !== null) {
     partsCnt++;
-    parts += '.*' + compileConnectNode(node[6]);
+    parts += '.*' + connect_node_compile_to_regexp(node[6]);
   }
 
   return (

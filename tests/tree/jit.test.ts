@@ -1,14 +1,14 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
 
-import type { Suite } from '../../suites/types.ts';
+import type { Suite } from '../suites/types.ts';
 
 import { tree_init, tree_set_dynamic, tree_set_static } from '@mapl/pattern-router/tree';
-import { compile } from '@mapl/pattern-router/tree/compiler/jit';
+import { tree_compile_to_code } from '@mapl/pattern-router/tree/jit';
 import { isDynamicPattern, validatePattern } from '@mapl/pattern-router/tree/utils';
 
-import customer_api from '../../suites/customer-api.json' with { type: 'json' };
-import group_delimiters from '../../suites/group-delimiters.json' with { type: 'json' };
+import customer_api from '../suites/customer-api.json' with { type: 'json' };
+import group_delimiters from '../suites/group-delimiters.json' with { type: 'json' };
 
 const clone = (o: object) => JSON.parse(JSON.stringify(o));
 
@@ -22,7 +22,7 @@ const run = (name: string, suite: Suite) => {
     }
 
     const fn: (path: string) => { id: string; params: Record<string, string> } | undefined =
-      Function('p', compile(tree, 'r', 'p')) as any;
+      Function('p', tree_compile_to_code(tree, 'r', 'p')) as any;
     // console.log(fn.toString());
 
     for (const pattern in suite) {
