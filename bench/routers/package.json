@@ -1,0 +1,8 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@mapl/router": "^0.10.3",
+    "hono": "^4.12.31",
+    "rou3": "^0.9.1"
+  }
+}

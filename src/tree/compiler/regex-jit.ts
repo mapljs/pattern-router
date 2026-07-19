@@ -15,10 +15,10 @@ export const compile = (tree: Tree<string>, resultId: string, pathId: string): s
     while (--i >= 0) str += prefix + JSON.stringify(keys[i]) + `){${values[i]}}`;
   }
 
-  if (tree.length > 2) {
+  if (tree[2] !== null) {
     // console.log(JSON.stringify(tree[2]!, null, 2));
     reset();
-    str += `let ${resultId}=/^${compileNode(tree[2]!)}$/.exec(${pathId});if(${resultId}!==null)switch(${resultId}.lastIndexOf('')){`;
+    str += `let ${resultId}=/^${compileNode(tree[2])}$/.exec(${pathId});if(${resultId}!==null)switch(${resultId}.lastIndexOf('')){`;
     for (let i = 1; i < HANDLERS.length; i++)
       if (HANDLERS[i] !== null) str += `case ${i}:{${HANDLERS[i]};break}`;
     str += '}';

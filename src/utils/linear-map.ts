@@ -1,7 +1,6 @@
 export interface LinearMap<K, V> {
   0: K[];
   1: V[];
-  length: number;
 }
 
 export const linear_map_is_empty = (m: LinearMap<any, any>): boolean => m[0].length === 0;

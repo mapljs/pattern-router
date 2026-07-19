@@ -29,7 +29,7 @@ export const router_set_static = <T>(
   if (idx === -1) {
     const tree = tree_init();
     tree_set_static(tree, path, store);
-    linear_map_add(tree, method, tree);
+    linear_map_add(router, method, tree);
   } else tree_set_static(linear_map_get(router, idx), path, store);
 };
 export const router_set_dynamic = <T>(
@@ -42,11 +42,13 @@ export const router_set_dynamic = <T>(
   if (idx === -1) {
     const tree = tree_init();
     tree_set_dynamic(tree, path, store);
-    linear_map_add(tree, method, tree);
+    linear_map_add(router, method, tree);
   } else tree_set_dynamic(linear_map_get(router, idx), path, store);
 };
 export const router_set = <T>(router: Router<T>, method: string, path: string, store: T): void =>
-  (isDynamicPattern(path) ? router_set_dynamic : router_set_static)(router, method, path, store);
+  isDynamicPattern(path)
+    ? router_set_dynamic(router, method, path, store)
+    : router_set_static(router, method, path, store);
 
 export const router_remove_static = <T>(
   router: Router<T>,
@@ -73,4 +75,6 @@ export const router_remove_dynamic = <T>(
   );
 };
 export const router_remove = <T>(router: Router<T>, method: string, path: string): boolean =>
-  (isDynamicPattern(path) ? router_remove_dynamic : router_remove_static)(router, method, path);
+  isDynamicPattern(path)
+    ? router_remove_dynamic(router, method, path)
+    : router_remove_static(router, method, path);

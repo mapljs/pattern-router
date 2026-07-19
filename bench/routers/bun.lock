@@ -1,0 +1,20 @@
+{
+  "lockfileVersion": 1,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "dependencies": {
+        "@mapl/router": "^0.10.3",
+        "hono": "^4.12.31",
+        "rou3": "^0.9.1",
+      },
+    },
+  },
+  "packages": {
+    "@mapl/router": ["@mapl/router@0.10.3", "", {}, "sha512-s2iItDlCHlgKfaOdTwGco98etDNvEnWJSi4++8iKx2wgpyEbdma3cndG1iX7rmJGytg2dhjfLJCBe/a3csOj8w=="],
+
+    "hono": ["hono@4.12.31", "", {}, "sha512-zJIHFrl6bq3RDd2YusFNCDlM8qUprxKswyi/OPzPyzKDdyBXDqWx8bZlZ7R+saTdSTatUmb3O7K4SspGPaEOQg=="],
+
+    "rou3": ["rou3@0.9.1", "", {}, "sha512-z/sSmzvtwMDDnxsPVhfWMuG6F6mbmhFDXoVqLmMfbpDD9qfV3GDmSQpf0+W296/ZDIpW2wcMmBfpVFzcnOi/nA=="],
+  }
+}

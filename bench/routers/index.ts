@@ -1,13 +1,5 @@
-import { bench, env } from 'measure-loop';
+import './routers/index.ts';
+import suites from './suites.ts';
 import run from '../run.ts';
 
-export default run(
-  import.meta,
-  bench({
-    warmupIters: 32,
-    iters: 128,
-  })
-    .it('env.hrtime()', [], env.hrtime)
-    .it('performance.now()', [], performance.now.bind(performance))
-    .it('Date.now()', [], Date.now),
-);
+export default run(import.meta, suites);
