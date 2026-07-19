@@ -5,6 +5,8 @@ export type Handlers<T> = (T | null)[];
 
 export let HANDLERS!: Handlers<any>;
 
+export const escapeStaticPart = (part: string): string => RegExp.escape(encodeURI(part));
+
 export const parseNamedGroup = (
   key: string,
   curIdx: number,
@@ -110,7 +112,7 @@ export const compileNode = <T>(node: Node<T>): string => {
             const patternRegexEnd = findUnnamedGroupEnd(pattern, patternIdx + 1);
 
             parts +=
-              RegExp.escape(pattern.slice(patternPrevIdx, patternIdx)) +
+              escapeStaticPart(pattern.slice(patternPrevIdx, patternIdx)) +
               '(:' +
               pattern.slice(patternIdx + 1, patternRegexEnd);
 
@@ -122,7 +124,7 @@ export const compileNode = <T>(node: Node<T>): string => {
             const groupEndIdx = findNamedGroupEnd(pattern, patternIdx, patternLen),
               parsed = parseNamedGroup(pattern, patternIdx, groupEndIdx);
             HANDLERS.push(null);
-            parts += RegExp.escape(pattern.slice(patternPrevIdx, patternIdx)) + parsed[1];
+            parts += escapeStaticPart(pattern.slice(patternPrevIdx, patternIdx)) + parsed[1];
 
             patternPrevIdx = patternIdx = groupEndIdx + 1;
             continue;
@@ -132,7 +134,7 @@ export const compileNode = <T>(node: Node<T>): string => {
         patternIdx++;
       }
       parts +=
-        RegExp.escape(pattern.slice(patternPrevIdx, patternLen)) +
+        escapeStaticPart(pattern.slice(patternPrevIdx, patternLen)) +
         (hasModifier ? ')' + modifier : '') +
         compileConnectNode(connectNodes[i]);
     }
@@ -162,7 +164,9 @@ export const compileNode = <T>(node: Node<T>): string => {
     parts += '.*' + compileConnectNode(node[6]);
   }
 
-  return RegExp.escape(node[0]) + (partsCnt > 1 ? `(?:${parts.slice(0, -1)})` : parts.slice(0, -1));
+  return (
+    escapeStaticPart(node[0]) + (partsCnt > 1 ? `(?:${parts.slice(0, -1)})` : parts.slice(0, -1))
+  );
 };
 
 export const reset = (): void => {
