@@ -20,7 +20,7 @@ type MatchResult = Parameters<Handler>[0];
   router.add('GET', '/user/:id', (t) => '/user/:id ' + t[1][t[0][0][1].id]);
 
   simple_api.it('hono PreparedRegExpRouter', (method, path) => {
-    const res = router.match(method, path) as MatchResult;
+    let res = router.match(method, path) as MatchResult;
     return res[0].length !== 0 ? res[0][0][0](res) : '';
   });
 }

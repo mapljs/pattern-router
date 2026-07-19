@@ -55,15 +55,15 @@ const suite = <K extends string>(
 export const simple_api = suite(
   {
     'GET /': bench({
-      iters: 256,
-      warmupIters: 32,
+      iters: 512,
+      warmupIters: 64,
     }),
     'GET /about': bench({
-      iters: 256,
-      warmupIters: 32,
+      iters: 512,
+      warmupIters: 64,
     }),
     'GET /user/:id': bench({
-      iters: 128,
+      iters: 256,
       warmupIters: 32,
     }),
   },

@@ -1,2 +1,2 @@
-import './pattern-router.ts';
 import './router.ts';
+import './pattern-router.ts';

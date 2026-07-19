@@ -17,20 +17,16 @@ const buildJIT = (router: Router<string>) => {
 
   if (matchAllIdx !== -1) linear_map_swap(router, matchAllIdx, trees.length - 1);
 
-  let str = '(m,p)=>{';
+  let str = '(m,p)=>{switch(m){';
   for (
     let i = 0, methods = router[0], treesLen = trees.length - (matchAllIdx !== -1 ? 1 : 0);
     i < treesLen;
     i++
   )
-    str +=
-      (i > 0
-        ? `else if(m===${JSON.stringify(methods[i])}){`
-        : `if(m===${JSON.stringify(methods[i])}){`) +
-      compileJIT(trees[i], 'r', 'p') +
-      '}';
+    str += `case${JSON.stringify(methods[i])}:` + compileJIT(trees[i], 'r', 'p') + '';
+  str += '}';
 
-  if (matchAllIdx !== -1) str += '{' + compileJIT(trees[trees.length - 1], 'r', 'p') + '}';
+  if (matchAllIdx !== -1) str += compileJIT(trees[trees.length - 1], 'r', 'p');
 
   return (0, eval)(str + 'return ""}');
 };
@@ -161,6 +157,7 @@ const build = (router: Router<Handler>): ((method: string, path: string) => stri
   router_set(router, 'GET', '/user/:id', 'return "/user/:id "+r.groups.id');
 
   const fn = buildJIT(router);
+  console.log(fn.toString());
   simple_api.it('@mapl/pattern-router (jit)', fn);
 }
 
