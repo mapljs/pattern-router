@@ -13,7 +13,7 @@ import {
   linear_map_index,
   linear_map_remove_reordered,
   type LinearMap,
-} from './utils/linear-map.ts';
+} from './linear-map.ts';
 
 export type Router<T> = LinearMap<string, Tree<T>>;
 

@@ -1,3 +1,16 @@
+export type InferParams<Path extends string> =
+  Path extends `${infer Prefix}{${infer Body}}?${infer Suffix}`
+    ? InferParams<Prefix> & Partial<InferParams<Body>> & InferParams<Suffix>
+    : Path extends `${infer Prefix}(${string})${infer Suffix}`
+      ? InferParams<Prefix> & InferParams<Suffix>
+      : Path extends `${string}:${infer Group}`
+        ? Group extends `${infer Name}?${infer Rest}`
+          ? { [key in Name]?: string } & InferParams<Rest>
+          : Group extends `${infer Name}${'{' | '}' | '+' | '*'}${infer Rest}`
+            ? { [key in Name]: string } & InferParams<Rest>
+            : { [key in Group]: string }
+        : {};
+
 /**
  * @param path
  * @param startIdx position after {

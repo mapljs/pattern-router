@@ -1,6 +1,6 @@
 import type { Router } from './index.ts';
 import { HANDLERS, node_compile_to_regexp, reset, type Handlers } from './tree/regex.ts';
-import { linear_map_index, linear_map_swap } from './utils/linear-map.ts';
+import { linear_map_index, linear_map_swap } from './linear-map.ts';
 
 interface Matcher0<in out T> {
   match: (

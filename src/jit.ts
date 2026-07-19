@@ -1,6 +1,6 @@
 import type { Router } from './index.ts';
 import { tree_compile_to_code } from './tree/jit.ts';
-import { linear_map_index, linear_map_swap } from './utils/linear-map.ts';
+import { linear_map_index, linear_map_swap } from './linear-map.ts';
 
 export const router_compile_to_code = (
   router: Router<string>,

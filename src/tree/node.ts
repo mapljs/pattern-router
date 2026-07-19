@@ -4,7 +4,7 @@ import {
   linear_map_index,
   linear_map_remove_reordered,
   type LinearMap,
-} from '../utils/linear-map.ts';
+} from '../linear-map.ts';
 import { findGroupDelimEnd, findNamedGroupEnd, findUnnamedGroupEnd } from './utils.ts';
 
 // Sort by priority

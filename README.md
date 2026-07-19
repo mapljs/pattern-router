@@ -27,17 +27,27 @@ import { router_compile_to_code } from '@mapl/pattern-router/jit';
 
 const router = router_init<string>();
 router_set(router, 'GET', '/', 'return "Home"');
-router_set(router, 'POST', '/forum/:forum+', 'return "Posting to " + result.groups.forum');
+router_set(router, 'POST', '/forum/:forum+', 'return "Posting to " + matchedResult.groups.forum'); // access matched params
 
-const match = (0, eval)(`(method,path)=>{${router_compile_to_code(router, 'result', 'path', 'method')}}`);
+const match = (0, eval)(`(method, path) => {${router_compile_to_code(router, 'matchedResult', 'path', 'method')}}`);
 
 match('GET', '/'); // "Home"
 match('GET', '/about'); // undefined
 match('POST', '/forum/@mapl/pattern-router'); // "Posting to @mapl/pattern-router"
 ```
 
+### Types
+To infer parameters types of a pattern:
+```ts
+import type { InferParams } from '@mapl/pattern-router/tree/utils';
+
+type T = InferParams<'/:id'>; // { id: string }
+type T = InferParams<'/user/:id?'>; // { id?: string }
+type T = InferParams<'/book{s/:id}?'>; // { id?: string }
+```
+
 ## Compability
-This library requires [`RegExp.escape()` method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape#browser_compatibility) and [duplicate named capture groups in different disjunction feature](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Named_capturing_group#browser_compatibility) support.
+This library requires [`RegExp.escape()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape#browser_compatibility) and [duplicate named capture groups in different disjunction feature](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Named_capturing_group#browser_compatibility) support.
 
 ## Limitations
 - Regular expressions in patterns cannot include capture groups.
