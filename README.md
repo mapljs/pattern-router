@@ -1,8 +1,8 @@
 A fast pattern router.
 
-It supports most [URLPattern API](https://developer.mozilla.org/en-US/docs/Web/API/URL_Pattern_API#automatic_group_prefixing_in_pathnames) patterns.
-
 ## Usage
+Most [URLPattern API](https://developer.mozilla.org/en-US/docs/Web/API/URL_Pattern_API#automatic_group_prefixing_in_pathnames) patterns work.
+
 ```ts
 import { router_init, router_set, router_remove } from '@mapl/pattern-router';
 import { router_compile_to_matcher } from '@mapl/pattern-router/match';
@@ -19,7 +19,8 @@ matcher.match('GET', '/user/001'); // undefined
 matcher.match('PUT', '/post/001'); // [(req, params) => updatePost(req, params.id), { id: '001' }]
 ```
 
-### Routing for compiled code
+### JIT
+To wrap compiled code pieces with routing code:
 ```ts
 import { router_init, router_set, router_remove } from '@mapl/pattern-router';
 import { router_compile_to_code } from '@mapl/pattern-router/jit';
