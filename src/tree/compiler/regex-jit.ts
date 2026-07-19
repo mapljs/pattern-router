@@ -15,9 +15,15 @@ export const compile = (tree: Tree<string>, resultId: string, pathId: string): s
   if (tree[2] !== null) {
     // console.log(JSON.stringify(tree[2]!, null, 2));
     reset();
-    str += `{let ${resultId}=/^${compileNode(tree[2])}$/.exec(${pathId});if(${resultId}!==null)switch(${resultId}.lastIndexOf('')){`;
-    for (let i = 1; i < HANDLERS.length; i++)
-      if (HANDLERS[i] !== null) str += `case ${i}:{${HANDLERS[i]}}`;
+    str += `{let ${resultId}=/^${compileNode(tree[2])}$/.exec(${pathId});if(${resultId}!==null){`;
+    for (let i = 1, hasHandler = false, startIf = `if(${resultId}[`; i < HANDLERS.length; i++)
+      if (HANDLERS[i] !== null) {
+        str += startIf + i + `]===""){${HANDLERS[i]}}`;
+        if (!hasHandler) {
+          hasHandler = true;
+          startIf = 'else ' + startIf;
+        }
+      }
     str += '}}';
   }
 
