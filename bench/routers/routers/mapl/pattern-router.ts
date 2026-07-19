@@ -157,7 +157,6 @@ const build = (router: Router<Handler>): ((method: string, path: string) => stri
   router_set(router, 'GET', '/user/:id', 'return "/user/:id "+r.groups.id');
 
   const fn = buildJIT(router);
-  console.log(fn.toString());
   simple_api.it('@mapl/pattern-router (jit)', fn);
 }
 
