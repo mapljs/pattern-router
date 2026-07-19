@@ -13,8 +13,6 @@ type TestCase = {
     }
 );
 
-export type BenchFn = (method: string, path: string) => string;
-
 const suite = <K extends string>(
   routes: Record<K, Bench>,
   params: Record<K, [method: (i: number) => string, path: (i: number) => string]>,
@@ -54,18 +52,9 @@ const suite = <K extends string>(
 
 export const simple_api = suite(
   {
-    'GET /': bench({
-      iters: 512,
-      warmupIters: 64,
-    }),
-    'GET /about': bench({
-      iters: 512,
-      warmupIters: 64,
-    }),
-    'GET /user/:id': bench({
-      iters: 256,
-      warmupIters: 32,
-    }),
+    'GET /': bench(),
+    'GET /about': bench(),
+    'GET /user/:id': bench(),
   },
   {
     'GET /': [() => 'GET', (i) => (i % 8 === 0 ? '/' + i : '/')],
@@ -80,74 +69,77 @@ export const simple_api = suite(
       {
         method: 'GET',
         path: '/',
-        expected: '/',
+        expected: 'GET /',
       },
       {
         method: 'GET',
         path: '/0',
-        unexpected: '/',
+        unexpected: 'GET /',
       },
       {
         method: 'POST',
         path: '/',
-        unexpected: '/',
+        unexpected: 'GET /',
       },
     ],
     'GET /about': [
       {
         method: 'GET',
         path: '/about',
-        expected: '/about',
+        expected: 'GET /about',
       },
       {
         method: 'GET',
         path: '/aboutme',
-        unexpected: '/about',
+        unexpected: 'GET /about',
       },
       {
         method: 'PUT',
         path: '/about',
-        unexpected: '/about',
+        unexpected: 'GET /about',
       },
       {
         method: 'OPTIONS',
         path: '/about',
-        unexpected: '/about',
+        unexpected: 'GET /about',
       },
     ],
     'GET /user/:id': function* () {
       yield {
         method: 'GET',
         path: '/user',
-        unexpected: '/user/:id ',
+        unexpected: 'GET /user/:id ',
       };
 
       yield {
         method: 'DELETE',
         path: '/user/me',
-        unexpected: '/user/:id me',
+        unexpected: 'GET /user/:id me',
       };
 
       for (let i = 0, rand = Math.random(); i < 64; i++, rand = Math.random())
         yield {
           method: 'GET',
           path: '/user/' + rand,
-          expected: '/user/:id ' + rand,
+          expected: 'GET /user/:id ' + rand,
         };
 
       yield {
         method: 'QUERY',
         path: '/user/001',
-        unexpected: '/user/:id 001',
+        unexpected: 'GET /user/:id 001',
       };
 
       yield {
         method: 'PATCH',
         path: '/user/102',
-        unexpected: '/user/:id 102',
+        unexpected: 'GET /user/:id 102',
       };
     },
   },
 );
 
-export default category().it('simple api', simple_api.category);
+export default category({
+  iters: 256,
+  warmupIters: 64,
+}).it('simple api', simple_api.category);

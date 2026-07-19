@@ -152,9 +152,9 @@ const build = (router: Router<Handler>): ((method: string, path: string) => stri
 
 {
   const router = router_init<string>();
-  router_set(router, 'GET', '/', 'return "/"');
-  router_set(router, 'GET', '/about', 'return "/about"');
-  router_set(router, 'GET', '/user/:id', 'return "/user/:id "+r.groups.id');
+  router_set(router, 'GET', '/', 'return "GET /"');
+  router_set(router, 'GET', '/about', 'return "GET /about"');
+  router_set(router, 'GET', '/user/:id', 'return "GET /user/:id "+r.groups.id');
 
   const fn = buildJIT(router);
   simple_api.it('@mapl/pattern-router (jit)', fn);
@@ -162,9 +162,9 @@ const build = (router: Router<Handler>): ((method: string, path: string) => stri
 
 {
   const router = router_init<Handler>();
-  router_set(router, 'GET', '/', () => '/');
-  router_set(router, 'GET', '/about', () => '/about');
-  router_set(router, 'GET', '/user/:id', (params) => '/user/:id ' + params.id!);
+  router_set(router, 'GET', '/', () => 'GET /');
+  router_set(router, 'GET', '/about', () => 'GET /about');
+  router_set(router, 'GET', '/user/:id', (params) => 'GET /user/:id ' + params.id!);
 
   const fn = build(router);
   simple_api.it('@mapl/pattern-router', fn);

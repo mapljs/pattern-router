@@ -9,9 +9,9 @@ const buildJIT = (router: Router<string>) =>
 
 {
   const router = createRouter<string>();
-  insertItem(router, 'GET', '/', 'return "/"');
-  insertItem(router, 'GET', '/about', 'return "/about"');
-  insertItem(router, 'GET', '/user/*', `return "/user/:id "+${PARAMS}0`);
+  insertItem(router, 'GET', '/', 'return "GET /"');
+  insertItem(router, 'GET', '/about', 'return "GET /about"');
+  insertItem(router, 'GET', '/user/*', `return "GET /user/:id "+${PARAMS}0`);
 
   const fn = buildJIT(router);
   simple_api.it('@mapl/router (jit)', fn);

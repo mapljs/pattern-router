@@ -1,4 +1,4 @@
-import { TrieRouter } from 'hono/router/trie-router';
+import { LinearRouter } from 'hono/router/linear-router';
 
 import { simple_api } from '../../suites.ts';
 import type { Result } from 'hono/router';
@@ -9,12 +9,12 @@ interface Handler {
 type MatchResult = Parameters<Handler>[0];
 
 {
-  const router = new TrieRouter<Handler>();
+  const router = new LinearRouter<Handler>();
   router.add('GET', '/', () => 'GET /');
   router.add('GET', '/about', () => 'GET /about');
   router.add('GET', '/user/:id', (t) => 'GET /user/:id ' + t[0][0][1].id);
 
-  simple_api.it('hono trie-router', (method, path) => {
+  simple_api.it('hono linear-router', (method, path) => {
     let res = router.match(method, path) as MatchResult;
     return res[0].length !== 0 ? res[0][0][0](res) : '';
   });

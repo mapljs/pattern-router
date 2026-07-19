@@ -2,6 +2,7 @@
   "type": "module",
   "dependencies": {
     "@mapl/router": "^0.10.3",
+    "find-my-way": "^9.6.0",
     "hono": "^4.12.31",
     "rou3": "^0.9.1"
   },
