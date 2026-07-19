@@ -4,7 +4,7 @@ import assert from 'node:assert';
 import type { Suite } from '../../suites/types.ts';
 
 import { tree_init, tree_set_dynamic, tree_set_static } from '@mapl/pattern-router/tree';
-import { compile } from '@mapl/pattern-router/tree/compiler/regex-jit';
+import { compile } from '@mapl/pattern-router/tree/compiler/jit';
 import { isDynamicPattern, validatePattern } from '@mapl/pattern-router/tree/utils';
 
 import customer_api from '../../suites/customer-api.json' with { type: 'json' };

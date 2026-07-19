@@ -1,7 +1,7 @@
 {
   "name": "@mapl/pattern-router",
   "version": "0.0.1",
-  "description": "",
+  "description": "A fast URLPattern router.",
   "keywords": [],
   "homepage": "",
   "license": "MIT",

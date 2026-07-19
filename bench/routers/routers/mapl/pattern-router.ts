@@ -1,4 +1,4 @@
-import { compile as compileJIT } from '@mapl/pattern-router/tree/compiler/regex-jit';
+import { compile as compileJIT } from '@mapl/pattern-router/tree/compiler/jit';
 import {
   compileNode,
   HANDLERS,
