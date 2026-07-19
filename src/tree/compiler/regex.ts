@@ -5,7 +5,9 @@ export type Handlers<T> = (T | null)[];
 
 export let HANDLERS!: Handlers<any>;
 
-export const escapeStaticPart = (part: string): string => RegExp.escape(encodeURI(part));
+export const escapeStaticPart = (part: string): string =>
+  // lol alr so it avoids escaping things that have been escaped already
+  RegExp.escape(part.split('%').map(encodeURI).join('%'));
 
 export const parseNamedGroup = (
   key: string,
