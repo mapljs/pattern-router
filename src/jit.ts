@@ -11,8 +11,7 @@ export const router_compile_to_code = (
   const matchAllIdx = linear_map_index(router, ''),
     trees = router[1];
 
-  if (matchAllIdx !== -1 && matchAllIdx !== trees.length - 1)
-    linear_map_swap(router, matchAllIdx, trees.length - 1);
+  if (matchAllIdx !== -1) linear_map_swap(router, matchAllIdx, trees.length - 1);
 
   let str = `switch(${methodId}){`;
   for (

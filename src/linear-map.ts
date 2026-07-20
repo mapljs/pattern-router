@@ -28,6 +28,8 @@ export const linear_map_remove_reordered = <V>(m: LinearMap<any, V>, i: number):
 };
 
 export const linear_map_swap = <V>(m: LinearMap<any, V>, i: number, newIdx: number): void => {
+  if (i === newIdx) return;
+
   const keys = m[0],
     values = m[1];
 
