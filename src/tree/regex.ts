@@ -7,11 +7,7 @@ export const escapeStaticPart = (part: string): string =>
   // lol alr so it avoids escaping things that have been escaped already
   RegExp.escape(part.split('%').map(encodeURI).join('%'));
 
-export const parseNamedGroup = (
-  key: string,
-  curIdx: number,
-  endIdx: number,
-): [name: string, regex: string] => {
+export const parseNamedGroup = (key: string, curIdx: number, endIdx: number): string => {
   let autoGroupPrefixing = key[curIdx] === '/',
     startIdx = curIdx + (autoGroupPrefixing ? 2 : 1);
   curIdx = startIdx;
@@ -19,47 +15,38 @@ export const parseNamedGroup = (
   const modifier = key[endIdx - 1];
   while (true) {
     if (curIdx === endIdx) {
-      const name = key.slice(startIdx, endIdx + (isModifier(modifier) ? -1 : 0)),
-        namedCapture = `(?<${name}>`;
-
-      return [
-        name,
-        autoGroupPrefixing
-          ? modifier === '?'
-            ? `(?:\\/${namedCapture}[^/]+))?`
-            : modifier === '+'
-              ? `\\/${namedCapture}[^/]+(?:\\/[^/]+)*)`
-              : modifier === '*'
-                ? `(?:\\/${namedCapture}[^/]+(?:\\/[^/]+)*)|${namedCapture}))`
-                : `\\/${namedCapture}[^/]+)`
-          : namedCapture + (modifier === '?' ? '[^/]+)?' : modifier === '*' ? '[^/]*)' : '[^/]+)'),
-      ];
+      const namedCapture = `(?<${key.slice(startIdx, endIdx + (isModifier(modifier) ? -1 : 0))}>`;
+      return autoGroupPrefixing
+        ? modifier === '?'
+          ? `(?:\\/${namedCapture}[^/]+))?`
+          : modifier === '+'
+            ? `\\/${namedCapture}[^/]+(?:\\/[^/]+)*)`
+            : modifier === '*'
+              ? `(?:\\/${namedCapture}[^/]+(?:\\/[^/]+)*)|${namedCapture}))`
+              : `\\/${namedCapture}[^/]+)`
+        : namedCapture + (modifier === '?' ? '[^/]+)?' : modifier === '*' ? '[^/]*)' : '[^/]+)');
     }
 
     if (key[curIdx] === '(') {
       const regex = '(?:' + key.slice(curIdx + 1, findUnnamedGroupEnd(key, curIdx + 1)),
-        name = key.slice(startIdx, curIdx),
-        namedCapture = `(?<${name}>`;
+        namedCapture = `(?<${key.slice(startIdx, curIdx)}>`;
 
-      return [
-        name,
-        autoGroupPrefixing
-          ? modifier === '?'
-            ? `(?:\\/${namedCapture + regex}))?`
-            : modifier === '+'
-              ? `\\/${namedCapture + regex}(?:\\/${regex})*)`
-              : modifier === '*'
-                ? `(?:\\/${namedCapture + regex}(?:\\/${regex})*)|())`
-                : `\\/${namedCapture + regex})`
-          : namedCapture +
+      return autoGroupPrefixing
+        ? modifier === '?'
+          ? `(?:\\/${namedCapture + regex}))?`
+          : modifier === '+'
+            ? `\\/${namedCapture + regex}(?:\\/${regex})*)`
+            : modifier === '*'
+              ? `(?:\\/${namedCapture + regex}(?:\\/${regex})*)|())`
+              : `\\/${namedCapture + regex})`
+        : namedCapture +
             (modifier === '?'
               ? regex + ')?'
               : modifier === '+'
                 ? `(?:${regex})+)`
                 : modifier === '*'
                   ? `(?:${regex})*)`
-                  : regex + ')'),
-      ];
+                  : regex + ')');
     }
 
     curIdx++;
@@ -136,12 +123,10 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
           }
 
           case ':': {
-            const groupEndIdx = findNamedGroupEnd(pattern, patternIdx, patternLen),
-              parsed = parseNamedGroup(pattern, patternIdx, groupEndIdx);
-
+            const groupEndIdx = findNamedGroupEnd(pattern, patternIdx, patternLen);
             parts +=
               escapeStaticPart(pattern.slice(patternPrevIdx, patternIdx)) +
-              shiftHandlers(parsed[1]);
+              shiftHandlers(parseNamedGroup(pattern, patternIdx, groupEndIdx));
 
             patternPrevIdx = patternIdx = groupEndIdx + 1;
             continue;
@@ -166,20 +151,14 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
       parts += shiftHandlers(regexps[i]) + connect_node_compile_to_regexp(connectNodes[i]);
 
   if (node[5] !== null)
-    for (
-      let i = 0, keys = node[5][0], connectNodes = node[5][1];
-      i < keys.length;
-      i++, partsCnt++
-    ) {
-      const parsed = parseNamedGroup(keys[i], 0, keys[i].length);
-      parts += shiftHandlers(parsed[1]) + connect_node_compile_to_regexp(connectNodes[i]);
-    }
+    for (let i = 0, keys = node[5][0], connectNodes = node[5][1]; i < keys.length; i++, partsCnt++)
+      parts +=
+        shiftHandlers(parseNamedGroup(keys[i], 0, keys[i].length)) +
+        connect_node_compile_to_regexp(connectNodes[i]);
 
   if (node[6] !== null) {
     partsCnt++;
-
-    HANDLERS.push(null);
-    parts += '(.*)' + connect_node_compile_to_regexp(node[6]);
+    parts += '.*' + connect_node_compile_to_regexp(node[6]);
   }
 
   const str = partsCnt > 1 ? `(?:${parts.slice(0, -1)})` : parts.slice(0, -1);

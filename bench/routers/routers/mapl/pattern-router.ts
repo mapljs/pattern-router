@@ -16,7 +16,7 @@ const build = (router: Router<Handler>): ((method: string, path: string) => stri
     let res = matcher.match(method, path);
     if (typeof res !== 'undefined')
       // @ts-ignore
-      return res.length === 1 ? res[0]() : res[0](res[1]);
+      return res.length === 1 ? res[0]() : res[0](res[1].groups!);
     return '';
   };
 };

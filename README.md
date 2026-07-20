@@ -51,6 +51,5 @@ type T = InferParams<'/book{s/:id}?'>; // { id?: string }
 This library requires [`RegExp.escape()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape#browser_compatibility) and [duplicate named capture groups in different disjunction feature](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Named_capturing_group#browser_compatibility) support.
 
 ## Limitations
-- Regular expressions in patterns cannot include capture groups.
-- Wildcards and unnamed groups don't capture, use named groups instead.
+- Wildcards, unnamed capture groups and nested capture groups don't capture.
 - Named groups only capture the last matched value in group delimiters with `+` and `*` modifier.

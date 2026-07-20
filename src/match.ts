@@ -3,10 +3,7 @@ import { HANDLERS, node_compile_to_regexp, reset, type Handlers } from './tree/r
 import { linear_map_index, linear_map_swap } from './linear-map.ts';
 
 interface Matcher0<in out T> {
-  match: (
-    method: string,
-    path: string,
-  ) => [T] | [T, Record<string, string | undefined>] | undefined;
+  match: (method: string, path: string) => [T] | [T, RegExpExecArray] | undefined;
   methods: string[];
   staticMaps: Map<string, T>[];
   regexps: (RegExp | null)[];
@@ -29,8 +26,7 @@ const match0: Matcher0<any>['match'] = function (this: Matcher0<any>, method, pa
 
     if (this.regexps[i] !== null) {
       let matchResult = this.regexps[i].exec(path);
-      if (matchResult !== null)
-        return [this.handlers[i][matchResult.lastIndexOf('')], matchResult.groups!];
+      if (matchResult !== null) return [this.handlers[i][matchResult.lastIndexOf('')], matchResult];
     }
   }
 };
@@ -43,12 +39,12 @@ const match1: Matcher1<any>['match'] = function (this: Matcher1<any>, method, pa
 
     if (this.regexps[i] !== null) {
       let matchResult = this.regexps[i].exec(path);
-      if (matchResult !== null)
-        return [this.handlers[i][matchResult.lastIndexOf('')], matchResult.groups!];
+      if (matchResult !== null) return [this.handlers[i][matchResult.lastIndexOf('')], matchResult];
     }
   }
 
-  return this.matchAllStaticMap.get(path);
+  const match = this.matchAllStaticMap.get(path);
+  if (typeof match !== 'undefined') return [match];
 };
 
 const match2: Matcher2<any>['match'] = function (this: Matcher2<any>, method, path) {
@@ -61,7 +57,7 @@ const match2: Matcher2<any>['match'] = function (this: Matcher2<any>, method, pa
       if (this.regexps[i] !== null) {
         let matchResult = this.regexps[i].exec(path);
         if (matchResult !== null)
-          return [this.handlers[i][matchResult.lastIndexOf('')], matchResult.groups!];
+          return [this.handlers[i][matchResult.lastIndexOf('')], matchResult];
       }
     }
   }
@@ -70,8 +66,7 @@ const match2: Matcher2<any>['match'] = function (this: Matcher2<any>, method, pa
   if (typeof handler !== 'undefined') return [handler];
 
   let matchResult = this.matchAllRegExp.exec(path);
-  if (matchResult !== null)
-    return [this.matchAllHandler[matchResult.lastIndexOf('')], matchResult.groups!];
+  if (matchResult !== null) return [this.matchAllHandler[matchResult.lastIndexOf('')], matchResult];
 };
 
 export const router_compile_to_matcher = <T>(router: Router<T>): Matcher<T> => {

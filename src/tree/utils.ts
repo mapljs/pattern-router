@@ -1,14 +1,36 @@
+export type Evaluate<T> = T extends infer U ? { [K in keyof U]: U[K] } : never;
+
+export type SkipCaptureGroup<
+  Path extends string,
+  Stack extends null[],
+> = Path extends `${string}(${infer Rest}`
+  ? SkipCaptureGroup<Rest, [...Stack, null]>
+  : Path extends `${string})${infer Rest}`
+    ? Stack extends [...infer Stack extends null[], null]
+      ? SkipCaptureGroup<Rest, Stack>
+      : never
+    : Path;
+
+export type InferNamedGroup<Group extends string> =
+  // Optional named params
+  Group extends `${infer Name}?${infer Rest}`
+    ? Evaluate<{ [key in Name]?: string } & InferParams<Rest>>
+    : Group extends `${infer Name}${'{' | '}' | '+' | '*' | '/'}${infer Rest}`
+      ? Evaluate<{ [key in Name]: string } & InferParams<Rest>>
+      : Group extends `${infer Name}:${infer Rest}`
+        ? Evaluate<{ [key in Name]: string } & InferNamedGroup<Rest>>
+        : { [key in Group]: string };
+
 export type InferParams<Path extends string> =
-  Path extends `${infer Prefix}{${infer Body}}?${infer Suffix}`
-    ? InferParams<Prefix> & Partial<InferParams<Body>> & InferParams<Suffix>
-    : Path extends `${infer Prefix}(${string})${infer Suffix}`
-      ? InferParams<Prefix> & InferParams<Suffix>
-      : Path extends `${string}:${infer Group}`
-        ? Group extends `${infer Name}?${infer Rest}`
-          ? { [key in Name]?: string } & InferParams<Rest>
-          : Group extends `${infer Name}${'{' | '}' | '+' | '*'}${infer Rest}`
-            ? { [key in Name]: string } & InferParams<Rest>
-            : { [key in Group]: string }
+  // Clear all capture groups
+  Path extends `${infer Prefix}(${infer CaptureGroup}`
+    ? InferParams<`${Prefix}${SkipCaptureGroup<CaptureGroup, [null]>}`>
+    : // Split and mark params in optional group delimiters as optional
+      Path extends `${infer Prefix}{${infer Body}}?${infer Suffix}`
+      ? Evaluate<InferParams<Prefix> & Partial<InferParams<Body>> & InferParams<Suffix>>
+      : // Named params
+        Path extends `${string}:${infer Group}`
+        ? InferNamedGroup<Group>
         : {};
 
 /**
@@ -52,9 +74,6 @@ export const findNamedGroupEnd = (path: string, startIdx: number, len: number): 
   let groupEndIdx = startIdx + 2;
   blk: while (groupEndIdx < len) {
     switch (path[groupEndIdx]) {
-      case '/':
-        return groupEndIdx;
-
       case '*':
       case '+':
       case '?':
@@ -65,6 +84,8 @@ export const findNamedGroupEnd = (path: string, startIdx: number, len: number): 
         continue blk;
 
       case '{':
+      case '/':
+      case ':':
         return groupEndIdx;
     }
 
