@@ -50,6 +50,9 @@ export const router_set = <T>(router: Router<T>, method: string, path: string, s
     ? router_set_dynamic(router, method, path, store)
     : router_set_static(router, method, path, store);
 
+/**
+ * @returns true if router is empty
+ */
 export const router_remove_static = <T>(
   router: Router<T>,
   method: string,
@@ -62,6 +65,10 @@ export const router_remove_static = <T>(
     linear_map_remove_reordered(router, idx)
   );
 };
+
+/**
+ * @returns true if router is empty
+ */
 export const router_remove_dynamic = <T>(
   router: Router<T>,
   method: string,

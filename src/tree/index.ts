@@ -31,6 +31,7 @@ export const tree_remove_static = <T>(tree: Tree<T>, path: string): boolean => {
  * @returns true if the tree has no item
  */
 export const tree_remove_dynamic = <T>(tree: Tree<T>, path: string): boolean => {
+  validatePattern(path);
   return (
     tree[2] !== null &&
     node_remove(tree[2], path, 0) &&

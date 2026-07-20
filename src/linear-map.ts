@@ -17,10 +17,11 @@ export const linear_map_remove_reordered = <V>(m: LinearMap<any, V>, i: number):
   const keys = m[0],
     values = m[1];
 
-  keys[lastIdx] = keys[i];
+  // Move last item to the target index
+  keys[i] = keys[lastIdx];
   keys.pop();
 
-  values[lastIdx] = values[i];
+  values[i] = values[lastIdx];
   values.pop();
 
   return keys.length === 0;
