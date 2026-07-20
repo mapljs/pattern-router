@@ -58,7 +58,7 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
 
       case '(': {
         const groupEndIdx = findUnnamedGroupEnd(path, pathIdx + 1),
-          groupKey = path.slice(pathIdx + 1, groupEndIdx - 1);
+          groupKey = path.slice(pathIdx, groupEndIdx);
 
         return [
           path.slice(prevIdx, pathIdx),
@@ -176,7 +176,7 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
 
       case '(': {
         const groupEndIdx = findUnnamedGroupEnd(path, pathIdx + 1),
-          groupKey = path.slice(pathIdx + 1, groupEndIdx - 1);
+          groupKey = path.slice(pathIdx, groupEndIdx);
 
         // Create new map
         if (node[4] === null)
@@ -384,7 +384,7 @@ export const node_remove = (node: Node<any>, path: string, pathIdx: number): boo
         return (
           connect_node_remove_from_map(
             node[4],
-            path.slice(pathIdx + 1, groupEndIdx - 1),
+            path.slice(pathIdx, groupEndIdx),
             path,
             groupEndIdx,
           ) &&

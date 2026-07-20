@@ -68,6 +68,20 @@ export const parseNamedGroup = (
 
 export let HANDLERS!: Handlers<any>;
 
+export const reset = (): void => {
+  HANDLERS = [null];
+};
+
+export const shiftHandlers = (regex: string): string => {
+  for (let i = 0, len = regex.length; i < len; i++)
+    if (regex[i] === '(' && !regex.startsWith('?:', i + 1)) {
+      HANDLERS.push(null);
+      len--;
+    }
+
+  return regex;
+};
+
 /**
  * @returns pattern with additional |
  */
@@ -115,8 +129,7 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
 
             parts +=
               escapeStaticPart(pattern.slice(patternPrevIdx, patternIdx)) +
-              '(:' +
-              pattern.slice(patternIdx + 1, patternRegexEnd);
+              shiftHandlers(pattern.slice(patternIdx, patternRegexEnd));
 
             patternPrevIdx = patternIdx = patternRegexEnd;
             continue;
@@ -125,8 +138,10 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
           case ':': {
             const groupEndIdx = findNamedGroupEnd(pattern, patternIdx, patternLen),
               parsed = parseNamedGroup(pattern, patternIdx, groupEndIdx);
-            HANDLERS.push(null);
-            parts += escapeStaticPart(pattern.slice(patternPrevIdx, patternIdx)) + parsed[1];
+
+            parts +=
+              escapeStaticPart(pattern.slice(patternPrevIdx, patternIdx)) +
+              shiftHandlers(parsed[1]);
 
             patternPrevIdx = patternIdx = groupEndIdx + 1;
             continue;
@@ -148,7 +163,7 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
       i < regexps.length;
       i++, partsCnt++
     )
-      parts += '(?:' + regexps[i] + ')' + connect_node_compile_to_regexp(connectNodes[i]);
+      parts += shiftHandlers(regexps[i]) + connect_node_compile_to_regexp(connectNodes[i]);
 
   if (node[5] !== null)
     for (
@@ -157,20 +172,16 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
       i++, partsCnt++
     ) {
       const parsed = parseNamedGroup(keys[i], 0, keys[i].length);
-      HANDLERS.push(null);
-      parts += parsed[1] + connect_node_compile_to_regexp(connectNodes[i]);
+      parts += shiftHandlers(parsed[1]) + connect_node_compile_to_regexp(connectNodes[i]);
     }
 
   if (node[6] !== null) {
     partsCnt++;
-    parts += '.*' + connect_node_compile_to_regexp(node[6]);
+
+    HANDLERS.push(null);
+    parts += '(.*)' + connect_node_compile_to_regexp(node[6]);
   }
 
-  return (
-    escapeStaticPart(node[0]) + (partsCnt > 1 ? `(?:${parts.slice(0, -1)})` : parts.slice(0, -1))
-  );
-};
-
-export const reset = (): void => {
-  HANDLERS = [null];
+  const str = partsCnt > 1 ? `(?:${parts.slice(0, -1)})` : parts.slice(0, -1);
+  return node[0].length > 0 ? escapeStaticPart(node[0]) + str : str;
 };
