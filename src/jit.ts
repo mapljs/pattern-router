@@ -21,7 +21,9 @@ export const router_compile_to_code = (
     i++
   )
     str +=
-      `case${JSON.stringify(methods[i])}:` + tree_compile_to_code(trees[i], resultId, pathId) + '';
+      `case${JSON.stringify(methods[i])}:` +
+      tree_compile_to_code(trees[i], resultId, pathId) +
+      'break;';
   str += '}';
 
   return matchAllIdx !== -1
