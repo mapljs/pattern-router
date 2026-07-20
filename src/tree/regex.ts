@@ -59,16 +59,6 @@ export const reset = (): void => {
   HANDLERS = [null];
 };
 
-export const shiftHandlers = (regex: string): string => {
-  for (let i = 0, len = regex.length; i < len; i++)
-    if (regex[i] === '(' && !regex.startsWith('?:', i + 1)) {
-      HANDLERS.push(null);
-      len--;
-    }
-
-  return regex;
-};
-
 /**
  * @returns pattern with additional |
  */
@@ -114,9 +104,10 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
           case '(': {
             const patternRegexEnd = findUnnamedGroupEnd(pattern, patternIdx + 1);
 
+            HANDLERS.push(null);
             parts +=
               escapeStaticPart(pattern.slice(patternPrevIdx, patternIdx)) +
-              shiftHandlers(pattern.slice(patternIdx, patternRegexEnd));
+              pattern.slice(patternIdx, patternRegexEnd);
 
             patternPrevIdx = patternIdx = patternRegexEnd;
             continue;
@@ -124,9 +115,11 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
 
           case ':': {
             const groupEndIdx = findNamedGroupEnd(pattern, patternIdx, patternLen);
+
+            HANDLERS.push(null);
             parts +=
               escapeStaticPart(pattern.slice(patternPrevIdx, patternIdx)) +
-              shiftHandlers(parseNamedGroup(pattern, patternIdx, groupEndIdx));
+              parseNamedGroup(pattern, patternIdx, groupEndIdx);
 
             patternPrevIdx = patternIdx = groupEndIdx + 1;
             continue;
@@ -147,14 +140,22 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
       let i = 0, regexps = node[4][0], connectNodes = node[4][1];
       i < regexps.length;
       i++, partsCnt++
-    )
-      parts += shiftHandlers(regexps[i]) + connect_node_compile_to_regexp(connectNodes[i]);
+    ) {
+      HANDLERS.push(null);
+      parts += regexps[i] + connect_node_compile_to_regexp(connectNodes[i]);
+    }
 
   if (node[5] !== null)
-    for (let i = 0, keys = node[5][0], connectNodes = node[5][1]; i < keys.length; i++, partsCnt++)
+    for (
+      let i = 0, keys = node[5][0], connectNodes = node[5][1];
+      i < keys.length;
+      i++, partsCnt++
+    ) {
+      HANDLERS.push(null);
       parts +=
-        shiftHandlers(parseNamedGroup(keys[i], 0, keys[i].length)) +
+        parseNamedGroup(keys[i], 0, keys[i].length) +
         connect_node_compile_to_regexp(connectNodes[i]);
+    }
 
   if (node[6] !== null) {
     partsCnt++;
