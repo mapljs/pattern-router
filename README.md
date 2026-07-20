@@ -11,12 +11,13 @@ const router = router_init<(req: Request) => Response | Promise<Response>>();
 router_set(router, 'GET', '/', (req) => new Response('Hi'));
 router_set(router, 'GET', '/user/:id(\\d+)', (req, params) => new Response(`user id: ${params.id}`));
 router_set(router, 'PUT', '/post/:id(\\d+)', (req, params) => updatePost(req, params.id));
-router_remove(router, 'GET', '/post/:id(\\d+)');
+router_remove(router, 'GET', '/user/:id(\\d+)');
 
 const matcher = router_compile_to_matcher(router);
 matcher.match('GET', '/'); // [(req) => new Response('Hi')]
 matcher.match('GET', '/user/001'); // undefined
 matcher.match('PUT', '/post/001'); // [(req, params) => updatePost(req, params.id), { id: '001' }]
+matcher.match('PUT', '/post/a01'); // undefined
 ```
 
 ### JIT
