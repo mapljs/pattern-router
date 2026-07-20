@@ -109,11 +109,11 @@ export const router_compile_to_matcher = <T>(router: Router<T>): Matcher<T> => {
     // no match all handler
     if (matchAllIdx === -1)
       return {
+        match: match0,
         methods: router[0].slice(),
         staticMaps,
         regexps,
         handlers,
-        match: match0,
       };
   }
 
@@ -130,16 +130,17 @@ export const router_compile_to_matcher = <T>(router: Router<T>): Matcher<T> => {
 
   if (matchAllTree[2] === null)
     return {
+      match: match1,
       methods,
       staticMaps,
       regexps,
       handlers,
       matchAllStaticMap,
-      match: match1,
     };
 
   reset();
   return {
+    match: match2,
     methods,
     staticMaps,
     regexps,
@@ -147,6 +148,5 @@ export const router_compile_to_matcher = <T>(router: Router<T>): Matcher<T> => {
     matchAllStaticMap,
     matchAllRegExp: new RegExp('^' + node_compile_to_regexp(matchAllTree![2]) + '$'),
     matchAllHandler: HANDLERS,
-    match: match2,
   };
 };

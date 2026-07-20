@@ -1,14 +1,14 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
 
-import type { Suite } from '../../suites/types.ts';
+import type { Suite } from './suites/types.ts';
 
 import { tree_init, tree_set_dynamic, tree_set_static } from '@mapl/pattern-router/tree';
 import { tree_compile_to_code } from '@mapl/pattern-router/tree/jit';
 import { isDynamicPattern, validatePattern } from '@mapl/pattern-router/tree/utils';
 
-import customer_api from '../../suites/customer-api.json' with { type: 'json' };
-import group_delimiters from '../../suites/group-delimiters.json' with { type: 'json' };
+import customer_api from './suites/customer-api.json' with { type: 'json' };
+import group_delimiters from './suites/group-delimiters.json' with { type: 'json' };
 
 const clone = (o: object) => JSON.parse(JSON.stringify(o));
 
