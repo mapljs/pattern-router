@@ -104,10 +104,10 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
           case '(': {
             const patternRegexEnd = findUnnamedGroupEnd(pattern, patternIdx + 1);
 
-            HANDLERS.push(null);
             parts +=
               escapeStaticPart(pattern.slice(patternPrevIdx, patternIdx)) +
-              pattern.slice(patternIdx, patternRegexEnd);
+              '(?:' +
+              pattern.slice(patternIdx + 1, patternRegexEnd);
 
             patternPrevIdx = patternIdx = patternRegexEnd;
             continue;
@@ -140,10 +140,8 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
       let i = 0, regexps = node[4][0], connectNodes = node[4][1];
       i < regexps.length;
       i++, partsCnt++
-    ) {
-      HANDLERS.push(null);
-      parts += regexps[i] + connect_node_compile_to_regexp(connectNodes[i]);
-    }
+    )
+      parts += '(?:' + regexps[i].slice(1) + connect_node_compile_to_regexp(connectNodes[i]);
 
   if (node[5] !== null)
     for (
