@@ -78,8 +78,8 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
   if (node[1] !== null) {
     partsCnt = 1;
 
-    parts += '()$|';
     HANDLERS.push(node[1]);
+    parts += '()$|';
   }
 
   if (node[2] !== null)
