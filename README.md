@@ -1,8 +1,7 @@
 A fast pattern router.
 
 ## Usage
-Most [URLPattern API](https://developer.mozilla.org/en-US/docs/Web/API/URL_Pattern_API#automatic_group_prefixing_in_pathnames) patterns work.
-
+A subset of [URLPattern API](https://developer.mozilla.org/en-US/docs/Web/API/URL_Pattern_API#automatic_group_prefixing_in_pathnames) patterns are supported.
 ```ts
 import { router_init, router_set, router_remove } from '@mapl/pattern-router';
 import { router_compile_to_matcher } from '@mapl/pattern-router/match';
@@ -19,6 +18,18 @@ matcher.match('GET', '/user/001'); // undefined
 matcher.match('PUT', '/post/001'); // [(req, params) => updatePost(req, params.id), { id: '001' }]
 matcher.match('PUT', '/post/a01'); // undefined
 ```
+
+### Limitations
+Wildcards, unnamed capture groups and nested capture groups don't capture. Use named capture groups instead:
+```ts
+router_set(router, 'GET', '/(\\d+)', ...);
+// change to
+router_set(router, 'GET', '/:id(\\d+)', ...);
+// or without automatic group prefixing
+router_set(router, 'GET', '{/:id(\\d+)}', ...);
+```
+
+Named groups only capture the last matched value in group delimiters with `+` and `*` modifier.
 
 ### JIT
 To wrap compiled code pieces with routing code:
@@ -49,7 +60,3 @@ type T = InferParams<'/book{s/:id}?'>; // { id?: string }
 
 ## Compability
 This library requires [`RegExp.escape()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape#browser_compatibility) and [duplicate named capture groups in different disjunction feature](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Named_capturing_group#browser_compatibility) support.
-
-## Limitations
-- Wildcards, unnamed capture groups and nested capture groups don't capture.
-- Named groups only capture the last matched value in group delimiters with `+` and `*` modifier.
