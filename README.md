@@ -1,7 +1,7 @@
 A fast pattern router.
 
 ## Usage
-A subset of [URLPattern API](https://developer.mozilla.org/en-US/docs/Web/API/URL_Pattern_API#automatic_group_prefixing_in_pathnames) patterns are supported.
+A subset of [URLPattern API](https://developer.mozilla.org/en-US/docs/Web/API/URL_Pattern_API#automatic_group_prefixing_in_pathnames) patterns are supported (see limitations).
 ```ts
 import { router_init, router_set, router_remove } from '@mapl/pattern-router';
 import { router_compile_to_matcher } from '@mapl/pattern-router/match';
@@ -20,7 +20,7 @@ matcher.match('PUT', '/post/a01'); // undefined
 ```
 
 ### Limitations
-Wildcards, unnamed capture groups and nested capture groups don't capture. Use named capture groups instead:
+Wildcards, unnamed capture groups don't capture. Use named capture groups instead:
 ```ts
 router_set(router, 'GET', '/(\\d+)', ...);
 // change to
