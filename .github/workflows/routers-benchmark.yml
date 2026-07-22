@@ -38,7 +38,7 @@ jobs:
       # bun
       - name: bun
         continue-on-error: true
-        run: bun start:bun > results-bun.md
+        run: bun start:bun md > results-bun.txt
 
       # deno
       - uses: denoland/setup-deno@v2.0.3
@@ -47,7 +47,7 @@ jobs:
 
       - name: deno
         continue-on-error: true
-        run: bun start:deno > results-deno.md
+        run: bun start:deno md > results-deno.txt
 
       # node
       - uses: actions/setup-node@v4
@@ -56,7 +56,7 @@ jobs:
 
       - name: node
         continue-on-error: true
-        run: bun start:node > results-node.md
+        run: bun start:node md > results-node.txt
 
       # Push results
       - name: Commit results
