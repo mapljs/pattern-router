@@ -16,7 +16,11 @@ export type InferParams<Path extends string> =
     ? InferParams<`${Prefix}${Suffix}`>
     : // Split and mark params in optional group delimiters as optional
       Path extends `${infer Prefix}{${infer Body}}?${infer Suffix}`
-      ? Evaluate<InferParams<Prefix> & Partial<InferParams<Body>> & InferParams<Suffix>>
+      ? Evaluate<
+          InferParams<Prefix> & {
+            [K in keyof InferParams<Body>]: string | undefined;
+          } & InferParams<Suffix>
+        >
       : // Named params
         Path extends `${string}/:${infer Group}`
         ? InferNamedGroup<Group, '?' | '*'>
