@@ -20,9 +20,9 @@ export const parseNamedGroup = (key: string, curIdx: number, endIdx: number): st
         ? modifier === '?'
           ? `(?:\\/${namedCapture}[^/]+))?`
           : modifier === '+'
-            ? `\\/${namedCapture}[^/]+(?:\\/[^/]+)*)`
+            ? `\\/${namedCapture}.+)`
             : modifier === '*'
-              ? `(?:\\/${namedCapture}[^/]+(?:\\/[^/]+)*)|${namedCapture}))`
+              ? `(?:\\/${namedCapture}.+))?`
               : `\\/${namedCapture}[^/]+)`
         : namedCapture + (modifier === '?' ? '[^/]+)?' : modifier === '*' ? '[^/]*)' : '[^/]+)');
     }
@@ -37,7 +37,7 @@ export const parseNamedGroup = (key: string, curIdx: number, endIdx: number): st
           : modifier === '+'
             ? `\\/${namedCapture + regex}(?:\\/${regex})*)`
             : modifier === '*'
-              ? `(?:\\/${namedCapture + regex}(?:\\/${regex})*)|())`
+              ? `(?:\\/${namedCapture + regex}(?:\\/${regex})*))?`
               : `\\/${namedCapture + regex})`
         : namedCapture +
             (modifier === '?'

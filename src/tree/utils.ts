@@ -1,13 +1,13 @@
 export type Evaluate<T> = T extends infer U ? { [K in keyof U]: U[K] } : never;
 
-export type InferNamedGroup<Group extends string> =
+export type InferNamedGroup<Group extends string, OptionalSep extends string> =
   // Optional named params
-  Group extends `${infer Name}?${infer Rest}`
-    ? Evaluate<{ [key in Name]?: string } & InferParams<Rest>>
+  Group extends `${infer Name}${OptionalSep}${infer Rest}`
+    ? Evaluate<{ [key in Name]: string | undefined } & InferParams<Rest>>
     : Group extends `${infer Name}${'{' | '}' | '+' | '*' | '/' | '.' | '@' | '[' | ']' | '-' | '=' | '%'}${infer Rest}`
       ? Evaluate<{ [key in Name]: string } & InferParams<Rest>>
       : Group extends `${infer Name}:${infer Rest}`
-        ? Evaluate<{ [key in Name]: string } & InferNamedGroup<Rest>>
+        ? Evaluate<{ [key in Name]: string } & InferNamedGroup<Rest, '?'>>
         : { [key in Group]: string };
 
 export type InferParams<Path extends string> =
@@ -18,9 +18,11 @@ export type InferParams<Path extends string> =
       Path extends `${infer Prefix}{${infer Body}}?${infer Suffix}`
       ? Evaluate<InferParams<Prefix> & Partial<InferParams<Body>> & InferParams<Suffix>>
       : // Named params
-        Path extends `${string}:${infer Group}`
-        ? InferNamedGroup<Group>
-        : {};
+        Path extends `${string}/:${infer Group}`
+        ? InferNamedGroup<Group, '?' | '*'>
+        : Path extends `${string}:${infer Group}`
+          ? InferNamedGroup<Group, '?'>
+          : {};
 
 export const checkEndModifier = (path: string, groupEndIdx: number): number => {
   if (groupEndIdx < path.length)
