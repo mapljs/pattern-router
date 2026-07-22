@@ -1,5 +1,18 @@
 export type Evaluate<T> = T extends infer U ? { [K in keyof U]: U[K] } : never;
 
+export type SkipCaptureGroup<
+  Path extends string,
+  Stack extends 0[],
+> = Path extends `${string}(${infer Rest}`
+  ? SkipCaptureGroup<Rest, [...Stack, 0]>
+  : Path extends `${string})${infer Rest}`
+    ? Stack extends [...infer RestStack extends 0[], 0]
+      ? SkipCaptureGroup<Rest, RestStack>
+      : never
+    : Stack['length'] extends 0
+      ? Path
+      : never;
+
 export type InferNamedGroup<Group extends string, OptionalSep extends string> =
   // Optional named params
   Group extends `${infer Name}${OptionalSep}${infer Rest}`
@@ -12,8 +25,8 @@ export type InferNamedGroup<Group extends string, OptionalSep extends string> =
 
 export type InferParams<Path extends string> =
   // Clear all capture groups
-  Path extends `${infer Prefix}(${string})${infer Suffix}`
-    ? InferParams<`${Prefix}${Suffix}`>
+  Path extends `${infer Prefix}(${infer Suffix}`
+    ? InferParams<`${Prefix}${SkipCaptureGroup<Suffix, [0]>}`>
     : // Split and mark params in optional group delimiters as optional
       Path extends `${infer Prefix}{${infer Body}}?${infer Suffix}`
       ? Evaluate<

@@ -54,8 +54,8 @@ To infer parameters types of a pattern:
 import type { InferParams } from '@mapl/pattern-router/tree/utils';
 
 type T = InferParams<'/:id'>; // { id: string }
-type T = InferParams<'/user/:id?'>; // { id?: string }
-type T = InferParams<'/book{s/:id}?'>; // { id?: string }
+type T = InferParams<'/user/:id?'>; // { id: string | undefined }
+type T = InferParams<'/book{s/:id}?'>; // { id: string | undefined }
 ```
 
 ## Compability
