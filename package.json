@@ -23,7 +23,8 @@
     "oxc-transform": "^0.137.0",
     "oxfmt": "^0.56.0",
     "picocolors": "^1.1.1",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "urlpattern-polyfill": "^10.1.0"
   },
   "trustedDependencies": [
     "@swc/core"
