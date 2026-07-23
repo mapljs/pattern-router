@@ -13,17 +13,21 @@ export const router_compile_to_code = (
 
   if (matchAllIdx !== -1) linear_map_swap(router, matchAllIdx, trees.length - 1);
 
-  let str = `switch(${methodId}){`;
+  let str = '';
   for (
-    let i = 0, methods = router[0], treesLen = trees.length - (matchAllIdx !== -1 ? 1 : 0);
+    let i = 0,
+      methods = router[0],
+      treesLen = trees.length - (matchAllIdx !== -1 ? 1 : 0),
+      prefix = `if(${methodId}===`;
     i < treesLen;
     i++
-  )
+  ) {
     str +=
-      `case${JSON.stringify(methods[i])}:` +
-      tree_compile_to_code(trees[i], resultId, pathId) +
-      'break;';
-  str += '}';
+      prefix +
+      JSON.stringify(methods[i]) +
+      `){${tree_compile_to_code(trees[i], resultId, pathId)}}`;
+    if (i === 0) prefix = 'else ' + prefix;
+  }
 
   return matchAllIdx !== -1
     ? str + tree_compile_to_code(trees[trees.length - 1], resultId, pathId)
