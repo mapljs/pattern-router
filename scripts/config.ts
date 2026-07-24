@@ -1,4 +1,5 @@
-import { LIB, SOURCE } from './lib/constants.ts';
+import { join } from 'node:path';
+import { LIB, SNAPSHOTS, SOURCE } from './lib/constants.ts';
 import { fmt } from './lib/fmt.ts';
 
 export const test: import('./lib/test.ts').Config = {
@@ -88,6 +89,10 @@ export const task: import('./task.ts').Config = {
           description: `Files to scan in ${fmt.relativePath(LIB)} to include in the build. Defaults to ${fmt.glob('**/*.js')}.`,
         },
       },
+    },
+    snap: {
+      description: `Process route trees from ${fmt.relativePath(join(SNAPSHOTS, 'routes.ts'))} and print the result trees (${fmt.glob('**/*.json')}) and compiled snippets (${fmt.glob('**/*.js')}) in ${fmt.relativePath(SNAPSHOTS)}.`,
+      args: {},
     },
   },
 };

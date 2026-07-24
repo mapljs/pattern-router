@@ -8,3 +8,4 @@ export const NODE_MODULES = join(ROOT, 'node_modules');
 export const LIB = join(NODE_MODULES, pkg.name);
 export const BENCH = join(ROOT, 'bench');
 export const TESTS = join(ROOT, 'tests');
+export const SNAPSHOTS = join(ROOT, 'snapshots');

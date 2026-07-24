@@ -1,0 +1,182 @@
+[
+  ["GET", "POST"],
+  [
+    [
+      [
+        "/user",
+        "/user/comments",
+        "/user/avatar",
+        "/status",
+        "/very/deeply/nested/route/hello/there"
+      ],
+      [
+        "return \"GET /user\"",
+        "return \"GET /user/comments\"",
+        "return \"GET /user/avatar\"",
+        "return \"GET /status\"",
+        "return \"GET /very/deeply/nested/route/hello/there\""
+      ],
+      [
+        "",
+        null,
+        [
+          ["/"],
+          [
+            [
+              "/",
+              null,
+              [
+                ["e", "u", "m", "s"],
+                [
+                  [
+                    "event",
+                    null,
+                    null,
+                    null,
+                    null,
+                    [
+                      ["/:event"],
+                      [
+                        [
+                          "return \"GET /event/:event\"",
+                          [
+                            "/comments",
+                            "return \"GET /event/:event/comments\"",
+                            null,
+                            null,
+                            null,
+                            null,
+                            null
+                          ]
+                        ]
+                      ]
+                    ],
+                    null
+                  ],
+                  [
+                    "user/lookup/",
+                    null,
+                    [
+                      ["e", "u"],
+                      [
+                        [
+                          "email",
+                          null,
+                          null,
+                          null,
+                          null,
+                          [["/:email"], [["return \"GET /user/lookup/email/:email\"", null]]],
+                          null
+                        ],
+                        [
+                          "username",
+                          null,
+                          null,
+                          null,
+                          null,
+                          [
+                            ["/:username"],
+                            [["return \"GET /user/lookup/username/:username\"", null]]
+                          ],
+                          null
+                        ]
+                      ]
+                    ],
+                    null,
+                    null,
+                    null,
+                    null
+                  ],
+                  [
+                    "map",
+                    null,
+                    null,
+                    null,
+                    null,
+                    [
+                      ["/:location"],
+                      [
+                        [
+                          null,
+                          [
+                            "/events",
+                            "return \"GET /map/:location/events\"",
+                            null,
+                            null,
+                            null,
+                            null,
+                            null
+                          ]
+                        ]
+                      ]
+                    ],
+                    null
+                  ],
+                  [
+                    "static",
+                    null,
+                    null,
+                    null,
+                    null,
+                    [["/:file+"], [["return \"GET /static/:file+\"", null]]],
+                    null
+                  ]
+                ]
+              ],
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        ],
+        null,
+        null,
+        null,
+        null
+      ]
+    ],
+    [
+      [],
+      [],
+      [
+        "",
+        null,
+        [
+          ["/"],
+          [
+            [
+              "/event",
+              null,
+              null,
+              null,
+              null,
+              [
+                ["/:event"],
+                [
+                  [
+                    null,
+                    [
+                      "/comment",
+                      "return \"POST /event/:event/comment\"",
+                      null,
+                      null,
+                      null,
+                      null,
+                      null
+                    ]
+                  ]
+                ]
+              ],
+              null
+            ]
+          ]
+        ],
+        null,
+        null,
+        null,
+        null
+      ]
+    ]
+  ]
+]
