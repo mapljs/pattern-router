@@ -201,9 +201,9 @@ export const node_compile_to_regexp = <T>(node: Node<T>, earlyTerminate: boolean
     parts += '.*' + connect_node_compile_to_regexp(node[6], earlyTerminate);
   }
 
-  // early terminate
   parts = earlyTerminate
-    ? '(?:' + parts + '$)'
+    ? // early terminate the pattern by having an impossible pattern
+      '(?:' + parts + '$.)'
     : partsCnt > 1
       ? '(?:' + parts.slice(0, -1) + ')'
       : parts.slice(0, -1);

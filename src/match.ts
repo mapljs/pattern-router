@@ -141,7 +141,7 @@ export const router_compile_to_matcher = <T>(router: Router<T>): Matcher<T> => {
     regexps,
     handlers,
     matchAllStaticMap,
-    matchAllRegExp: new RegExp('^' + node_compile_to_regexp(matchAllTree![2], true) + '$'),
+    matchAllRegExp: new RegExp('^' + node_compile_to_regexp(matchAllTree![2], true)),
     matchAllHandler: HANDLERS,
   };
 };

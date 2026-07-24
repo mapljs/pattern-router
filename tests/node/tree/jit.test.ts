@@ -21,7 +21,7 @@ const run = (name: string, suite: Suite) => {
         : tree_set_static(tree, pattern, `return {id:${JSON.stringify(pattern)},params:{}}`);
     }
 
-    console.log(JSON.stringify(tree, null, 2));
+    //console.log(JSON.stringify(tree, null, 2));
 
     const fn: (path: string) => { id: string; params: Record<string, string> } | undefined =
       Function('p', tree_compile_to_code(tree, 'r', 'p')) as any;
