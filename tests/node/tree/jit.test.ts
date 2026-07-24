@@ -25,7 +25,7 @@ const run = (name: string, suite: Suite) => {
 
     const fn: (path: string) => { id: string; params: Record<string, string> } | undefined =
       Function('p', tree_compile_to_code(tree, 'r', 'p')) as any;
-    // console.log(fn.toString());
+    //console.log(fn.toString());
 
     for (const pattern in suite) {
       describe(pattern, () => {

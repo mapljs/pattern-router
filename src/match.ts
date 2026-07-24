@@ -1,5 +1,5 @@
 import type { Router } from './index.ts';
-import { HANDLERS, node_compile_to_regexp, reset, type Handlers } from './tree/regex.ts';
+import { HANDLERS, node_compile_root_to_regexp, reset, type Handlers } from './tree/regex.ts';
 import { linear_map_index, linear_map_swap } from './linear-map.ts';
 
 interface Matcher0<in out T> {
@@ -93,7 +93,7 @@ export const router_compile_to_matcher = <T>(router: Router<T>): Matcher<T> => {
 
       if (tree[2] !== null) {
         reset();
-        regexps.push(new RegExp('^' + node_compile_to_regexp(tree[2], true)));
+        regexps.push(new RegExp(node_compile_root_to_regexp(tree[2])));
         handlers.push(HANDLERS);
       } else {
         regexps.push(null);
@@ -141,7 +141,7 @@ export const router_compile_to_matcher = <T>(router: Router<T>): Matcher<T> => {
     regexps,
     handlers,
     matchAllStaticMap,
-    matchAllRegExp: new RegExp('^' + node_compile_to_regexp(matchAllTree![2], true)),
+    matchAllRegExp: new RegExp(node_compile_root_to_regexp(matchAllTree![2])),
     matchAllHandler: HANDLERS,
   };
 };

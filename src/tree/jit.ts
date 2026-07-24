@@ -1,5 +1,5 @@
 import type { Tree } from './index.ts';
-import { node_compile_to_regexp, HANDLERS, reset } from './regex.ts';
+import { node_compile_root_to_regexp, HANDLERS, reset } from './regex.ts';
 
 export const tree_compile_to_code = (
   tree: Tree<string>,
@@ -19,7 +19,7 @@ export const tree_compile_to_code = (
   if (tree[2] !== null) {
     // console.log(JSON.stringify(tree[2]!, null, 2));
     reset();
-    str += `{let ${resultId}=/^${node_compile_to_regexp(tree[2], true)}/.exec(${pathId});if(${resultId}!==null){`;
+    str += `{let ${resultId}=/${node_compile_root_to_regexp(tree[2])}/.exec(${pathId});if(${resultId}!==null){`;
     for (let i = 1, hasHandler = false, startIf = `if(${resultId}[`; i < HANDLERS.length; i++)
       if (HANDLERS[i] !== null) {
         str += startIf + i + `]===""){${HANDLERS[i]}}`;
