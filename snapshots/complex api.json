@@ -46,386 +46,8 @@
               "/",
               null,
               [
-                ["o", "u"],
+                ["u", "o"],
                 [
-                  [
-                    "org",
-                    null,
-                    null,
-                    null,
-                    null,
-                    [
-                      ["/:org"],
-                      [
-                        [
-                          null,
-                          [
-                            "/",
-                            null,
-                            [
-                              ["r", "m", "d", "p", "t", "b", "a", "w"],
-                              [
-                                [
-                                  "roles",
-                                  "return \"POST /org/:org/roles\"",
-                                  null,
-                                  null,
-                                  null,
-                                  [["/:role"], [["return \"POST /org/:org/roles/:role\"", null]]],
-                                  null
-                                ],
-                                [
-                                  "members",
-                                  "return \"POST /org/:org/members\"",
-                                  null,
-                                  null,
-                                  null,
-                                  [
-                                    ["/:member"],
-                                    [["return \"POST /org/:org/members/:member\"", null]]
-                                  ],
-                                  null
-                                ],
-                                [
-                                  "domains",
-                                  "return \"POST /org/:org/domains\"",
-                                  null,
-                                  null,
-                                  null,
-                                  [
-                                    ["/:domain"],
-                                    [["return \"POST /org/:org/domains/:domain\"", null]]
-                                  ],
-                                  null
-                                ],
-                                [
-                                  "projects",
-                                  "return \"POST /org/:org/projects\"",
-                                  null,
-                                  null,
-                                  null,
-                                  [
-                                    ["/:project"],
-                                    [
-                                      [
-                                        null,
-                                        [
-                                          "/",
-                                          null,
-                                          [
-                                            ["t", "m"],
-                                            [
-                                              [
-                                                "tasks",
-                                                "return \"POST /org/:org/projects/:project/tasks\"",
-                                                [
-                                                  ["/"],
-                                                  [
-                                                    [
-                                                      "/",
-                                                      null,
-                                                      [
-                                                        ["a", "t"],
-                                                        [
-                                                          [
-                                                            "attachments",
-                                                            "return \"POST /org/:org/projects/:project/tasks/attachments\"",
-                                                            null,
-                                                            null,
-                                                            null,
-                                                            null,
-                                                            null
-                                                          ],
-                                                          [
-                                                            "t",
-                                                            null,
-                                                            [
-                                                              ["a", "i"],
-                                                              [
-                                                                [
-                                                                  "ags",
-                                                                  "return \"POST /org/:org/projects/:project/tasks/tags\"",
-                                                                  null,
-                                                                  null,
-                                                                  null,
-                                                                  null,
-                                                                  null
-                                                                ],
-                                                                [
-                                                                  "ime-entries",
-                                                                  "return \"POST /org/:org/projects/:project/tasks/time-entries\"",
-                                                                  null,
-                                                                  null,
-                                                                  null,
-                                                                  [
-                                                                    ["/:entry"],
-                                                                    [
-                                                                      [
-                                                                        "return \"POST /org/:org/projects/:project/tasks/time-entries/:entry\"",
-                                                                        null
-                                                                      ]
-                                                                    ]
-                                                                  ],
-                                                                  null
-                                                                ]
-                                                              ]
-                                                            ],
-                                                            null,
-                                                            null,
-                                                            null,
-                                                            null
-                                                          ]
-                                                        ]
-                                                      ],
-                                                      null,
-                                                      null,
-                                                      null,
-                                                      null
-                                                    ]
-                                                  ]
-                                                ],
-                                                null,
-                                                null,
-                                                null,
-                                                null
-                                              ],
-                                              [
-                                                "members",
-                                                "return \"POST /org/:org/projects/:project/members\"",
-                                                null,
-                                                null,
-                                                null,
-                                                null,
-                                                null
-                                              ]
-                                            ]
-                                          ],
-                                          null,
-                                          null,
-                                          null,
-                                          null
-                                        ]
-                                      ]
-                                    ]
-                                  ],
-                                  null
-                                ],
-                                [
-                                  "tasks",
-                                  null,
-                                  null,
-                                  null,
-                                  null,
-                                  [
-                                    ["/:task"],
-                                    [
-                                      [
-                                        null,
-                                        [
-                                          "/",
-                                          null,
-                                          [
-                                            ["s", "a", "c", "t"],
-                                            [
-                                              [
-                                                "status",
-                                                "return \"POST /org/:org/tasks/:task/status\"",
-                                                null,
-                                                null,
-                                                null,
-                                                null,
-                                                null
-                                              ],
-                                              [
-                                                "a",
-                                                null,
-                                                [
-                                                  ["t", "s"],
-                                                  [
-                                                    [
-                                                      "ttachments",
-                                                      "return \"POST /org/:org/tasks/:task/attachments\"",
-                                                      null,
-                                                      null,
-                                                      null,
-                                                      null,
-                                                      null
-                                                    ],
-                                                    [
-                                                      "ssign",
-                                                      "return \"POST /org/:org/tasks/:task/assign\"",
-                                                      null,
-                                                      null,
-                                                      null,
-                                                      null,
-                                                      null
-                                                    ]
-                                                  ]
-                                                ],
-                                                null,
-                                                null,
-                                                null,
-                                                null
-                                              ],
-                                              [
-                                                "comments",
-                                                "return \"POST /org/:org/tasks/:task/comments\"",
-                                                null,
-                                                null,
-                                                null,
-                                                null,
-                                                null
-                                              ],
-                                              [
-                                                "t",
-                                                null,
-                                                [
-                                                  ["a", "i"],
-                                                  [
-                                                    [
-                                                      "ags",
-                                                      "return \"POST /org/:org/tasks/:task/tags\"",
-                                                      null,
-                                                      null,
-                                                      null,
-                                                      null,
-                                                      null
-                                                    ],
-                                                    [
-                                                      "ime-entries",
-                                                      "return \"POST /org/:org/tasks/:task/time-entries\"",
-                                                      null,
-                                                      null,
-                                                      null,
-                                                      [
-                                                        ["/:entry"],
-                                                        [
-                                                          [
-                                                            null,
-                                                            [
-                                                              "/stop",
-                                                              "return \"POST /org/:org/tasks/:task/time-entries/:entry/stop\"",
-                                                              null,
-                                                              null,
-                                                              null,
-                                                              null,
-                                                              null
-                                                            ]
-                                                          ]
-                                                        ]
-                                                      ],
-                                                      null
-                                                    ]
-                                                  ]
-                                                ],
-                                                null,
-                                                null,
-                                                null,
-                                                null
-                                              ]
-                                            ]
-                                          ],
-                                          null,
-                                          null,
-                                          null,
-                                          null
-                                        ]
-                                      ]
-                                    ]
-                                  ],
-                                  null
-                                ],
-                                [
-                                  "billing/",
-                                  null,
-                                  [
-                                    ["i", "s", "p"],
-                                    [
-                                      [
-                                        "invoices",
-                                        null,
-                                        null,
-                                        null,
-                                        null,
-                                        [
-                                          ["/:invoice"],
-                                          [
-                                            [
-                                              "return \"POST /org/:org/billing/invoices/:invoice\"",
-                                              null
-                                            ]
-                                          ]
-                                        ],
-                                        null
-                                      ],
-                                      [
-                                        "subscription",
-                                        "return \"POST /org/:org/billing/subscription\"",
-                                        [
-                                          ["/"],
-                                          [
-                                            [
-                                              "/cancel",
-                                              "return \"POST /org/:org/billing/subscription/cancel\"",
-                                              null,
-                                              null,
-                                              null,
-                                              null,
-                                              null
-                                            ]
-                                          ]
-                                        ],
-                                        null,
-                                        null,
-                                        null,
-                                        null
-                                      ],
-                                      [
-                                        "payment-methods",
-                                        "return \"POST /org/:org/billing/payment-methods\"",
-                                        null,
-                                        null,
-                                        null,
-                                        null,
-                                        null
-                                      ]
-                                    ]
-                                  ],
-                                  null,
-                                  null,
-                                  null,
-                                  null
-                                ],
-                                [
-                                  "api-keys",
-                                  "return \"POST /org/:org/api-keys\"",
-                                  null,
-                                  null,
-                                  null,
-                                  null,
-                                  null
-                                ],
-                                [
-                                  "webhooks",
-                                  "return \"POST /org/:org/webhooks\"",
-                                  null,
-                                  null,
-                                  null,
-                                  null,
-                                  null
-                                ]
-                              ]
-                            ],
-                            null,
-                            null,
-                            null,
-                            null
-                          ]
-                        ]
-                      ]
-                    ],
-                    null
-                  ],
                   [
                     "user",
                     null,
@@ -481,11 +103,11 @@
                                     "/",
                                     null,
                                     [
-                                      ["r", "a"],
+                                      ["a", "r"],
                                       [
                                         [
-                                          "resend",
-                                          "return \"POST /user/:user/invites/:invite/resend\"",
+                                          "accept",
+                                          "return \"POST /user/:user/invites/:invite/accept\"",
                                           null,
                                           null,
                                           null,
@@ -493,8 +115,8 @@
                                           null
                                         ],
                                         [
-                                          "accept",
-                                          "return \"POST /user/:user/invites/:invite/accept\"",
+                                          "resend",
+                                          "return \"POST /user/:user/invites/:invite/resend\"",
                                           null,
                                           null,
                                           null,
@@ -511,6 +133,384 @@
                                 ]
                               ]
                             ],
+                            null
+                          ]
+                        ]
+                      ]
+                    ],
+                    null
+                  ],
+                  [
+                    "org",
+                    null,
+                    null,
+                    null,
+                    null,
+                    [
+                      ["/:org"],
+                      [
+                        [
+                          null,
+                          [
+                            "/",
+                            null,
+                            [
+                              ["m", "r", "d", "p", "t", "b", "a", "w"],
+                              [
+                                [
+                                  "members",
+                                  "return \"POST /org/:org/members\"",
+                                  null,
+                                  null,
+                                  null,
+                                  [
+                                    ["/:member"],
+                                    [["return \"POST /org/:org/members/:member\"", null]]
+                                  ],
+                                  null
+                                ],
+                                [
+                                  "roles",
+                                  "return \"POST /org/:org/roles\"",
+                                  null,
+                                  null,
+                                  null,
+                                  [["/:role"], [["return \"POST /org/:org/roles/:role\"", null]]],
+                                  null
+                                ],
+                                [
+                                  "domains",
+                                  "return \"POST /org/:org/domains\"",
+                                  null,
+                                  null,
+                                  null,
+                                  [
+                                    ["/:domain"],
+                                    [["return \"POST /org/:org/domains/:domain\"", null]]
+                                  ],
+                                  null
+                                ],
+                                [
+                                  "projects",
+                                  "return \"POST /org/:org/projects\"",
+                                  null,
+                                  null,
+                                  null,
+                                  [
+                                    ["/:project"],
+                                    [
+                                      [
+                                        null,
+                                        [
+                                          "/",
+                                          null,
+                                          [
+                                            ["m", "t"],
+                                            [
+                                              [
+                                                "members",
+                                                "return \"POST /org/:org/projects/:project/members\"",
+                                                null,
+                                                null,
+                                                null,
+                                                null,
+                                                null
+                                              ],
+                                              [
+                                                "tasks",
+                                                "return \"POST /org/:org/projects/:project/tasks\"",
+                                                [
+                                                  ["/"],
+                                                  [
+                                                    [
+                                                      "/",
+                                                      null,
+                                                      [
+                                                        ["t", "a"],
+                                                        [
+                                                          [
+                                                            "t",
+                                                            null,
+                                                            [
+                                                              ["i", "a"],
+                                                              [
+                                                                [
+                                                                  "ime-entries",
+                                                                  "return \"POST /org/:org/projects/:project/tasks/time-entries\"",
+                                                                  null,
+                                                                  null,
+                                                                  null,
+                                                                  [
+                                                                    ["/:entry"],
+                                                                    [
+                                                                      [
+                                                                        "return \"POST /org/:org/projects/:project/tasks/time-entries/:entry\"",
+                                                                        null
+                                                                      ]
+                                                                    ]
+                                                                  ],
+                                                                  null
+                                                                ],
+                                                                [
+                                                                  "ags",
+                                                                  "return \"POST /org/:org/projects/:project/tasks/tags\"",
+                                                                  null,
+                                                                  null,
+                                                                  null,
+                                                                  null,
+                                                                  null
+                                                                ]
+                                                              ]
+                                                            ],
+                                                            null,
+                                                            null,
+                                                            null,
+                                                            null
+                                                          ],
+                                                          [
+                                                            "attachments",
+                                                            "return \"POST /org/:org/projects/:project/tasks/attachments\"",
+                                                            null,
+                                                            null,
+                                                            null,
+                                                            null,
+                                                            null
+                                                          ]
+                                                        ]
+                                                      ],
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      null
+                                                    ]
+                                                  ]
+                                                ],
+                                                null,
+                                                null,
+                                                null,
+                                                null
+                                              ]
+                                            ]
+                                          ],
+                                          null,
+                                          null,
+                                          null,
+                                          null
+                                        ]
+                                      ]
+                                    ]
+                                  ],
+                                  null
+                                ],
+                                [
+                                  "tasks",
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  [
+                                    ["/:task"],
+                                    [
+                                      [
+                                        null,
+                                        [
+                                          "/",
+                                          null,
+                                          [
+                                            ["a", "s", "c", "t"],
+                                            [
+                                              [
+                                                "a",
+                                                null,
+                                                [
+                                                  ["s", "t"],
+                                                  [
+                                                    [
+                                                      "ssign",
+                                                      "return \"POST /org/:org/tasks/:task/assign\"",
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      null
+                                                    ],
+                                                    [
+                                                      "ttachments",
+                                                      "return \"POST /org/:org/tasks/:task/attachments\"",
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      null
+                                                    ]
+                                                  ]
+                                                ],
+                                                null,
+                                                null,
+                                                null,
+                                                null
+                                              ],
+                                              [
+                                                "status",
+                                                "return \"POST /org/:org/tasks/:task/status\"",
+                                                null,
+                                                null,
+                                                null,
+                                                null,
+                                                null
+                                              ],
+                                              [
+                                                "comments",
+                                                "return \"POST /org/:org/tasks/:task/comments\"",
+                                                null,
+                                                null,
+                                                null,
+                                                null,
+                                                null
+                                              ],
+                                              [
+                                                "t",
+                                                null,
+                                                [
+                                                  ["i", "a"],
+                                                  [
+                                                    [
+                                                      "ime-entries",
+                                                      "return \"POST /org/:org/tasks/:task/time-entries\"",
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      [
+                                                        ["/:entry"],
+                                                        [
+                                                          [
+                                                            null,
+                                                            [
+                                                              "/stop",
+                                                              "return \"POST /org/:org/tasks/:task/time-entries/:entry/stop\"",
+                                                              null,
+                                                              null,
+                                                              null,
+                                                              null,
+                                                              null
+                                                            ]
+                                                          ]
+                                                        ]
+                                                      ],
+                                                      null
+                                                    ],
+                                                    [
+                                                      "ags",
+                                                      "return \"POST /org/:org/tasks/:task/tags\"",
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      null
+                                                    ]
+                                                  ]
+                                                ],
+                                                null,
+                                                null,
+                                                null,
+                                                null
+                                              ]
+                                            ]
+                                          ],
+                                          null,
+                                          null,
+                                          null,
+                                          null
+                                        ]
+                                      ]
+                                    ]
+                                  ],
+                                  null
+                                ],
+                                [
+                                  "billing/",
+                                  null,
+                                  [
+                                    ["s", "i", "p"],
+                                    [
+                                      [
+                                        "subscription",
+                                        "return \"POST /org/:org/billing/subscription\"",
+                                        [
+                                          ["/"],
+                                          [
+                                            [
+                                              "/cancel",
+                                              "return \"POST /org/:org/billing/subscription/cancel\"",
+                                              null,
+                                              null,
+                                              null,
+                                              null,
+                                              null
+                                            ]
+                                          ]
+                                        ],
+                                        null,
+                                        null,
+                                        null,
+                                        null
+                                      ],
+                                      [
+                                        "invoices",
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        [
+                                          ["/:invoice"],
+                                          [
+                                            [
+                                              "return \"POST /org/:org/billing/invoices/:invoice\"",
+                                              null
+                                            ]
+                                          ]
+                                        ],
+                                        null
+                                      ],
+                                      [
+                                        "payment-methods",
+                                        "return \"POST /org/:org/billing/payment-methods\"",
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null
+                                      ]
+                                    ]
+                                  ],
+                                  null,
+                                  null,
+                                  null,
+                                  null
+                                ],
+                                [
+                                  "api-keys",
+                                  "return \"POST /org/:org/api-keys\"",
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  null
+                                ],
+                                [
+                                  "webhooks",
+                                  "return \"POST /org/:org/webhooks\"",
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  null
+                                ]
+                              ]
+                            ],
+                            null,
+                            null,
+                            null,
                             null
                           ]
                         ]
@@ -576,8 +576,58 @@
               "/",
               null,
               [
-                ["o", "u", "f", "a"],
+                ["u", "o", "f", "a"],
                 [
+                  [
+                    "user",
+                    null,
+                    null,
+                    null,
+                    null,
+                    [
+                      ["/:user"],
+                      [
+                        [
+                          "return \"GET /user/:user\"",
+                          [
+                            "/",
+                            null,
+                            [
+                              ["n", "i"],
+                              [
+                                [
+                                  "notifications",
+                                  "return \"GET /user/:user/notifications\"",
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  null
+                                ],
+                                [
+                                  "invites",
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  [
+                                    ["/:invite"],
+                                    [["return \"GET /user/:user/invites/:invite\"", null]]
+                                  ],
+                                  null
+                                ]
+                              ]
+                            ],
+                            null,
+                            null,
+                            null,
+                            null
+                          ]
+                        ]
+                      ]
+                    ],
+                    null
+                  ],
                   [
                     "org",
                     null,
@@ -593,11 +643,11 @@
                             "/",
                             null,
                             [
-                              ["r", "m", "d", "p", "t", "b", "a", "w"],
+                              ["m", "r", "d", "p", "t", "b", "a", "w"],
                               [
                                 [
-                                  "roles",
-                                  "return \"GET /org/:org/roles\"",
+                                  "members",
+                                  "return \"GET /org/:org/members\"",
                                   null,
                                   null,
                                   null,
@@ -605,8 +655,8 @@
                                   null
                                 ],
                                 [
-                                  "members",
-                                  "return \"GET /org/:org/members\"",
+                                  "roles",
+                                  "return \"GET /org/:org/roles\"",
                                   null,
                                   null,
                                   null,
@@ -637,11 +687,11 @@
                                           "/",
                                           null,
                                           [
-                                            ["a", "m", "t"],
+                                            ["m", "a", "t"],
                                             [
                                               [
-                                                "activity",
-                                                "return \"GET /org/:org/projects/:project/activity\"",
+                                                "members",
+                                                "return \"GET /org/:org/projects/:project/members\"",
                                                 null,
                                                 null,
                                                 null,
@@ -649,8 +699,8 @@
                                                 null
                                               ],
                                               [
-                                                "members",
-                                                "return \"GET /org/:org/projects/:project/members\"",
+                                                "activity",
+                                                "return \"GET /org/:org/projects/:project/activity\"",
                                                 null,
                                                 null,
                                                 null,
@@ -667,11 +717,11 @@
                                                       "/",
                                                       null,
                                                       [
-                                                        ["a", "t"],
+                                                        ["t", "a"],
                                                         [
                                                           [
-                                                            "attachments",
-                                                            "return \"GET /org/:org/projects/:project/tasks/attachments\"",
+                                                            "time-entries",
+                                                            "return \"GET /org/:org/projects/:project/tasks/time-entries\"",
                                                             null,
                                                             null,
                                                             null,
@@ -679,8 +729,8 @@
                                                             null
                                                           ],
                                                           [
-                                                            "time-entries",
-                                                            "return \"GET /org/:org/projects/:project/tasks/time-entries\"",
+                                                            "attachments",
+                                                            "return \"GET /org/:org/projects/:project/tasks/attachments\"",
                                                             null,
                                                             null,
                                                             null,
@@ -728,11 +778,11 @@
                                           "/",
                                           null,
                                           [
-                                            ["t", "c", "a"],
+                                            ["c", "t", "a"],
                                             [
                                               [
-                                                "time-entries",
-                                                "return \"GET /org/:org/tasks/:task/time-entries\"",
+                                                "comments",
+                                                "return \"GET /org/:org/tasks/:task/comments\"",
                                                 null,
                                                 null,
                                                 null,
@@ -740,8 +790,8 @@
                                                 null
                                               ],
                                               [
-                                                "comments",
-                                                "return \"GET /org/:org/tasks/:task/comments\"",
+                                                "time-entries",
+                                                "return \"GET /org/:org/tasks/:task/time-entries\"",
                                                 null,
                                                 null,
                                                 null,
@@ -773,32 +823,14 @@
                                   "billing/",
                                   null,
                                   [
-                                    ["s", "p", "i"],
+                                    ["p", "s", "i"],
                                     [
-                                      [
-                                        "subscription",
-                                        "return \"GET /org/:org/billing/subscription\"",
-                                        null,
-                                        null,
-                                        null,
-                                        null,
-                                        null
-                                      ],
                                       [
                                         "p",
                                         null,
                                         [
-                                          ["a", "l"],
+                                          ["l", "a"],
                                           [
-                                            [
-                                              "ayment-methods",
-                                              "return \"GET /org/:org/billing/payment-methods\"",
-                                              null,
-                                              null,
-                                              null,
-                                              null,
-                                              null
-                                            ],
                                             [
                                               "lans",
                                               "return \"GET /org/:org/billing/plans\"",
@@ -807,9 +839,27 @@
                                               null,
                                               null,
                                               null
+                                            ],
+                                            [
+                                              "ayment-methods",
+                                              "return \"GET /org/:org/billing/payment-methods\"",
+                                              null,
+                                              null,
+                                              null,
+                                              null,
+                                              null
                                             ]
                                           ]
                                         ],
+                                        null,
+                                        null,
+                                        null,
+                                        null
+                                      ],
+                                      [
+                                        "subscription",
+                                        "return \"GET /org/:org/billing/subscription\"",
+                                        null,
                                         null,
                                         null,
                                         null,
@@ -894,56 +944,6 @@
                     null
                   ],
                   [
-                    "user",
-                    null,
-                    null,
-                    null,
-                    null,
-                    [
-                      ["/:user"],
-                      [
-                        [
-                          "return \"GET /user/:user\"",
-                          [
-                            "/",
-                            null,
-                            [
-                              ["i", "n"],
-                              [
-                                [
-                                  "invites",
-                                  null,
-                                  null,
-                                  null,
-                                  null,
-                                  [
-                                    ["/:invite"],
-                                    [["return \"GET /user/:user/invites/:invite\"", null]]
-                                  ],
-                                  null
-                                ],
-                                [
-                                  "notifications",
-                                  "return \"GET /user/:user/notifications\"",
-                                  null,
-                                  null,
-                                  null,
-                                  null,
-                                  null
-                                ]
-                              ]
-                            ],
-                            null,
-                            null,
-                            null,
-                            null
-                          ]
-                        ]
-                      ]
-                    ],
-                    null
-                  ],
-                  [
                     "files",
                     null,
                     null,
@@ -956,33 +956,8 @@
                     "admin/reports/",
                     null,
                     [
-                      ["u", "p"],
+                      ["p", "u"],
                       [
-                        [
-                          "users",
-                          null,
-                          null,
-                          null,
-                          null,
-                          [
-                            ["/:user"],
-                            [
-                              [
-                                null,
-                                [
-                                  "/activity",
-                                  "return \"GET /admin/reports/users/:user/activity\"",
-                                  null,
-                                  null,
-                                  null,
-                                  null,
-                                  null
-                                ]
-                              ]
-                            ]
-                          ],
-                          null
-                        ],
                         [
                           "projects",
                           null,
@@ -997,6 +972,31 @@
                                 [
                                   "/summary",
                                   "return \"GET /admin/reports/projects/:project/summary\"",
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  null
+                                ]
+                              ]
+                            ]
+                          ],
+                          null
+                        ],
+                        [
+                          "users",
+                          null,
+                          null,
+                          null,
+                          null,
+                          [
+                            ["/:user"],
+                            [
+                              [
+                                null,
+                                [
+                                  "/activity",
+                                  "return \"GET /admin/reports/users/:user/activity\"",
                                   null,
                                   null,
                                   null,
@@ -1043,17 +1043,8 @@
               "/",
               null,
               [
-                ["s", "o", "t"],
+                ["o", "s", "t"],
                 [
-                  [
-                    "search/filters",
-                    null,
-                    null,
-                    null,
-                    null,
-                    [["/:filter"], [["return \"PATCH /search/filters/:filter\"", null]]],
-                    null
-                  ],
                   [
                     "org",
                     null,
@@ -1069,17 +1060,8 @@
                             "/",
                             null,
                             [
-                              ["t", "p", "w"],
+                              ["p", "t", "w"],
                               [
-                                [
-                                  "tasks",
-                                  null,
-                                  null,
-                                  null,
-                                  null,
-                                  [["/:task"], [["return \"PATCH /org/:org/tasks/:task\"", null]]],
-                                  null
-                                ],
                                 [
                                   "projects",
                                   null,
@@ -1090,6 +1072,15 @@
                                     ["/:project"],
                                     [["return \"PATCH /org/:org/projects/:project\"", null]]
                                   ],
+                                  null
+                                ],
+                                [
+                                  "tasks",
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  [["/:task"], [["return \"PATCH /org/:org/tasks/:task\"", null]]],
                                   null
                                 ],
                                 [
@@ -1114,6 +1105,15 @@
                         ]
                       ]
                     ],
+                    null
+                  ],
+                  [
+                    "search/filters",
+                    null,
+                    null,
+                    null,
+                    null,
+                    [["/:filter"], [["return \"PATCH /search/filters/:filter\"", null]]],
                     null
                   ],
                   [
@@ -1153,8 +1153,17 @@
               "/",
               null,
               [
-                ["o", "u", "f", "s", "t"],
+                ["u", "o", "f", "s", "t"],
                 [
+                  [
+                    "user/me/sessions",
+                    null,
+                    null,
+                    null,
+                    null,
+                    [["/:session"], [["return \"DELETE /user/me/sessions/:session\"", null]]],
+                    null
+                  ],
                   [
                     "org",
                     null,
@@ -1170,63 +1179,8 @@
                             "/",
                             null,
                             [
-                              ["t", "p", "b", "a", "w"],
+                              ["p", "t", "b", "a", "w"],
                               [
-                                [
-                                  "tasks",
-                                  null,
-                                  null,
-                                  null,
-                                  null,
-                                  [
-                                    ["/:task"],
-                                    [
-                                      [
-                                        "return \"DELETE /org/:org/tasks/:task\"",
-                                        [
-                                          "/",
-                                          null,
-                                          [
-                                            ["f", "t"],
-                                            [
-                                              [
-                                                "fields",
-                                                null,
-                                                null,
-                                                null,
-                                                null,
-                                                [
-                                                  ["/:field"],
-                                                  [
-                                                    [
-                                                      "return \"DELETE /org/:org/tasks/:task/fields/:field\"",
-                                                      null
-                                                    ]
-                                                  ]
-                                                ],
-                                                null
-                                              ],
-                                              [
-                                                "tags",
-                                                "return \"DELETE /org/:org/tasks/:task/tags\"",
-                                                null,
-                                                null,
-                                                null,
-                                                null,
-                                                null
-                                              ]
-                                            ]
-                                          ],
-                                          null,
-                                          null,
-                                          null,
-                                          null
-                                        ]
-                                      ]
-                                    ]
-                                  ],
-                                  null
-                                ],
                                 [
                                   "projects",
                                   null,
@@ -1242,8 +1196,17 @@
                                           "/tasks/",
                                           null,
                                           [
-                                            ["f", "t"],
+                                            ["t", "f"],
                                             [
+                                              [
+                                                "tags",
+                                                "return \"DELETE /org/:org/projects/:project/tasks/tags\"",
+                                                null,
+                                                null,
+                                                null,
+                                                null,
+                                                null
+                                              ],
                                               [
                                                 "fields",
                                                 null,
@@ -1260,14 +1223,60 @@
                                                   ]
                                                 ],
                                                 null
-                                              ],
+                                              ]
+                                            ]
+                                          ],
+                                          null,
+                                          null,
+                                          null,
+                                          null
+                                        ]
+                                      ]
+                                    ]
+                                  ],
+                                  null
+                                ],
+                                [
+                                  "tasks",
+                                  null,
+                                  null,
+                                  null,
+                                  null,
+                                  [
+                                    ["/:task"],
+                                    [
+                                      [
+                                        "return \"DELETE /org/:org/tasks/:task\"",
+                                        [
+                                          "/",
+                                          null,
+                                          [
+                                            ["t", "f"],
+                                            [
                                               [
                                                 "tags",
-                                                "return \"DELETE /org/:org/projects/:project/tasks/tags\"",
+                                                "return \"DELETE /org/:org/tasks/:task/tags\"",
                                                 null,
                                                 null,
                                                 null,
                                                 null,
+                                                null
+                                              ],
+                                              [
+                                                "fields",
+                                                null,
+                                                null,
+                                                null,
+                                                null,
+                                                [
+                                                  ["/:field"],
+                                                  [
+                                                    [
+                                                      "return \"DELETE /org/:org/tasks/:task/fields/:field\"",
+                                                      null
+                                                    ]
+                                                  ]
+                                                ],
                                                 null
                                               ]
                                             ]
@@ -1336,15 +1345,6 @@
                     null
                   ],
                   [
-                    "user/me/sessions",
-                    null,
-                    null,
-                    null,
-                    null,
-                    [["/:session"], [["return \"DELETE /user/me/sessions/:session\"", null]]],
-                    null
-                  ],
-                  [
                     "files",
                     null,
                     null,
@@ -1410,36 +1410,8 @@
                       "/",
                       null,
                       [
-                        ["t", "p"],
+                        ["p", "t"],
                         [
-                          [
-                            "tasks",
-                            null,
-                            null,
-                            null,
-                            null,
-                            [
-                              ["/:task"],
-                              [
-                                [
-                                  null,
-                                  [
-                                    "/fields",
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    [
-                                      ["/:field"],
-                                      [["return \"PUT /org/:org/tasks/:task/fields/:field\"", null]]
-                                    ],
-                                    null
-                                  ]
-                                ]
-                              ]
-                            ],
-                            null
-                          ],
                           [
                             "projects",
                             null,
@@ -1465,6 +1437,34 @@
                                           null
                                         ]
                                       ]
+                                    ],
+                                    null
+                                  ]
+                                ]
+                              ]
+                            ],
+                            null
+                          ],
+                          [
+                            "tasks",
+                            null,
+                            null,
+                            null,
+                            null,
+                            [
+                              ["/:task"],
+                              [
+                                [
+                                  null,
+                                  [
+                                    "/fields",
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    [
+                                      ["/:field"],
+                                      [["return \"PUT /org/:org/tasks/:task/fields/:field\"", null]]
                                     ],
                                     null
                                   ]

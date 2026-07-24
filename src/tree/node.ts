@@ -155,92 +155,92 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
     nodePathIdx: number = 0;
 
   insert: while (true) {
-    switch (path[pathIdx]) {
-      case '{': {
-        const groupEndIdx = findGroupDelimEnd(path, pathIdx + 1),
-          groupKey = path.slice(pathIdx + 1, groupEndIdx);
-
-        // Create new map
-        if (node[3] === null)
-          node[3] = [
-            [groupKey],
-            [
-              groupEndIdx === path.length
-                ? [store, null]
-                : [null, node_create(path, groupEndIdx, store)],
-            ],
-          ];
-        else connect_node_insert_to_map(node[3], groupKey, path, groupEndIdx, store);
-        return;
-      }
-
-      case '(': {
-        const groupEndIdx = findUnnamedGroupEnd(path, pathIdx + 1),
-          groupKey = path.slice(pathIdx, groupEndIdx);
-
-        // Create new map
-        if (node[4] === null)
-          node[4] = [
-            [groupKey],
-            [
-              groupEndIdx === path.length
-                ? [store, null]
-                : [null, node_create(path, groupEndIdx, store)],
-            ],
-          ];
-        else connect_node_insert_to_map(node[4], groupKey, path, groupEndIdx, store);
-        return;
-      }
-
-      // Fallthrough to ':'
-      // @ts-ignore
-      case '/':
-        if (pathIdx + 1 === path.length || path[pathIdx + 1] !== ':') break;
-
-      case ':': {
-        const groupEndIdx = findNamedGroupEnd(path, pathIdx, path.length),
-          groupKey = path.slice(pathIdx, groupEndIdx);
-
-        // Create new map
-        if (node[5] === null)
-          node[5] = [
-            [groupKey],
-            [
-              groupEndIdx === path.length
-                ? [store, null]
-                : [null, node_create(path, groupEndIdx, store)],
-            ],
-          ];
-        else connect_node_insert_to_map(node[5], groupKey, path, groupEndIdx, store);
-        return;
-      }
-
-      case '*':
-        if (pathIdx + 1 === path.length) {
-          if (node[6] === null) node[6] = [store, null];
-          else node[6][0] = store;
-        } else {
-          if (node[6] === null) node[6] = [null, node_create(path, pathIdx + 1, store)];
-          else {
-            const connectNode = node[6];
-            if (connectNode[1] === null) connectNode[1] = node_create(path, pathIdx + 1, store);
-            else {
-              node = connectNode[1];
-              pathIdx++;
-
-              nodePath = node[0];
-              nodePathIdx = 0;
-              continue insert;
-            }
-          }
-        }
-        return;
-    }
-
     const pathChar = path[pathIdx];
 
     // example: insert /a/bc to /a/b
     if (nodePathIdx === nodePath.length) {
+      switch (pathChar) {
+        case '{': {
+          const groupEndIdx = findGroupDelimEnd(path, pathIdx + 1),
+            groupKey = path.slice(pathIdx + 1, groupEndIdx);
+
+          // Create new map
+          if (node[3] === null)
+            node[3] = [
+              [groupKey],
+              [
+                groupEndIdx === path.length
+                  ? [store, null]
+                  : [null, node_create(path, groupEndIdx, store)],
+              ],
+            ];
+          else connect_node_insert_to_map(node[3], groupKey, path, groupEndIdx, store);
+          return;
+        }
+
+        case '(': {
+          const groupEndIdx = findUnnamedGroupEnd(path, pathIdx + 1),
+            groupKey = path.slice(pathIdx, groupEndIdx);
+
+          // Create new map
+          if (node[4] === null)
+            node[4] = [
+              [groupKey],
+              [
+                groupEndIdx === path.length
+                  ? [store, null]
+                  : [null, node_create(path, groupEndIdx, store)],
+              ],
+            ];
+          else connect_node_insert_to_map(node[4], groupKey, path, groupEndIdx, store);
+          return;
+        }
+
+        // Fallthrough to ':'
+        // @ts-ignore
+        case '/':
+          if (pathIdx + 1 === path.length || path[pathIdx + 1] !== ':') break;
+
+        case ':': {
+          const groupEndIdx = findNamedGroupEnd(path, pathIdx, path.length),
+            groupKey = path.slice(pathIdx, groupEndIdx);
+
+          // Create new map
+          if (node[5] === null)
+            node[5] = [
+              [groupKey],
+              [
+                groupEndIdx === path.length
+                  ? [store, null]
+                  : [null, node_create(path, groupEndIdx, store)],
+              ],
+            ];
+          else connect_node_insert_to_map(node[5], groupKey, path, groupEndIdx, store);
+          return;
+        }
+
+        case '*':
+          if (pathIdx + 1 === path.length) {
+            if (node[6] === null) node[6] = [store, null];
+            else node[6][0] = store;
+          } else {
+            if (node[6] === null) node[6] = [null, node_create(path, pathIdx + 1, store)];
+            else {
+              const connectNode = node[6];
+              if (connectNode[1] === null) connectNode[1] = node_create(path, pathIdx + 1, store);
+              else {
+                node = connectNode[1];
+                pathIdx++;
+
+                nodePath = node[0];
+                nodePathIdx = 0;
+                continue insert;
+              }
+            }
+          }
+          return;
+      }
+
       if (node[2] === null) node[2] = [[pathChar], [node_create(path, pathIdx, store)]];
       else {
         const map = node[2],
@@ -271,13 +271,11 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
           node[6],
         ];
 
-        node[0] = nodePath.slice(0, nodePathIdx);
+        nodePath = node[0] = nodePath.slice(0, nodePathIdx);
         node[1] = node[3] = node[4] = node[5] = node[6] = null;
-        node[2] = [
-          [pathChar, nodePathChar],
-          [node_create(path, pathIdx, store), movedNode],
-        ];
-        return;
+        node[2] = [[nodePathChar], [movedNode]];
+
+        continue insert;
       }
 
       pathIdx++;

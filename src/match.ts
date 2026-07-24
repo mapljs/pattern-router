@@ -93,7 +93,7 @@ export const router_compile_to_matcher = <T>(router: Router<T>): Matcher<T> => {
 
       if (tree[2] !== null) {
         reset();
-        regexps.push(new RegExp('^' + node_compile_to_regexp(tree[2]) + '$'));
+        regexps.push(new RegExp('^' + node_compile_to_regexp(tree[2], true)));
         handlers.push(HANDLERS);
       } else {
         regexps.push(null);
@@ -141,7 +141,7 @@ export const router_compile_to_matcher = <T>(router: Router<T>): Matcher<T> => {
     regexps,
     handlers,
     matchAllStaticMap,
-    matchAllRegExp: new RegExp('^' + node_compile_to_regexp(matchAllTree![2]) + '$'),
+    matchAllRegExp: new RegExp('^' + node_compile_to_regexp(matchAllTree![2], true) + '$'),
     matchAllHandler: HANDLERS,
   };
 };

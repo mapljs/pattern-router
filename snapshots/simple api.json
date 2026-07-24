@@ -26,8 +26,42 @@
               "/",
               null,
               [
-                ["e", "u", "m", "s"],
+                ["u", "e", "m", "s"],
                 [
+                  [
+                    "user/lookup/",
+                    null,
+                    [
+                      ["u", "e"],
+                      [
+                        [
+                          "username",
+                          null,
+                          null,
+                          null,
+                          null,
+                          [
+                            ["/:username"],
+                            [["return \"GET /user/lookup/username/:username\"", null]]
+                          ],
+                          null
+                        ],
+                        [
+                          "email",
+                          null,
+                          null,
+                          null,
+                          null,
+                          [["/:email"], [["return \"GET /user/lookup/email/:email\"", null]]],
+                          null
+                        ]
+                      ]
+                    ],
+                    null,
+                    null,
+                    null,
+                    null
+                  ],
                   [
                     "event",
                     null,
@@ -51,40 +85,6 @@
                         ]
                       ]
                     ],
-                    null
-                  ],
-                  [
-                    "user/lookup/",
-                    null,
-                    [
-                      ["e", "u"],
-                      [
-                        [
-                          "email",
-                          null,
-                          null,
-                          null,
-                          null,
-                          [["/:email"], [["return \"GET /user/lookup/email/:email\"", null]]],
-                          null
-                        ],
-                        [
-                          "username",
-                          null,
-                          null,
-                          null,
-                          null,
-                          [
-                            ["/:username"],
-                            [["return \"GET /user/lookup/username/:username\"", null]]
-                          ],
-                          null
-                        ]
-                      ]
-                    ],
-                    null,
-                    null,
-                    null,
                     null
                   ],
                   [

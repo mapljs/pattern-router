@@ -62,32 +62,60 @@ export const reset = (): void => {
 /**
  * @returns pattern with additional |
  */
-export const connect_node_compile_to_regexp = <T>(connectNode: ConnectNode<T>): string => {
+export const connect_node_compile_to_regexp = <T>(
+  connectNode: ConnectNode<T>,
+  earlyTerminate: boolean,
+): string => {
   if (connectNode[0] !== null) {
     HANDLERS.push(connectNode[0]);
-    return connectNode[1] === null ? '()$|' : `(?:()$|${node_compile_to_regexp(connectNode[1])})|`;
+    return connectNode[1] === null
+      ? '()$|'
+      : `(?:()$|${node_compile_to_regexp(connectNode[1], earlyTerminate)})|`;
   }
 
-  return node_compile_to_regexp(connectNode[1]!) + '|';
+  return node_compile_to_regexp(connectNode[1]!, earlyTerminate) + '|';
 };
 
-export const node_compile_to_regexp = <T>(node: Node<T>): string => {
-  let parts = '(?:';
+export const node_compile_to_regexp = <T>(node: Node<T>, earlyTerminate: boolean): string => {
+  let parts = '',
+    partsCnt = 0;
 
   if (node[1] !== null) {
+    partsCnt = 1;
+
     HANDLERS.push(node[1]);
     parts += '()$|';
   }
 
   if (node[2] !== null)
-    for (let i = 0, staticChildren = node[2][1]; i < staticChildren.length; i++)
-      parts += node_compile_to_regexp(staticChildren[i]) + '|';
+    for (
+      let i = 0,
+        staticChildren = node[2][1],
+        childCanEarlyTerminate =
+          earlyTerminate &&
+          // Ensure there's no fallback part available
+          node[3] === null &&
+          node[4] === null &&
+          node[5] === null &&
+          node[6] === null;
+      i < staticChildren.length;
+      i++, partsCnt++
+    )
+      parts += node_compile_to_regexp(staticChildren[i], childCanEarlyTerminate) + '|';
 
   if (node[3] !== null) {
     for (
-      let i = 0, patterns = node[3][0], connectNodes = node[3][1];
+      let i = 0,
+        patterns = node[3][0],
+        connectNodes = node[3][1],
+        childCanEarlyTerminate =
+          earlyTerminate &&
+          // Ensure there's no fallback part available
+          node[4] === null &&
+          node[5] === null &&
+          node[6] === null;
       i < connectNodes.length;
-      i++
+      i++, partsCnt++
     ) {
       let patternPrevIdx = 0,
         pattern = patterns[i],
@@ -128,27 +156,56 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
       parts +=
         escapeStaticPart(pattern.slice(patternPrevIdx, patternLen)) +
         (hasModifier ? ')' + modifier : '') +
-        connect_node_compile_to_regexp(connectNodes[i]);
+        connect_node_compile_to_regexp(connectNodes[i], childCanEarlyTerminate);
     }
   }
 
   if (node[4] !== null)
-    for (let i = 0, regexps = node[4][0], connectNodes = node[4][1]; i < regexps.length; i++)
-      parts += '(?:' + regexps[i].slice(1) + connect_node_compile_to_regexp(connectNodes[i]);
+    for (
+      let i = 0,
+        regexps = node[4][0],
+        connectNodes = node[4][1],
+        childCanEarlyTerminate =
+          earlyTerminate &&
+          // Ensure there's no fallback part available
+          node[5] === null &&
+          node[6] === null;
+      i < regexps.length;
+      i++, partsCnt++
+    )
+      parts +=
+        '(?:' +
+        regexps[i].slice(1) +
+        connect_node_compile_to_regexp(connectNodes[i], childCanEarlyTerminate);
 
   if (node[5] !== null)
-    for (let i = 0, keys = node[5][0], connectNodes = node[5][1]; i < keys.length; i++) {
+    for (
+      let i = 0,
+        keys = node[5][0],
+        connectNodes = node[5][1],
+        childCanEarlyTerminate =
+          earlyTerminate &&
+          // Ensure there's no fallback part available
+          node[6] === null;
+      i < keys.length;
+      i++, partsCnt++
+    ) {
       HANDLERS.push(null);
       parts +=
         parseNamedGroup(keys[i], 0, keys[i].length) +
-        connect_node_compile_to_regexp(connectNodes[i]);
+        connect_node_compile_to_regexp(connectNodes[i], childCanEarlyTerminate);
     }
 
   if (node[6] !== null) {
-    parts += '.*' + connect_node_compile_to_regexp(node[6]);
+    partsCnt++;
+    parts += '.*' + connect_node_compile_to_regexp(node[6], earlyTerminate);
   }
 
   // early terminate
-  parts += '$)';
+  parts = earlyTerminate
+    ? '(?:' + parts + '$)'
+    : partsCnt > 1
+      ? '(?:' + parts.slice(0, -1) + ')'
+      : parts.slice(0, -1);
   return node[0].length > 0 ? escapeStaticPart(node[0]) + parts : parts;
 };
