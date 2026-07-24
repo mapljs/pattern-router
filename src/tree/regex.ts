@@ -65,32 +65,29 @@ export const reset = (): void => {
 export const connect_node_compile_to_regexp = <T>(connectNode: ConnectNode<T>): string => {
   if (connectNode[0] !== null) {
     HANDLERS.push(connectNode[0]);
-    return connectNode[1] === null ? '()|' : `(?:()|${node_compile_to_regexp(connectNode[1])})|`;
+    return connectNode[1] === null ? '()$|' : `(?:()$|${node_compile_to_regexp(connectNode[1])})|`;
   }
 
   return node_compile_to_regexp(connectNode[1]!) + '|';
 };
 
 export const node_compile_to_regexp = <T>(node: Node<T>): string => {
-  let parts = '',
-    partsCnt = 0;
+  let parts = '(?:';
 
   if (node[1] !== null) {
-    partsCnt = 1;
-
     HANDLERS.push(node[1]);
-    parts += '()|';
+    parts += '()$|';
   }
 
   if (node[2] !== null)
-    for (let i = 0, staticChildren = node[2][1]; i < staticChildren.length; i++, partsCnt++)
+    for (let i = 0, staticChildren = node[2][1]; i < staticChildren.length; i++)
       parts += node_compile_to_regexp(staticChildren[i]) + '|';
 
   if (node[3] !== null) {
     for (
       let i = 0, patterns = node[3][0], connectNodes = node[3][1];
       i < connectNodes.length;
-      i++, partsCnt++
+      i++
     ) {
       let patternPrevIdx = 0,
         pattern = patterns[i],
@@ -136,19 +133,11 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
   }
 
   if (node[4] !== null)
-    for (
-      let i = 0, regexps = node[4][0], connectNodes = node[4][1];
-      i < regexps.length;
-      i++, partsCnt++
-    )
+    for (let i = 0, regexps = node[4][0], connectNodes = node[4][1]; i < regexps.length; i++)
       parts += '(?:' + regexps[i].slice(1) + connect_node_compile_to_regexp(connectNodes[i]);
 
   if (node[5] !== null)
-    for (
-      let i = 0, keys = node[5][0], connectNodes = node[5][1];
-      i < keys.length;
-      i++, partsCnt++
-    ) {
+    for (let i = 0, keys = node[5][0], connectNodes = node[5][1]; i < keys.length; i++) {
       HANDLERS.push(null);
       parts +=
         parseNamedGroup(keys[i], 0, keys[i].length) +
@@ -156,10 +145,10 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
     }
 
   if (node[6] !== null) {
-    partsCnt++;
     parts += '.*' + connect_node_compile_to_regexp(node[6]);
   }
 
-  const str = partsCnt > 1 ? `(?:${parts.slice(0, -1)})` : parts.slice(0, -1);
-  return node[0].length > 0 ? escapeStaticPart(node[0]) + str : str;
+  // early terminate
+  parts += '$)';
+  return node[0].length > 0 ? escapeStaticPart(node[0]) + parts : parts;
 };

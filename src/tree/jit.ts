@@ -19,7 +19,7 @@ export const tree_compile_to_code = (
   if (tree[2] !== null) {
     // console.log(JSON.stringify(tree[2]!, null, 2));
     reset();
-    str += `{let ${resultId}=/^${node_compile_to_regexp(tree[2])}$/.exec(${pathId});if(${resultId}!==null){`;
+    str += `{let ${resultId}=/^${node_compile_to_regexp(tree[2])}/.exec(${pathId});if(${resultId}!==null){`;
     for (let i = 1, hasHandler = false, startIf = `if(${resultId}[`; i < HANDLERS.length; i++)
       if (HANDLERS[i] !== null) {
         str += startIf + i + `]===""){${HANDLERS[i]}}`;
