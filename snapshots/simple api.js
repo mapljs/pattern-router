@@ -13,7 +13,7 @@
     }
     {
       let r =
-        /^\/(?:\x65vent\/(?<event>[^/]+)(?:()$|\/comments()$)|\x75ser\/lookup\/(?:\x65mail\/(?<email>[^/]+)()$|\x75sername\/(?<username>[^/]+)()$)|\x6dap\/(?<location>[^/]+)\/events()$|\x73tatic\/(?<file>.+)()$)$/.exec(
+        /^\/(?:\x65vent\/(?<event>[^/]+)(?:()|\/comments())|\x75ser\/lookup\/(?:\x65mail\/(?<email>[^/]+)()|\x75sername\/(?<username>[^/]+)())|\x6dap\/(?<location>[^/]+)\/events()|\x73tatic\/(?<file>.+)())$/.exec(
           p,
         );
       if (r !== null) {
@@ -34,7 +34,7 @@
     }
   } else if (m === 'POST') {
     {
-      let r = /^\/event\/(?<event>[^/]+)\/comment()$$/.exec(p);
+      let r = /^\/event\/(?<event>[^/]+)\/comment()$/.exec(p);
       if (r !== null) {
         if (r[2] === '') {
           return 'POST /event/:event/comment';

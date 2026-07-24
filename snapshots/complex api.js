@@ -33,7 +33,7 @@
     }
     {
       let r =
-        /^\/(?:\x6frg\/(?<org>[^/]+)\/(?:\x72oles(?:()$|\/(?<role>[^/]+)()$)|\x6dembers(?:()$|\/(?<member>[^/]+)()$)|\x64omains(?:()$|\/(?<domain>[^/]+)()$)|\x70rojects(?:()$|\/(?<project>[^/]+)\/(?:\x74asks(?:()$|\/(?:\x61ttachments()$|\x74(?:\x61gs()$|\x69me\x2dentries(?:()$|\/(?<entry>[^/]+)()$))))|\x6dembers()$))|\x74asks\/(?<task>[^/]+)\/(?:\x73tatus()$|\x61(?:\x74tachments()$|\x73sign()$)|\x63omments()$|\x74(?:\x61gs()$|\x69me\x2dentries(?:()$|\/(?<entry>[^/]+)\/stop()$)))|\x62illing\/(?:\x69nvoices\/(?<invoice>[^/]+)()$|\x73ubscription(?:()$|\/cancel()$)|\x70ayment\x2dmethods()$)|\x61pi\x2dkeys()$|\x77ebhooks()$)|\x75ser(?:\/notifications\/(?<notification>[^/]+)\/read()$|\/(?<user>[^/]+)(?:()$|\/invites(?:()$|\/(?<invite>[^/]+)\/(?:\x72esend()$|\x61ccept()$)))))$/.exec(
+        /^\/(?:\x6frg\/(?<org>[^/]+)\/(?:\x72oles(?:()|\/(?<role>[^/]+)())|\x6dembers(?:()|\/(?<member>[^/]+)())|\x64omains(?:()|\/(?<domain>[^/]+)())|\x70rojects(?:()|\/(?<project>[^/]+)\/(?:\x74asks(?:()|\/(?:\x61ttachments()|\x74(?:\x61gs()|\x69me\x2dentries(?:()|\/(?<entry>[^/]+)()))))|\x6dembers()))|\x74asks\/(?<task>[^/]+)\/(?:\x73tatus()|\x61(?:\x74tachments()|\x73sign())|\x63omments()|\x74(?:\x61gs()|\x69me\x2dentries(?:()|\/(?<entry>[^/]+)\/stop())))|\x62illing\/(?:\x69nvoices\/(?<invoice>[^/]+)()|\x73ubscription(?:()|\/cancel())|\x70ayment\x2dmethods())|\x61pi\x2dkeys()|\x77ebhooks())|\x75ser(?:\/notifications\/(?<notification>[^/]+)\/read()|\/(?<user>[^/]+)(?:()|\/invites(?:()|\/(?<invite>[^/]+)\/(?:\x72esend()|\x61ccept())))))$/.exec(
           p,
         );
       if (r !== null) {
@@ -134,7 +134,7 @@
     }
     {
       let r =
-        /^\/(?:\x6frg\/(?<org>[^/]+)(?:()$|\/(?:\x72oles()$|\x6dembers()$|\x64omains()$|\x70rojects\/(?<project>[^/]+)(?:()$|\/(?:\x61ctivity()$|\x6dembers()$|\x74asks(?:()$|\/(?:\x61ttachments()$|\x74ime\x2dentries()$))))|\x74asks(?:()$|\/(?<task>[^/]+)(?:()$|\/(?:\x74ime\x2dentries()$|\x63omments()$|\x61ttachments()$)))|\x62illing\/(?:\x73ubscription()$|\x70(?:\x61yment\x2dmethods()$|\x6cans()$)|\x69nvoices(?:()$|\/(?<invoice>[^/]+)()$))|\x61pi\x2dkeys()$|\x77ebhooks(?:()$|\/(?<hook>[^/]+)\/deliveries(?:()$|\/(?<delivery>[^/]+)()$))))|\x75ser\/(?<user>[^/]+)(?:()$|\/(?:\x69nvites\/(?<invite>[^/]+)()$|\x6eotifications()$))|\x66iles\/(?<file>.+)()$|\x61dmin\/reports\/(?:\x75sers\/(?<user>[^/]+)\/activity()$|\x70rojects\/(?<project>[^/]+)\/summary()$))$/.exec(
+        /^\/(?:\x6frg\/(?<org>[^/]+)(?:()|\/(?:\x72oles()|\x6dembers()|\x64omains()|\x70rojects\/(?<project>[^/]+)(?:()|\/(?:\x61ctivity()|\x6dembers()|\x74asks(?:()|\/(?:\x61ttachments()|\x74ime\x2dentries()))))|\x74asks(?:()|\/(?<task>[^/]+)(?:()|\/(?:\x74ime\x2dentries()|\x63omments()|\x61ttachments())))|\x62illing\/(?:\x73ubscription()|\x70(?:\x61yment\x2dmethods()|\x6cans())|\x69nvoices(?:()|\/(?<invoice>[^/]+)()))|\x61pi\x2dkeys()|\x77ebhooks(?:()|\/(?<hook>[^/]+)\/deliveries(?:()|\/(?<delivery>[^/]+)()))))|\x75ser\/(?<user>[^/]+)(?:()|\/(?:\x69nvites\/(?<invite>[^/]+)()|\x6eotifications()))|\x66iles\/(?<file>.+)()|\x61dmin\/reports\/(?:\x75sers\/(?<user>[^/]+)\/activity()|\x70rojects\/(?<project>[^/]+)\/summary()))$/.exec(
           p,
         );
       if (r !== null) {
@@ -207,7 +207,7 @@
     }
     {
       let r =
-        /^\/(?:\x73earch\/filters\/(?<filter>[^/]+)()$|\x6frg\/(?<org>[^/]+)(?:()$|\/(?:\x74asks\/(?<task>[^/]+)()$|\x70rojects\/(?<project>[^/]+)()$|\x77ebhooks\/(?<hook>[^/]+)()$))|\x74ags\/(?<tag>[^/]+)()$)$/.exec(
+        /^\/(?:\x73earch\/filters\/(?<filter>[^/]+)()|\x6frg\/(?<org>[^/]+)(?:()|\/(?:\x74asks\/(?<task>[^/]+)()|\x70rojects\/(?<project>[^/]+)()|\x77ebhooks\/(?<hook>[^/]+)()))|\x74ags\/(?<tag>[^/]+)())$/.exec(
           p,
         );
       if (r !== null) {
@@ -229,7 +229,7 @@
   } else if (m === 'DELETE') {
     {
       let r =
-        /^\/(?:\x6frg\/(?<org>[^/]+)(?:()$|\/(?:\x74asks\/(?<task>[^/]+)(?:()$|\/(?:\x66ields\/(?<field>[^/]+)()$|\x74ags()$))|\x70rojects\/(?<project>[^/]+)(?:()$|\/tasks\/(?:\x66ields\/(?<field>[^/]+)()$|\x74ags()$))|\x62illing\/payment\x2dmethods\/(?<method>[^/]+)()$|\x61pi\x2dkeys\/(?<key>[^/]+)()$|\x77ebhooks\/(?<hook>[^/]+)()$))|\x75ser\/me\/sessions\/(?<session>[^/]+)()$|\x66iles\/(?<file>.+)()$|\x73earch\/filters\/(?<filter>[^/]+)()$|\x74ags\/(?<tag>[^/]+)()$)$/.exec(
+        /^\/(?:\x6frg\/(?<org>[^/]+)(?:()|\/(?:\x74asks\/(?<task>[^/]+)(?:()|\/(?:\x66ields\/(?<field>[^/]+)()|\x74ags()))|\x70rojects\/(?<project>[^/]+)(?:()|\/tasks\/(?:\x66ields\/(?<field>[^/]+)()|\x74ags()))|\x62illing\/payment\x2dmethods\/(?<method>[^/]+)()|\x61pi\x2dkeys\/(?<key>[^/]+)()|\x77ebhooks\/(?<hook>[^/]+)()))|\x75ser\/me\/sessions\/(?<session>[^/]+)()|\x66iles\/(?<file>.+)()|\x73earch\/filters\/(?<filter>[^/]+)()|\x74ags\/(?<tag>[^/]+)())$/.exec(
           p,
         );
       if (r !== null) {
@@ -267,7 +267,7 @@
   } else if (m === 'PUT') {
     {
       let r =
-        /^\/org\/(?<org>[^/]+)\/(?:\x74asks\/(?<task>[^/]+)\/fields\/(?<field>[^/]+)()$|\x70rojects\/(?<project>[^/]+)\/tasks\/fields\/(?<field>[^/]+)()$)$/.exec(
+        /^\/org\/(?<org>[^/]+)\/(?:\x74asks\/(?<task>[^/]+)\/fields\/(?<field>[^/]+)()|\x70rojects\/(?<project>[^/]+)\/tasks\/fields\/(?<field>[^/]+)())$/.exec(
           p,
         );
       if (r !== null) {

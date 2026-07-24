@@ -65,7 +65,7 @@ export const reset = (): void => {
 export const connect_node_compile_to_regexp = <T>(connectNode: ConnectNode<T>): string => {
   if (connectNode[0] !== null) {
     HANDLERS.push(connectNode[0]);
-    return connectNode[1] === null ? '()$|' : `(?:()$|${node_compile_to_regexp(connectNode[1])})|`;
+    return connectNode[1] === null ? '()|' : `(?:()|${node_compile_to_regexp(connectNode[1])})|`;
   }
 
   return node_compile_to_regexp(connectNode[1]!) + '|';
@@ -79,7 +79,7 @@ export const node_compile_to_regexp = <T>(node: Node<T>): string => {
     partsCnt = 1;
 
     HANDLERS.push(node[1]);
-    parts += '()$|';
+    parts += '()|';
   }
 
   if (node[2] !== null)
