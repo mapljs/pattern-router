@@ -72,7 +72,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           for i in {1..10}; do
-            git pull --rebase origin ${{ github.ref_name }}
+            git pull --rebase --autostash origin ${{ github.ref_name }}
 
             if git push origin HEAD:${{ github.ref_name }}; then
               echo "Push succeeded"
