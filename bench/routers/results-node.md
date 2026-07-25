@@ -2,117 +2,117 @@
 ## GET /
 |case|runs|mean|p99|range|
 |-|-|-|-|-|
-|@mapl/router (jit)|`1048576`|`12.26ns ± 264.52ps`|`38ns`|`6.12ns - 50.89ns`|
-|@mapl/pattern-router (jit)|`1048576`|`12.97ns ± 835.7ps`|`48.09ns`|`5.78ns - 189.11ns`|
-|rou3 (jit)|`1048576`|`42.17ns ± 513.52ps`|`76.96ns`|`19.12ns - 81.87ns`|
-|@mapl/pattern-router|`1048576`|`46.05ns ± 528.77ps`|`79.47ns`|`21.22ns - 81.41ns`|
-|find-my-way (jit)|`1048576`|`73.2ns ± 746.21ps`|`113.78ns`|`32.08ns - 117.73ns`|
-|hono reg-exp-router|`1048576`|`77.57ns ± 1.03ns`|`114.22ns`|`36.22ns - 116.52ns`|
-|hono pattern-router|`1048576`|`233.21ns ± 1.48ns`|`341.97ns`|`168.79ns - 364.99ns`|
-|hono trie-router|`1048576`|`255.17ns ± 909.19ps`|`300.9ns`|`192.06ns - 350.24ns`|
-|rou3|`1048576`|`257.38ns ± 921.32ps`|`303.64ns`|`194.02ns - 388.66ns`|
-|hono linear-router|`1048576`|`672.47ns ± 4.05ns`|`871.57ns`|`611.54ns - 1.3μs`|
+|@mapl/pattern-router (jit)|`1048576`|`13.08ns ± 506.68ps`|`47.98ns`|`6.21ns - 95.07ns`|
+|@mapl/router (jit)|`1048576`|`13.83ns ± 761.56ps`|`50.12ns`|`6.18ns - 121.89ns`|
+|rou3 (jit)|`1048576`|`38.92ns ± 365.02ps`|`70.34ns`|`19.99ns - 80.62ns`|
+|@mapl/pattern-router|`1048576`|`44.28ns ± 682.98ps`|`88.86ns`|`22.96ns - 106.93ns`|
+|hono reg-exp-router|`1048576`|`66.61ns ± 749.04ps`|`105.79ns`|`36.3ns - 114.22ns`|
+|find-my-way (jit)|`1048576`|`75.49ns ± 549.27ps`|`115.65ns`|`36.71ns - 127.82ns`|
+|hono pattern-router|`1048576`|`225.38ns ± 1.12ns`|`266.3ns`|`165.73ns - 358.93ns`|
+|rou3|`1048576`|`257.45ns ± 844.91ps`|`298.9ns`|`199.98ns - 370.78ns`|
+|hono trie-router|`1048576`|`300ns ± 5.51ns`|`446ns`|`202.78ns - 1.35μs`|
+|hono linear-router|`1048576`|`631.43ns ± 3.4ns`|`840.95ns`|`574.07ns - 1.2μs`|
 ## GET /about
 |case|runs|mean|p99|range|
 |-|-|-|-|-|
-|@mapl/router (jit)|`1048576`|`13.3ns ± 326.04ps`|`43.93ns`|`6.38ns - 52.25ns`|
-|@mapl/pattern-router (jit)|`1048576`|`13.87ns ± 425.09ps`|`47.55ns`|`6.88ns - 53.38ns`|
-|rou3 (jit)|`1048576`|`40.2ns ± 536.51ps`|`77.24ns`|`18.78ns - 84.03ns`|
-|@mapl/pattern-router|`1048576`|`45.32ns ± 553.13ps`|`79.78ns`|`20.88ns - 90.45ns`|
-|hono reg-exp-router|`1048576`|`71.23ns ± 665.24ps`|`110.03ns`|`38.11ns - 113.35ns`|
-|rou3|`1048576`|`117.78ns ± 709.02ps`|`146.34ns`|`63.4ns - 151.19ns`|
-|find-my-way (jit)|`1048576`|`144.32ns ± 1.44ns`|`213.12ns`|`69.9ns - 223.84ns`|
-|hono pattern-router|`1048576`|`235.51ns ± 1.35ns`|`322.72ns`|`167.8ns - 386.11ns`|
-|hono trie-router|`1048576`|`266.92ns ± 857.98ps`|`309.42ns`|`199.12ns - 368.85ns`|
-|hono linear-router|`1048576`|`706.55ns ± 2.3ns`|`813.89ns`|`651.13ns - 974.12ns`|
+|@mapl/router (jit)|`1048576`|`13.59ns ± 327.46ps`|`44.1ns`|`6.76ns - 49.42ns`|
+|@mapl/pattern-router (jit)|`1048576`|`13.92ns ± 367.13ps`|`45.7ns`|`6.61ns - 79.41ns`|
+|rou3 (jit)|`1048576`|`37.5ns ± 225.67ps`|`42.05ns`|`19.07ns - 82.12ns`|
+|@mapl/pattern-router|`1048576`|`47.72ns ± 883.54ps`|`82.23ns`|`23.44ns - 112.52ns`|
+|hono reg-exp-router|`1048576`|`66.91ns ± 411.37ps`|`99.65ns`|`35.79ns - 106ns`|
+|rou3|`1048576`|`113.64ns ± 654.6ps`|`132.25ns`|`61.93ns - 136.72ns`|
+|find-my-way (jit)|`1048576`|`139.21ns ± 1.01ns`|`201.38ns`|`78.84ns - 204.06ns`|
+|hono pattern-router|`1048576`|`227.92ns ± 1.32ns`|`326.78ns`|`164.63ns - 382.86ns`|
+|hono trie-router|`1048576`|`279.1ns ± 1.19ns`|`323.53ns`|`222.99ns - 459.5ns`|
+|hono linear-router|`1048576`|`699.01ns ± 1.86ns`|`769.42ns`|`637.05ns - 1.07μs`|
 ## GET /user/:id
 |case|runs|mean|p99|range|
 |-|-|-|-|-|
-|@mapl/router (jit)|`1048576`|`73.75ns ± 838.14ps`|`110.9ns`|`29.5ns - 113.65ns`|
-|@mapl/pattern-router (jit)|`1048576`|`162.18ns ± 1.05ns`|`222.02ns`|`96.69ns - 248.56ns`|
-|rou3 (jit)|`1048576`|`231.62ns ± 1.99ns`|`411.54ns`|`162.24ns - 429.44ns`|
-|find-my-way (jit)|`1048576`|`261.87ns ± 1.46ns`|`327.87ns`|`186.97ns - 363.7ns`|
-|hono pattern-router|`1048576`|`289.29ns ± 2.27ns`|`497.37ns`|`216.84ns - 518.57ns`|
-|@mapl/pattern-router|`1048576`|`360.89ns ± 1.1ns`|`389.37ns`|`295.46ns - 488.69ns`|
-|hono reg-exp-router|`1048576`|`448.69ns ± 1.55ns`|`492.63ns`|`393.79ns - 787.61ns`|
-|hono trie-router|`1048576`|`965.91ns ± 2.98ns`|`1.06μs`|`888.69ns - 1.1μs`|
-|rou3|`1048576`|`1μs ± 3.04ns`|`1.12μs`|`943.24ns - 1.13μs`|
-|hono linear-router|`1048576`|`1.61μs ± 7.95ns`|`1.86μs`|`1.46μs - 2.58μs`|
+|@mapl/router (jit)|`1048576`|`69.62ns ± 412.66ps`|`75.83ns`|`33.31ns - 114.2ns`|
+|@mapl/pattern-router (jit)|`1048576`|`155.71ns ± 515.18ps`|`204.71ns`|`142.36ns - 218.88ns`|
+|rou3 (jit)|`1048576`|`233.54ns ± 1.62ns`|`286.95ns`|`169ns - 507.58ns`|
+|find-my-way (jit)|`1048576`|`253.12ns ± 1.23ns`|`307.83ns`|`188.48ns - 407.4ns`|
+|hono pattern-router|`1048576`|`286.27ns ± 752.58ps`|`321.11ns`|`229.01ns - 380.5ns`|
+|@mapl/pattern-router|`1048576`|`350.67ns ± 962.39ps`|`397.02ns`|`307.87ns - 549.61ns`|
+|hono reg-exp-router|`1048576`|`457.89ns ± 607.8ps`|`504.66ns`|`406.65ns - 550.1ns`|
+|hono trie-router|`1048576`|`938.12ns ± 2.65ns`|`1μs`|`836.54ns - 1.06μs`|
+|rou3|`1048576`|`945.45ns ± 932.96ps`|`1.01μs`|`907.87ns - 1.03μs`|
+|hono linear-router|`1048576`|`1.51μs ± 5.82ns`|`1.76μs`|`1.42μs - 1.77μs`|
 ## PUT /user/:id
 |case|runs|mean|p99|range|
 |-|-|-|-|-|
-|@mapl/router (jit)|`1048576`|`69.48ns ± 444.82ps`|`99.83ns`|`31.55ns - 104.67ns`|
-|@mapl/pattern-router (jit)|`1048576`|`158.14ns ± 916.64ps`|`232.25ns`|`91.28ns - 239.97ns`|
-|rou3 (jit)|`1048576`|`231.6ns ± 1.66ns`|`416.47ns`|`159.89ns - 434.7ns`|
-|hono pattern-router|`1048576`|`240.21ns ± 1.07ns`|`328.61ns`|`227.39ns - 370.77ns`|
-|find-my-way (jit)|`1048576`|`257.92ns ± 2.04ns`|`423.03ns`|`200.25ns - 456.37ns`|
-|@mapl/pattern-router|`1048576`|`350.54ns ± 1.48ns`|`455.98ns`|`331.06ns - 575.88ns`|
-|hono reg-exp-router|`1048576`|`447.78ns ± 822.81ps`|`497.61ns`|`396.63ns - 540.47ns`|
-|hono trie-router|`1048576`|`962.97ns ± 3.24ns`|`1.06μs`|`873.9ns - 1.12μs`|
-|rou3|`1048576`|`1.05μs ± 3.29ns`|`1.16μs`|`962.72ns - 1.17μs`|
-|hono linear-router|`1048576`|`1.29μs ± 5.84ns`|`1.5μs`|`1.14μs - 1.5μs`|
+|@mapl/router (jit)|`1048576`|`69.09ns ± 566.21ps`|`102.91ns`|`32.45ns - 111.49ns`|
+|@mapl/pattern-router (jit)|`1048576`|`156.45ns ± 751.17ps`|`198.75ns`|`97.9ns - 246.08ns`|
+|rou3 (jit)|`1048576`|`227.63ns ± 858ps`|`271.64ns`|`171.27ns - 385.74ns`|
+|hono pattern-router|`1048576`|`229.13ns ± 646.52ps`|`255.72ns`|`166.87ns - 316.26ns`|
+|find-my-way (jit)|`1048576`|`251.31ns ± 1.38ns`|`309.34ns`|`160.6ns - 321.1ns`|
+|@mapl/pattern-router|`1048576`|`359.64ns ± 543.56ps`|`390.92ns`|`328.13ns - 431.25ns`|
+|hono reg-exp-router|`1048576`|`454.04ns ± 1.02ns`|`503.01ns`|`433.01ns - 603.83ns`|
+|hono trie-router|`1048576`|`943.83ns ± 2.9ns`|`1.05μs`|`889.25ns - 1.07μs`|
+|rou3|`1048576`|`1.01μs ± 2.9ns`|`1.11μs`|`956.56ns - 1.32μs`|
+|hono linear-router|`1048576`|`1.13μs ± 4.18ns`|`1.16μs`|`1.11μs - 2.14μs`|
 ## POST /post
 |case|runs|mean|p99|range|
 |-|-|-|-|-|
-|@mapl/router (jit)|`1048576`|`12.7ns ± 310.24ps`|`44.29ns`|`5.74ns - 52.65ns`|
-|@mapl/pattern-router (jit)|`1048576`|`13.06ns ± 435.12ps`|`44.75ns`|`5.83ns - 50.39ns`|
-|rou3 (jit)|`1048576`|`34.5ns ± 346.03ps`|`38.71ns`|`15.7ns - 80.55ns`|
-|@mapl/pattern-router|`1048576`|`44.28ns ± 548.32ps`|`79.28ns`|`19.75ns - 81.99ns`|
-|hono reg-exp-router|`1048576`|`59.69ns ± 643.26ps`|`96.95ns`|`29.75ns - 103.67ns`|
-|rou3|`1048576`|`87.55ns ± 591.48ps`|`119.45ns`|`42.51ns - 127.21ns`|
-|find-my-way (jit)|`1048576`|`140.64ns ± 1.1ns`|`201.1ns`|`68.53ns - 204.89ns`|
-|hono pattern-router|`1048576`|`206.9ns ± 1.08ns`|`279.56ns`|`150.95ns - 293.61ns`|
-|hono trie-router|`1048576`|`264.14ns ± 883.7ps`|`304.57ns`|`198.51ns - 370.31ns`|
-|hono linear-router|`1048576`|`339.82ns ± 1.44ns`|`413.9ns`|`265.22ns - 537.24ns`|
+|@mapl/pattern-router (jit)|`1048576`|`11.91ns ± 481.11ps`|`50.78ns`|`5.48ns - 90.26ns`|
+|@mapl/router (jit)|`1048576`|`18.64ns ± 831.08ps`|`52.69ns`|`6.33ns - 98.64ns`|
+|rou3 (jit)|`1048576`|`33.46ns ± 478.46ps`|`65.32ns`|`16.73ns - 128.05ns`|
+|@mapl/pattern-router|`1048576`|`41.91ns ± 576.43ps`|`79.91ns`|`21.16ns - 84.48ns`|
+|hono reg-exp-router|`1048576`|`63.61ns ± 957.32ps`|`100.04ns`|`31.26ns - 103.56ns`|
+|rou3|`1048576`|`86.57ns ± 533.96ps`|`117.93ns`|`76.04ns - 120.01ns`|
+|find-my-way (jit)|`1048576`|`133.69ns ± 439.4ps`|`140.16ns`|`74.97ns - 145.6ns`|
+|hono pattern-router|`1048576`|`172.7ns ± 689.35ps`|`210.85ns`|`114.19ns - 215.15ns`|
+|hono trie-router|`1048576`|`264.59ns ± 1.2ns`|`327.39ns`|`201.74ns - 425.12ns`|
+|hono linear-router|`1048576`|`338.8ns ± 1.53ns`|`399.3ns`|`274.84ns - 564.89ns`|
 ## GET /post/:id
 |case|runs|mean|p99|range|
 |-|-|-|-|-|
-|@mapl/router (jit)|`1048576`|`69.19ns ± 405.19ps`|`75.89ns`|`32.66ns - 116.16ns`|
-|@mapl/pattern-router (jit)|`1048576`|`178.41ns ± 1.15ns`|`250.97ns`|`150.58ns - 256.32ns`|
-|find-my-way (jit)|`1048576`|`261.45ns ± 1.1ns`|`303.61ns`|`208.92ns - 335.82ns`|
-|rou3 (jit)|`1048576`|`265.57ns ± 3.32ns`|`438.04ns`|`205.5ns - 451.14ns`|
-|hono pattern-router|`1048576`|`305.72ns ± 1.12ns`|`340.83ns`|`240.96ns - 516.53ns`|
-|@mapl/pattern-router|`1048576`|`344.57ns ± 2.18ns`|`559.06ns`|`292.7ns - 583.49ns`|
-|hono reg-exp-router|`1048576`|`435.38ns ± 697.06ps`|`471.78ns`|`374.55ns - 509.04ns`|
-|hono trie-router|`1048576`|`949.31ns ± 2.82ns`|`1.07μs`|`893.91ns - 1.1μs`|
-|rou3|`1048576`|`1.03μs ± 3.17ns`|`1.15μs`|`952.54ns - 1.15μs`|
-|hono linear-router|`1048576`|`2.13μs ± 5.45ns`|`2.37μs`|`2.03μs - 2.4μs`|
+|@mapl/router (jit)|`1048576`|`70.91ns ± 584.59ps`|`106.07ns`|`33.65ns - 107.16ns`|
+|@mapl/pattern-router (jit)|`1048576`|`160.24ns ± 672.88ps`|`187.56ns`|`98.78ns - 252.68ns`|
+|rou3 (jit)|`1048576`|`232.85ns ± 1.89ns`|`394.71ns`|`165.26ns - 413.97ns`|
+|find-my-way (jit)|`1048576`|`255.28ns ± 1.57ns`|`323.72ns`|`189.8ns - 405.04ns`|
+|hono pattern-router|`1048576`|`305.26ns ± 948.43ps`|`352.07ns`|`250.58ns - 432.89ns`|
+|@mapl/pattern-router|`1048576`|`341.96ns ± 605.38ps`|`387.17ns`|`295.19ns - 404.02ns`|
+|hono reg-exp-router|`1048576`|`442.26ns ± 887.15ps`|`496.88ns`|`392.9ns - 543.35ns`|
+|hono trie-router|`1048576`|`944.03ns ± 3.16ns`|`1.08μs`|`889.42ns - 1.08μs`|
+|rou3|`1048576`|`1μs ± 2.72ns`|`1.11μs`|`944.44ns - 1.14μs`|
+|hono linear-router|`1048576`|`2.17μs ± 8.8ns`|`2.61μs`|`2.06μs - 3.11μs`|
 ## PUT /post/:id
 |case|runs|mean|p99|range|
 |-|-|-|-|-|
-|@mapl/router (jit)|`1048576`|`68.82ns ± 666.8ps`|`107.18ns`|`29.6ns - 111.63ns`|
-|@mapl/pattern-router (jit)|`1048576`|`161.16ns ± 1.09ns`|`239.28ns`|`95.85ns - 241.65ns`|
-|hono pattern-router|`1048576`|`235.66ns ± 986.65ps`|`259.36ns`|`167.79ns - 384.13ns`|
-|rou3 (jit)|`1048576`|`241.47ns ± 791.8ps`|`286.82ns`|`172.24ns - 363.86ns`|
-|find-my-way (jit)|`1048576`|`257.57ns ± 1.56ns`|`339.07ns`|`150.56ns - 409.92ns`|
-|@mapl/pattern-router|`1048576`|`329.92ns ± 742.3ps`|`372.48ns`|`271.89ns - 380.38ns`|
-|hono reg-exp-router|`1048576`|`438.85ns ± 2.33ns`|`543.61ns`|`422.96ns - 766.26ns`|
-|hono trie-router|`1048576`|`965.17ns ± 3.31ns`|`1.07μs`|`884.03ns - 1.09μs`|
-|rou3|`1048576`|`1.02μs ± 2.84ns`|`1.13μs`|`935.36ns - 1.13μs`|
-|hono linear-router|`1048576`|`1.12μs ± 1.54ns`|`1.17μs`|`1.06μs - 1.36μs`|
+|@mapl/router (jit)|`1048576`|`67.19ns ± 509.57ps`|`101.72ns`|`31.68ns - 109.65ns`|
+|@mapl/pattern-router (jit)|`1048576`|`160.82ns ± 908.74ps`|`209.26ns`|`98.78ns - 255.8ns`|
+|hono pattern-router|`1048576`|`229.03ns ± 1.35ns`|`341.59ns`|`172.33ns - 345.93ns`|
+|rou3 (jit)|`1048576`|`231.73ns ± 1.26ns`|`338.58ns`|`169.99ns - 419.01ns`|
+|find-my-way (jit)|`1048576`|`253.93ns ± 1.88ns`|`407.89ns`|`189.72ns - 423.92ns`|
+|@mapl/pattern-router|`1048576`|`331.38ns ± 659.71ps`|`372.25ns`|`282.05ns - 408.58ns`|
+|hono reg-exp-router|`1048576`|`434.47ns ± 684.59ps`|`491.95ns`|`391.87ns - 538.54ns`|
+|hono trie-router|`1048576`|`929.05ns ± 2.44ns`|`1.01μs`|`863.16ns - 1.08μs`|
+|rou3|`1048576`|`1μs ± 3.03ns`|`1.14μs`|`948.51ns - 1.17μs`|
+|hono linear-router|`1048576`|`1.26μs ± 5.69ns`|`1.39μs`|`1.17μs - 1.52μs`|
 ## GET /post/:id/comments
 |case|runs|mean|p99|range|
 |-|-|-|-|-|
-|@mapl/router (jit)|`1048576`|`189.14ns ± 738.35ps`|`216.1ns`|`112.6ns - 228.48ns`|
-|@mapl/pattern-router (jit)|`1048576`|`232.09ns ± 1.04ns`|`287.96ns`|`165.95ns - 358.71ns`|
-|rou3 (jit)|`1048576`|`339.51ns ± 1.22ns`|`386.56ns`|`267.69ns - 587.45ns`|
-|hono pattern-router|`1048576`|`381.87ns ± 747.38ps`|`426.23ns`|`323.69ns - 466.95ns`|
-|@mapl/pattern-router|`1048576`|`412.44ns ± 1.13ns`|`448.79ns`|`335.08ns - 568.57ns`|
-|find-my-way (jit)|`1048576`|`448.1ns ± 2.98ns`|`666.69ns`|`374.27ns - 811.56ns`|
-|hono reg-exp-router|`1048576`|`493.04ns ± 638.82ps`|`530.93ns`|`441.29ns - 553.79ns`|
-|hono trie-router|`1048576`|`1.14μs ± 3.51ns`|`1.24μs`|`1.04μs - 1.25μs`|
-|rou3|`1048576`|`1.21μs ± 2.95ns`|`1.34μs`|`1.15μs - 1.35μs`|
-|hono linear-router|`1048576`|`2.35μs ± 6.89ns`|`2.58μs`|`2.15μs - 2.61μs`|
+|@mapl/router (jit)|`1048576`|`184.71ns ± 1.07ns`|`243.33ns`|`114.11ns - 288.25ns`|
+|@mapl/pattern-router (jit)|`1048576`|`230.66ns ± 1.26ns`|`333.3ns`|`162.96ns - 343.94ns`|
+|rou3 (jit)|`1048576`|`339.94ns ± 776.45ps`|`374.22ns`|`281.6ns - 382.47ns`|
+|hono pattern-router|`1048576`|`398.69ns ± 2.3ns`|`547.12ns`|`330.08ns - 695.16ns`|
+|@mapl/pattern-router|`1048576`|`413.56ns ± 899ps`|`464.78ns`|`358.94ns - 499.99ns`|
+|find-my-way (jit)|`1048576`|`458.18ns ± 2.4ns`|`556.03ns`|`378.75ns - 843.79ns`|
+|hono reg-exp-router|`1048576`|`535.32ns ± 1.92ns`|`698.46ns`|`482.36ns - 716.9ns`|
+|hono trie-router|`1048576`|`1.06μs ± 2.89ns`|`1.15μs`|`1.01μs - 1.18μs`|
+|rou3|`1048576`|`1.2μs ± 3.01ns`|`1.29μs`|`1.13μs - 1.53μs`|
+|hono linear-router|`1048576`|`2.24μs ± 6.18ns`|`2.46μs`|`2.11μs - 2.55μs`|
 ## POST /post/:id/comment
 |case|runs|mean|p99|range|
 |-|-|-|-|-|
-|@mapl/router (jit)|`1048576`|`176.85ns ± 650.78ps`|`199.55ns`|`103.18ns - 233.17ns`|
-|@mapl/pattern-router (jit)|`1048576`|`211.95ns ± 689.07ps`|`236.69ns`|`132.29ns - 306.33ns`|
-|hono pattern-router|`1048576`|`315.04ns ± 1.28ns`|`374.56ns`|`254.87ns - 519.71ns`|
-|rou3 (jit)|`1048576`|`341.63ns ± 2ns`|`463.07ns`|`267.15ns - 656.2ns`|
-|@mapl/pattern-router|`1048576`|`418.8ns ± 1.12ns`|`459.14ns`|`349.5ns - 491.4ns`|
-|find-my-way (jit)|`1048576`|`447.53ns ± 1.68ns`|`508.29ns`|`369.71ns - 704.67ns`|
-|hono reg-exp-router|`1048576`|`529.61ns ± 786.6ps`|`552.85ns`|`465.55ns - 620.56ns`|
-|hono trie-router|`1048576`|`1.12μs ± 3.3ns`|`1.22μs`|`1.03μs - 1.23μs`|
-|rou3|`1048576`|`1.23μs ± 2.87ns`|`1.37μs`|`1.17μs - 1.38μs`|
-|hono linear-router|`1048576`|`3.21μs ± 6.42ns`|`3.44μs`|`3.08μs - 3.52μs`|
+|@mapl/router (jit)|`1048576`|`176.77ns ± 739.18ps`|`223.98ns`|`112.32ns - 272ns`|
+|@mapl/pattern-router (jit)|`1048576`|`209.96ns ± 1.1ns`|`287.05ns`|`145.28ns - 314.09ns`|
+|hono pattern-router|`1048576`|`317.16ns ± 2.28ns`|`518.38ns`|`246.28ns - 524.66ns`|
+|rou3 (jit)|`1048576`|`342.83ns ± 2.4ns`|`529.17ns`|`272.36ns - 584.35ns`|
+|@mapl/pattern-router|`1048576`|`401.11ns ± 1.85ns`|`523.65ns`|`339.08ns - 665.64ns`|
+|find-my-way (jit)|`1048576`|`454.37ns ± 2.42ns`|`505.7ns`|`368.68ns - 850.19ns`|
+|hono reg-exp-router|`1048576`|`497.27ns ± 770.4ps`|`556.98ns`|`438.55ns - 600.08ns`|
+|hono trie-router|`1048576`|`1.06μs ± 2.77ns`|`1.14μs`|`1.02μs - 1.23μs`|
+|rou3|`1048576`|`1.2μs ± 3.6ns`|`1.34μs`|`1.11μs - 1.49μs`|
+|hono linear-router|`1048576`|`3.28μs ± 6.24ns`|`3.52μs`|`3.13μs - 3.66μs`|
