@@ -3,7 +3,7 @@ To run the benchmark:
 # node
 bun start:node
 
-# deno (allowed env and write)
+# deno (allowed env and write permissions)
 bun start:deno
 
 # bun
