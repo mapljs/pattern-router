@@ -3,6 +3,9 @@ import { findNamedGroupEnd, findUnnamedGroupEnd, isModifier } from './utils.ts';
 
 export type Handlers<T> = (T | null)[];
 
+export const escapeStaticPart = (str: string): string =>
+  str.replace(/([.+*?^${}()[\]|/\\])/g, '\\$1');
+
 export const parseNamedGroup = (key: string, curIdx: number, endIdx: number): string => {
   let autoGroupPrefixing = key[curIdx] === '/',
     startIdx = curIdx + (autoGroupPrefixing ? 2 : 1);
@@ -101,7 +104,7 @@ export const node_compile_to_regexp = (node: Node<unknown>): string => {
             const patternRegexEnd = findUnnamedGroupEnd(pattern, patternIdx + 1);
 
             parts +=
-              RegExp.escape(pattern.slice(patternPrevIdx, patternIdx)) +
+              escapeStaticPart(pattern.slice(patternPrevIdx, patternIdx)) +
               '(?:' +
               pattern.slice(patternIdx + 1, patternRegexEnd);
 
@@ -114,7 +117,7 @@ export const node_compile_to_regexp = (node: Node<unknown>): string => {
 
             HANDLERS.push(null);
             parts +=
-              RegExp.escape(pattern.slice(patternPrevIdx, patternIdx)) +
+              escapeStaticPart(pattern.slice(patternPrevIdx, patternIdx)) +
               parseNamedGroup(pattern, patternIdx, groupEndIdx);
 
             patternPrevIdx = patternIdx = groupEndIdx + 1;
@@ -125,7 +128,7 @@ export const node_compile_to_regexp = (node: Node<unknown>): string => {
         patternIdx++;
       }
       parts +=
-        RegExp.escape(pattern.slice(patternPrevIdx, patternLen)) +
+        escapeStaticPart(pattern.slice(patternPrevIdx, patternLen)) +
         (hasModifier ? ')' + modifier : '') +
         connect_node_compile_to_regexp(connectNodes[i]);
     }
@@ -157,7 +160,7 @@ export const node_compile_to_regexp = (node: Node<unknown>): string => {
   }
 
   parts = partsCnt > 1 ? `(?:${parts.slice(0, -1)})` : parts.slice(0, -1);
-  return node[0].length > 0 ? RegExp.escape(node[0]) + parts : parts;
+  return node[0].length > 0 ? escapeStaticPart(node[0]) + parts : parts;
 };
 
 export const node_compile_root_to_regexp = (root: Node<unknown>): string =>

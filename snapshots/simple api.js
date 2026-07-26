@@ -12,7 +12,7 @@
       return 'GET /very/deeply/nested/route/hello/there';
     }
     let r =
-      /^(?:\/(?:\x75ser\/lookup\/(?:\x75sername\/(?<username>[^/]+)()$|\x65mail\/(?<email>[^/]+)()$)|\x65vent\/(?<event>[^/]+)(?:()$|\/comments()$)|\x6dap\/(?<location>[^/]+)\/events()$|\x73tatic\/(?<file>.+)()$)|$.)/.exec(
+      /^(?:\/(?:user\/lookup\/(?:username\/(?<username>[^/]+)()$|email\/(?<email>[^/]+)()$)|event\/(?<event>[^/]+)(?:()$|\/comments()$)|map\/(?<location>[^/]+)\/events()$|static\/(?<file>.+)()$)|$.)/.exec(
         p,
       );
     if (r !== null) {

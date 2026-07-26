@@ -32,7 +32,7 @@
       return 'POST /admin/impersonate';
     }
     let r =
-      /^(?:\/(?:\x75ser(?:\/notifications\/(?<notification>[^/]+)\/read()$|\/(?<user>[^/]+)(?:()$|\/invites(?:()$|\/(?<invite>[^/]+)\/(?:\x61ccept()$|\x72esend()$))))|\x6frg\/(?<org>[^/]+)\/(?:\x6dembers(?:()$|\/(?<member>[^/]+)()$)|\x72oles(?:()$|\/(?<role>[^/]+)()$)|\x64omains(?:()$|\/(?<domain>[^/]+)()$)|\x70rojects(?:()$|\/(?<project>[^/]+)\/(?:\x6dembers()$|\x74asks(?:()$|\/(?:\x74(?:\x69me\x2dentries(?:()$|\/(?<entry>[^/]+)()$)|\x61gs()$)|\x61ttachments()$))))|\x74asks\/(?<task>[^/]+)\/(?:\x61(?:\x73sign()$|\x74tachments()$)|\x73tatus()$|\x63omments()$|\x74(?:\x69me\x2dentries(?:()$|\/(?<entry>[^/]+)\/stop()$)|\x61gs()$))|\x62illing\/(?:\x73ubscription(?:()$|\/cancel()$)|\x69nvoices\/(?<invoice>[^/]+)()$|\x70ayment\x2dmethods()$)|\x61pi\x2dkeys()$|\x77ebhooks()$))|$.)/.exec(
+      /^(?:\/(?:user(?:\/notifications\/(?<notification>[^/]+)\/read()$|\/(?<user>[^/]+)(?:()$|\/invites(?:()$|\/(?<invite>[^/]+)\/(?:accept()$|resend()$))))|org\/(?<org>[^/]+)\/(?:members(?:()$|\/(?<member>[^/]+)()$)|roles(?:()$|\/(?<role>[^/]+)()$)|domains(?:()$|\/(?<domain>[^/]+)()$)|projects(?:()$|\/(?<project>[^/]+)\/(?:members()$|tasks(?:()$|\/(?:t(?:ime-entries(?:()$|\/(?<entry>[^/]+)()$)|ags()$)|attachments()$))))|tasks\/(?<task>[^/]+)\/(?:a(?:ssign()$|ttachments()$)|status()$|comments()$|t(?:ime-entries(?:()$|\/(?<entry>[^/]+)\/stop()$)|ags()$))|billing\/(?:subscription(?:()$|\/cancel()$)|invoices\/(?<invoice>[^/]+)()$|payment-methods()$)|api-keys()$|webhooks()$))|$.)/.exec(
         p,
       );
     if (r !== null) {
@@ -131,7 +131,7 @@
       return 'GET /admin/stats';
     }
     let r =
-      /^(?:\/(?:\x75ser\/(?<user>[^/]+)(?:()$|\/(?:\x6eotifications()$|\x69nvites\/(?<invite>[^/]+)()$))|\x6frg\/(?<org>[^/]+)(?:()$|\/(?:\x6dembers()$|\x72oles()$|\x64omains()$|\x70rojects\/(?<project>[^/]+)(?:()$|\/(?:\x6dembers()$|\x61ctivity()$|\x74asks(?:()$|\/(?:\x74ime\x2dentries()$|\x61ttachments()$))))|\x74asks(?:()$|\/(?<task>[^/]+)(?:()$|\/(?:\x63omments()$|\x74ime\x2dentries()$|\x61ttachments()$)))|\x62illing\/(?:\x70(?:\x6cans()$|\x61yment\x2dmethods()$)|\x73ubscription()$|\x69nvoices(?:()$|\/(?<invoice>[^/]+)()$))|\x61pi\x2dkeys()$|\x77ebhooks(?:()$|\/(?<hook>[^/]+)\/deliveries(?:()$|\/(?<delivery>[^/]+)()$))))|\x66iles\/(?<file>.+)()$|\x61dmin\/reports\/(?:\x70rojects\/(?<project>[^/]+)\/summary()$|\x75sers\/(?<user>[^/]+)\/activity()$))|$.)/.exec(
+      /^(?:\/(?:user\/(?<user>[^/]+)(?:()$|\/(?:notifications()$|invites\/(?<invite>[^/]+)()$))|org\/(?<org>[^/]+)(?:()$|\/(?:members()$|roles()$|domains()$|projects\/(?<project>[^/]+)(?:()$|\/(?:members()$|activity()$|tasks(?:()$|\/(?:time-entries()$|attachments()$))))|tasks(?:()$|\/(?<task>[^/]+)(?:()$|\/(?:comments()$|time-entries()$|attachments()$)))|billing\/(?:p(?:lans()$|ayment-methods()$)|subscription()$|invoices(?:()$|\/(?<invoice>[^/]+)()$))|api-keys()$|webhooks(?:()$|\/(?<hook>[^/]+)\/deliveries(?:()$|\/(?<delivery>[^/]+)()$))))|files\/(?<file>.+)()$|admin\/reports\/(?:projects\/(?<project>[^/]+)\/summary()$|users\/(?<user>[^/]+)\/activity()$))|$.)/.exec(
         p,
       );
     if (r !== null) {
@@ -202,7 +202,7 @@
       return 'PATCH /user/me/preferences';
     }
     let r =
-      /^(?:\/(?:\x6frg\/(?<org>[^/]+)(?:()$|\/(?:\x70rojects\/(?<project>[^/]+)()$|\x74asks\/(?<task>[^/]+)()$|\x77ebhooks\/(?<hook>[^/]+)()$))|\x73earch\/filters\/(?<filter>[^/]+)()$|\x74ags\/(?<tag>[^/]+)()$)|$.)/.exec(
+      /^(?:\/(?:org\/(?<org>[^/]+)(?:()$|\/(?:projects\/(?<project>[^/]+)()$|tasks\/(?<task>[^/]+)()$|webhooks\/(?<hook>[^/]+)()$))|search\/filters\/(?<filter>[^/]+)()$|tags\/(?<tag>[^/]+)()$)|$.)/.exec(
         p,
       );
     if (r !== null) {
@@ -222,7 +222,7 @@
     }
   } else if (m === 'DELETE') {
     let r =
-      /^(?:\/(?:\x75ser\/me\/sessions\/(?<session>[^/]+)()$|\x6frg\/(?<org>[^/]+)(?:()$|\/(?:\x70rojects\/(?<project>[^/]+)(?:()$|\/tasks\/(?:\x74ags()$|\x66ields\/(?<field>[^/]+)()$))|\x74asks\/(?<task>[^/]+)(?:()$|\/(?:\x74ags()$|\x66ields\/(?<field>[^/]+)()$))|\x62illing\/payment\x2dmethods\/(?<method>[^/]+)()$|\x61pi\x2dkeys\/(?<key>[^/]+)()$|\x77ebhooks\/(?<hook>[^/]+)()$))|\x66iles\/(?<file>.+)()$|\x73earch\/filters\/(?<filter>[^/]+)()$|\x74ags\/(?<tag>[^/]+)()$)|$.)/.exec(
+      /^(?:\/(?:user\/me\/sessions\/(?<session>[^/]+)()$|org\/(?<org>[^/]+)(?:()$|\/(?:projects\/(?<project>[^/]+)(?:()$|\/tasks\/(?:tags()$|fields\/(?<field>[^/]+)()$))|tasks\/(?<task>[^/]+)(?:()$|\/(?:tags()$|fields\/(?<field>[^/]+)()$))|billing\/payment-methods\/(?<method>[^/]+)()$|api-keys\/(?<key>[^/]+)()$|webhooks\/(?<hook>[^/]+)()$))|files\/(?<file>.+)()$|search\/filters\/(?<filter>[^/]+)()$|tags\/(?<tag>[^/]+)()$)|$.)/.exec(
         p,
       );
     if (r !== null) {
@@ -258,7 +258,7 @@
     }
   } else if (m === 'PUT') {
     let r =
-      /^(?:\/org\/(?<org>[^/]+)\/(?:\x70rojects\/(?<project>[^/]+)\/tasks\/fields\/(?<field>[^/]+)()$|\x74asks\/(?<task>[^/]+)\/fields\/(?<field>[^/]+)()$)|$.)/.exec(
+      /^(?:\/org\/(?<org>[^/]+)\/(?:projects\/(?<project>[^/]+)\/tasks\/fields\/(?<field>[^/]+)()$|tasks\/(?<task>[^/]+)\/fields\/(?<field>[^/]+)()$)|$.)/.exec(
         p,
       );
     if (r !== null) {
