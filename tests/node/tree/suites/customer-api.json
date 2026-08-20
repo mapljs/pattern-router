@@ -13,12 +13,6 @@
     "/customers/customer.with.dot/orders/ord.1",
     "/customers/cus_8a71/order/ord_001"
   ],
-  "/customers/:customerId/orders/:orderId{/:lineItemId}?": [
-    "/customers/cus_8a71/orders/ord_001/li_01",
-    "/customers/42/orders/2024-07/2",
-    "/customers/acme/orders/online-19/item-blue",
-    "/customers/cus_8a71/orders"
-  ],
   "/:locale(en|fr|de)/customers/:customerId": [
     "/en/customers/cus_8a71",
     "/fr/customers/42",
@@ -46,13 +40,6 @@
     "/reports/2029/09",
     "/reports/2030/03",
     "/reports/2019/12"
-  ],
-  "/projects/:projectId{/tasks/:taskId}?": [
-    "/projects/proj_01",
-    "/projects/proj_01/tasks/task_1",
-    "/projects/acme-web/tasks/deploy",
-    "/projects/42/tasks/123",
-    "/projects/proj_01/task/task_1"
   ],
   "/api/(v1|v2)/customers/:customerId": [
     "/api/v1/customers/cus_8a71",

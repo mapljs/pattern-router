@@ -1,14 +1,14 @@
 {
   "type": "module",
+  "scripts": {
+    "start:node": "node --expose-gc index.ts",
+    "start:deno": "deno --v8-flags=--expose-gc --allow-env --allow-write index.ts",
+    "start:bun": "bun index.ts"
+  },
   "dependencies": {
     "@mapl/router": "0.10.4",
     "find-my-way": "9.7.0",
     "hono": "4.12.31",
     "rou3": "0.9.1"
-  },
-  "scripts": {
-    "start:node": "node --expose-gc index.ts",
-    "start:deno": "deno --v8-flags=--expose-gc --allow-env --allow-write index.ts",
-    "start:bun": "bun index.ts"
   }
 }
