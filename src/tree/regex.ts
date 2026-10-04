@@ -1,7 +1,6 @@
 import type { ConnectNode, Node } from './node.ts';
 import {
-  escapeRegexGroup,
-  escapeStaticPart,
+  unnamed_group_to_regexp,
   findNamedGroupEnd,
   findUnnamedGroupEnd,
   isModifier,
@@ -9,11 +8,14 @@ import {
 
 export type Handlers<T> = (T | null)[];
 
-export let HANDLERS!: Handlers<any>;
+export let HANDLERS: Handlers<any> = [null];
 
 export const reset = (): void => {
-  HANDLERS = [null];
+  HANDLERS.length = 1;
 };
+
+export const static_part_to_regexp = (str: string): string =>
+  str.replace(/([.+*?^${}()[\]|/\\])/g, '\\$1');
 
 export const group_delim_to_regexp = (group: string): string => {
   for (
@@ -25,7 +27,7 @@ export const group_delim_to_regexp = (group: string): string => {
       case '(': {
         const regexpEnd = findUnnamedGroupEnd(group, j + 1),
           prefixWithRegexp =
-            escapeStaticPart(group.slice(0, j)) + escapeRegexGroup(group, j, regexpEnd);
+            static_part_to_regexp(group.slice(0, j)) + unnamed_group_to_regexp(group, j, regexpEnd);
 
         return hasModifier
           ? `(?:${prefixWithRegexp + group.slice(regexpEnd, -2)})` + modifier
@@ -33,11 +35,11 @@ export const group_delim_to_regexp = (group: string): string => {
       }
 
       case ':': {
-        HANDLERS.push(null);
+        HANDLERS.length++;
 
-        const prefix = escapeStaticPart(group.slice(0, j)),
+        const prefix = static_part_to_regexp(group.slice(0, j)),
           endIdx = findNamedGroupEnd(group, j),
-          suffix = escapeStaticPart(group.slice(endIdx, hasModifier ? -2 : -1));
+          suffix = static_part_to_regexp(group.slice(endIdx, hasModifier ? -2 : -1));
 
         let namedCapture: string, regex: string;
         for (let curIdx = j + 1, startIdx = curIdx; ; ) {
@@ -48,7 +50,7 @@ export const group_delim_to_regexp = (group: string): string => {
           }
 
           if (group[curIdx] === '(') {
-            regex = escapeRegexGroup(group, curIdx, findUnnamedGroupEnd(group, curIdx + 1));
+            regex = unnamed_group_to_regexp(group, curIdx, findUnnamedGroupEnd(group, curIdx + 1));
             namedCapture = `(?<${group.slice(startIdx, curIdx)}>`;
             break;
           }
@@ -67,14 +69,16 @@ export const group_delim_to_regexp = (group: string): string => {
 
       case '*':
         return hasModifier
-          ? `(?:${escapeStaticPart(group.slice(0, j))}.*${escapeStaticPart(group.slice(j + 1, -2))})` +
+          ? `(?:${static_part_to_regexp(group.slice(0, j))}.*${static_part_to_regexp(group.slice(j + 1, -2))})` +
               modifier
-          : escapeStaticPart(group.slice(0, j)) + '.*' + escapeStaticPart(group.slice(j + 1, -1));
+          : static_part_to_regexp(group.slice(0, j)) +
+              '.*' +
+              static_part_to_regexp(group.slice(j + 1, -1));
 
       case '}':
         return hasModifier
-          ? `(?:${escapeStaticPart(group.slice(0, j))})` + modifier
-          : escapeStaticPart(group.slice(0, j));
+          ? `(?:${static_part_to_regexp(group.slice(0, j))})` + modifier
+          : static_part_to_regexp(group.slice(0, j));
     }
   }
 
@@ -83,7 +87,7 @@ export const group_delim_to_regexp = (group: string): string => {
 };
 
 export const named_group_to_regexp = (key: string): string => {
-  HANDLERS.push(null);
+  HANDLERS.length++;
 
   const autoGroupPrefixing = key[0] === '/',
     modifier = key[key.length - 1],
@@ -91,7 +95,7 @@ export const named_group_to_regexp = (key: string): string => {
 
   for (let curIdx = startIdx; curIdx < key.length; curIdx++) {
     if (key[curIdx] === '(') {
-      const regex = escapeRegexGroup(key, curIdx, findUnnamedGroupEnd(key, curIdx + 1)),
+      const regex = unnamed_group_to_regexp(key, curIdx, findUnnamedGroupEnd(key, curIdx + 1)),
         namedCapture = `(?<${key.slice(startIdx, curIdx)}>`;
 
       return autoGroupPrefixing
@@ -165,7 +169,7 @@ export const node_compile_to_regexp = (node: Node<unknown>): string => {
   if (node[6] !== null) regexPaths.push('.*' + connect_node_compile_to_regexp(node[6]));
 
   return (
-    (node[0].length > 0 ? escapeStaticPart(node[0]) : '') +
+    (node[0].length > 0 ? static_part_to_regexp(node[0]) : '') +
     (regexPaths.length === 1 ? regexPaths[0] : `(?:${regexPaths.join('|')})`)
   );
 };

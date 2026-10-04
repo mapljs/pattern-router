@@ -117,9 +117,6 @@ export const validatePattern = (pat: string): URLPattern => new URLPattern({ pat
 export const isModifier = (modifier: string): boolean =>
   modifier === '?' || modifier === '+' || modifier === '*';
 
-export const escapeStaticPart = (str: string): string =>
-  str.replace(/([.+*?^${}()[\]|/\\])/g, '\\$1');
-
-export const escapeRegexGroup = (group: string, startIdx: number, endIdx: number): string =>
+export const unnamed_group_to_regexp = (group: string, startIdx: number, endIdx: number): string =>
   // might be lookahead or lookbehind assertions
   group[startIdx + 1] === '?' ? group.slice(0, endIdx) : '(?:' + group.slice(startIdx + 1, endIdx);

@@ -6,7 +6,7 @@ import {
   type LinearMap,
 } from '../linear-map.ts';
 import {
-  escapeRegexGroup,
+  unnamed_group_to_regexp,
   findGroupDelimEnd,
   findNamedGroupEnd,
   findUnnamedGroupEnd,
@@ -63,7 +63,7 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
 
       case '(': {
         const groupEndIdx = findUnnamedGroupEnd(path, pathIdx + 1),
-          groupKey = escapeRegexGroup(path, pathIdx, groupEndIdx);
+          groupKey = unnamed_group_to_regexp(path, pathIdx, groupEndIdx);
 
         return [
           path.slice(prevIdx, pathIdx),
