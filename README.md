@@ -29,11 +29,6 @@ router_set(router, 'GET', '/:id(\\d+)', ...);
 router_set(router, 'GET', '{/:id(\\d+)}', ...);
 ```
 
-Named groups only capture the last matched value in group delimiters with `+` and `*` modifier.
-```ts
-router_set(router, 'GET', '/post{/:id}+', ...); // '/post/a/b' -> { id: 'b' }
-```
-
 ### JIT
 To wrap compiled code pieces with routing code:
 ```ts

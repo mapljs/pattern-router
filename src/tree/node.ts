@@ -5,7 +5,12 @@ import {
   linear_map_remove_reordered,
   type LinearMap,
 } from '../linear-map.ts';
-import { findGroupDelimEnd, findNamedGroupEnd, findUnnamedGroupEnd } from './utils.ts';
+import {
+  escapeRegexGroup,
+  findGroupDelimEnd,
+  findNamedGroupEnd,
+  findUnnamedGroupEnd,
+} from './utils.ts';
 
 // Sort by priority
 export type Node<T> = [
@@ -58,7 +63,7 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
 
       case '(': {
         const groupEndIdx = findUnnamedGroupEnd(path, pathIdx + 1),
-          groupKey = path.slice(pathIdx, groupEndIdx);
+          groupKey = escapeRegexGroup(path, pathIdx, groupEndIdx);
 
         return [
           path.slice(prevIdx, pathIdx),
@@ -84,7 +89,7 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
         if (pathIdx + 1 === path.length || path[pathIdx + 1] !== ':') break;
 
       case ':': {
-        const groupEndIdx = findNamedGroupEnd(path, pathIdx, path.length),
+        const groupEndIdx = findNamedGroupEnd(path, pathIdx),
           groupKey = path.slice(pathIdx, groupEndIdx);
 
         return [
@@ -202,7 +207,7 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
           if (pathIdx + 1 === path.length || path[pathIdx + 1] !== ':') break;
 
         case ':': {
-          const groupEndIdx = findNamedGroupEnd(path, pathIdx, path.length),
+          const groupEndIdx = findNamedGroupEnd(path, pathIdx),
             groupKey = path.slice(pathIdx, groupEndIdx);
 
           // Create new map
@@ -403,7 +408,7 @@ export const node_remove = (node: Node<any>, path: string, pathIdx: number): boo
       case ':': {
         if (node[5] === null) return false;
 
-        const groupEndIdx = findNamedGroupEnd(path, pathIdx, path.length);
+        const groupEndIdx = findNamedGroupEnd(path, pathIdx);
         return (
           connect_node_remove_from_map(
             node[5],

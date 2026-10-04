@@ -17,18 +17,28 @@ export const tree_compile_to_code = (
     }
 
   if (tree[2] !== null) {
-    // console.log(JSON.stringify(tree[2]!, null, 2));
+    let root = tree[2],
+      wildcardValue: string | null = null;
+
+    // Optimize for *
+    if (root[6] !== null) {
+      wildcardValue = root[6][0];
+      root[6][0] = null;
+    }
+
     reset();
-    str += `let ${resultId}=/${node_compile_root_to_regexp(tree[2])}/.exec(${pathId});if(${resultId}!==null){`;
+    str += `let ${resultId}=/${node_compile_root_to_regexp(root)}/.exec(${pathId});if(${resultId}!==null){`;
     for (let i = 1, hasHandler = false, startIf = `if(${resultId}[`; i < HANDLERS.length; i++)
-      if (HANDLERS[i] !== null) {
+      if (HANDLERS[i] != null) {
         str += startIf + i + `]===""){${HANDLERS[i]}}`;
         if (!hasHandler) {
           hasHandler = true;
           startIf = 'else ' + startIf;
         }
       }
-    str += '}';
+
+    str +=
+      wildcardValue !== null ? ((root[6]![0] = wildcardValue), `}else{${wildcardValue}}`) : '}';
   }
 
   return str;

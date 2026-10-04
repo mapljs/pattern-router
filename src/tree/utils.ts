@@ -63,7 +63,7 @@ export const findGroupDelimEnd = (path: string, startIdx: number): number =>
 /**
  * @param path
  * @param startIdx position after (
- * @returns position after )
+ * @returns position after ) or a modifier
  */
 export const findUnnamedGroupEnd = (path: string, startIdx: number): number => {
   let stack = 1;
@@ -80,9 +80,9 @@ export const findUnnamedGroupEnd = (path: string, startIdx: number): number => {
  * @param path
  * @param startIdx position of : or /:
  */
-export const findNamedGroupEnd = (path: string, startIdx: number, len: number): number => {
+export const findNamedGroupEnd = (path: string, startIdx: number): number => {
   let groupEndIdx = startIdx + 2;
-  while (groupEndIdx < len) {
+  while (groupEndIdx < path.length) {
     switch (path[groupEndIdx]) {
       case '*':
       case '+':
@@ -90,15 +90,7 @@ export const findNamedGroupEnd = (path: string, startIdx: number, len: number): 
         return groupEndIdx + 1;
 
       case '(':
-        groupEndIdx = findUnnamedGroupEnd(path, groupEndIdx + 1);
-        switch (path[groupEndIdx]) {
-          case '*':
-          case '+':
-          case '?':
-            return groupEndIdx + 1;
-        }
-
-        return groupEndIdx;
+        return findUnnamedGroupEnd(path, groupEndIdx + 1);
 
       case '{':
       case '}':
@@ -128,67 +120,6 @@ export const isModifier = (modifier: string): boolean =>
 export const escapeStaticPart = (str: string): string =>
   str.replace(/([.+*?^${}()[\]|/\\])/g, '\\$1');
 
-export const parseNamedGroup = (key: string, curIdx: number, endIdx: number): string => {
-  const autoGroupPrefixing = key[curIdx] === '/';
-  return parseNamedGroupWithModifier(
-    key,
-    curIdx + (autoGroupPrefixing ? 2 : 1),
-    endIdx,
-    key[endIdx - 1],
-    autoGroupPrefixing,
-  );
-};
-
-/**
- * @param key
- * @param curIdx - start index of param name
- * @param endIdx - end index, needs to be before modifier
- * @param modifier
- * @param autoGroupPrefixing - auto prefix with '/'
- */
-export const parseNamedGroupWithModifier = (
-  key: string,
-  curIdx: number,
-  endIdx: number,
-  modifier: string,
-  autoGroupPrefixing: boolean,
-): string => {
-  for (let startIdx = curIdx; ; ) {
-    if (curIdx === endIdx) {
-      const namedCapture = `(?<${key.slice(startIdx, endIdx + (isModifier(modifier) ? -1 : 0))}>`;
-      return autoGroupPrefixing
-        ? modifier === '?'
-          ? `(?:\\/${namedCapture}[^/]+))?`
-          : modifier === '+'
-            ? `\\/${namedCapture}.+)`
-            : modifier === '*'
-              ? `(?:\\/${namedCapture}.+))?`
-              : `\\/${namedCapture}[^/]+)`
-        : namedCapture + (modifier === '?' ? '[^/]+)?' : modifier === '*' ? '[^/]*)' : '[^/]+)');
-    }
-
-    if (key[curIdx] === '(') {
-      const regex = '(?:' + key.slice(curIdx + 1, findUnnamedGroupEnd(key, curIdx + 1)),
-        namedCapture = `(?<${key.slice(startIdx, curIdx)}>`;
-
-      return autoGroupPrefixing
-        ? modifier === '?'
-          ? `(?:\\/${namedCapture + regex}))?`
-          : modifier === '+'
-            ? `\\/${namedCapture + regex}(?:\\/${regex})*)`
-            : modifier === '*'
-              ? `(?:\\/${namedCapture + regex}(?:\\/${regex})*))?`
-              : `\\/${namedCapture + regex})`
-        : namedCapture +
-            (modifier === '?'
-              ? regex + ')?'
-              : modifier === '+'
-                ? `(?:${regex})+)`
-                : modifier === '*'
-                  ? `(?:${regex})*)`
-                  : regex + ')');
-    }
-
-    curIdx++;
-  }
-};
+export const escapeRegexGroup = (group: string, startIdx: number, endIdx: number): string =>
+  // might be lookahead or lookbehind assertions
+  group[startIdx + 1] === '?' ? group.slice(0, endIdx) : '(?:' + group.slice(startIdx + 1, endIdx);

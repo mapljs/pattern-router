@@ -1,14 +1,14 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
 
-import type { Suite } from './suites/types.ts';
+import type { Suite } from '../tree/suites/types.ts';
 
 import { tree_init, tree_set_dynamic, tree_set_static } from '@mapl/pattern-router/tree';
 import { tree_compile_to_code } from '@mapl/pattern-router/tree/jit';
 import { isDynamicPattern, validatePattern } from '@mapl/pattern-router/tree/utils';
 
-import customer_api from './suites/customer-api.json' with { type: 'json' };
-import group_delimiters from './suites/group-delimiters.json' with { type: 'json' };
+import customer_api from '../tree/suites/customer-api.json' with { type: 'json' };
+import group_delimiters from '../tree/suites/group-delimiters.json' with { type: 'json' };
 
 const clone = (o: object) => JSON.parse(JSON.stringify(o));
 
@@ -21,11 +21,11 @@ const run = (name: string, suite: Suite) => {
         : tree_set_static(tree, pattern, `return {id:${JSON.stringify(pattern)},params:{}}`);
     }
 
-    //console.log(JSON.stringify(tree, null, 2));
-
+    // console.log(JSON.stringify(tree, null, 2));
+    const code = tree_compile_to_code(tree, 'r', 'p');
+    // console.log(code);
     const fn: (path: string) => { id: string; params: Record<string, string> } | undefined =
-      Function('p', tree_compile_to_code(tree, 'r', 'p')) as any;
-    //console.log(fn.toString());
+      Function('p', code) as any;
 
     for (const pattern in suite) {
       describe(pattern, () => {
