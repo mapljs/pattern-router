@@ -10,6 +10,7 @@ import { router_compile_to_code } from '@mapl/pattern-router/jit';
 import { SNAPSHOTS } from '../lib/constants.ts';
 
 import { routesList } from '../../snapshots/routes.ts';
+import { fmt } from '../lib/fmt.ts';
 
 const writeFormatted = async (pathFromSnap: string, content: string) => {
   pathFromSnap = join(SNAPSHOTS, pathFromSnap);
@@ -32,10 +33,15 @@ const writeFormatted = async (pathFromSnap: string, content: string) => {
       router_set(router, method, path, `return "${id}"`);
     }
 
+    let timeStart = performance.now(),
+      code = router_compile_to_code(router, 'r', 'p', 'm'),
+      timeEnd = performance.now();
+    console.log(fmt.name(`[${name}]`), fmt.duration((timeEnd - timeStart) * 1e6));
+
     promises.push(
       writeFormatted(
         name + '.js',
-        `(m,p)=>{${router_compile_to_code(router, 'r', 'p', 'm')}return ''}`,
+        `(m,p)=>{${code}return ''}`,
       ),
       writeFormatted(name + '.json', JSON.stringify(router)),
     );
