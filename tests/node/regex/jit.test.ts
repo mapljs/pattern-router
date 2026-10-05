@@ -44,12 +44,12 @@ const run = (name: string, suite: Suite) => {
             });
           else
             it(`match ${path}`, () => {
-              assert.ok(matchedResult != null, `expect ${path} to match`);
+              assert.ok(matchedResult != null, `expect ${path} to match ${pattern}`);
 
               assert.strictEqual(
                 matchedResult.id,
                 pattern,
-                `expect ${path} to match this pattern, instead matched ${matchedResult.id}`,
+                `expect ${path} to match ${pattern}, instead matched ${matchedResult.id}`,
               );
 
               // this router doesn't capture unnamed groups and wildcards
