@@ -39,10 +39,7 @@ const writeFormatted = async (pathFromSnap: string, content: string) => {
     console.log(fmt.name(`[${name}]`), fmt.duration((timeEnd - timeStart) * 1e6));
 
     promises.push(
-      writeFormatted(
-        name + '.js',
-        `(m,p)=>{${code}return ''}`,
-      ),
+      writeFormatted(name + '.js', `(m,p)=>{${code}return ''}`),
       writeFormatted(name + '.json', JSON.stringify(router)),
     );
   }

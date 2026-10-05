@@ -1,6 +1,6 @@
-export type Evaluate<T> = T extends infer U ? { [K in keyof U]: U[K] } : never;
+type Evaluate<T> = T extends infer U ? { [K in keyof U]: U[K] } : never;
 
-export type SkipCaptureGroup<
+type SkipCaptureGroup<
   Path extends string,
   Stack extends 0[],
 > = Path extends `${string}(${infer Rest}`

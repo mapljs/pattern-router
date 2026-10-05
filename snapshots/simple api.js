@@ -12,7 +12,7 @@
       return 'GET /very/deeply/nested/route/hello/there';
     }
     let r =
-      /^(?:\/(?:user\/lookup\/(?:username\/(?<username>[^/]+)()$|email\/(?<email>[^/]+)()$)|event\/(?<event>[^/]+)(?:()$|\/comments()$)|map\/(?<location>[^/]+)\/events()$|static\/(?<file>.+)()$)|$.)/.exec(
+      /^\/(?:user\/lookup\/(?:username\/(?<username>[^/]+)()$|email\/(?<email>[^/]+)()$)|event\/(?<event>[^/]+)(?:()$|\/comments()$)|map\/(?<location>[^/]+)\/events()$|static\/(?<file>.+)()$)/.exec(
         p,
       );
     if (r !== null) {
@@ -31,7 +31,7 @@
       }
     }
   } else if (m === 'POST') {
-    let r = /^(?:\/event\/(?<event>[^/]+)\/comment()$|$.)/.exec(p);
+    let r = /^\/event\/(?<event>[^/]+)\/comment()$/.exec(p);
     if (r !== null) {
       if (r[2] === '') {
         return 'POST /event/:event/comment';

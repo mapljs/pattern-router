@@ -17,7 +17,7 @@ export const reset = (): void => {
 export const static_part_to_regexp = (str: string): string =>
   str.replace(/([.+*?^${}()[\]|/\\])/g, '\\$1');
 
-export const group_delim_to_regexp = (group: string): string => {
+export const group_delimiter_to_regexp = (group: string): string => {
   for (
     let j = 0, modifier = group[group.length - 1], hasModifier = isModifier(modifier);
     j < group.length;
@@ -153,7 +153,7 @@ export const node_compile_to_regexp = (node: Node<unknown>): string => {
   if (node[3] !== null)
     for (let i = 0, groups = node[3][0], connectNodes = node[3][1]; i < groups.length; i++)
       regexPaths.push(
-        group_delim_to_regexp(groups[i]) + connect_node_compile_to_regexp(connectNodes[i]),
+        group_delimiter_to_regexp(groups[i]) + connect_node_compile_to_regexp(connectNodes[i]),
       );
 
   if (node[4] !== null)
@@ -175,4 +175,4 @@ export const node_compile_to_regexp = (node: Node<unknown>): string => {
 };
 
 export const node_compile_root_to_regexp = (root: Node<unknown>): string =>
-  `^(?:${node_compile_to_regexp(root)}|$.)`;
+  '^' + node_compile_to_regexp(root);
