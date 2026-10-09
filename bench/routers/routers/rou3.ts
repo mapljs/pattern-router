@@ -25,7 +25,7 @@ type Handler = (params: Record<string, string>) => string;
   });
 
   {
-    const compiledFindRoute = compileRouter(router);
+    let compiledFindRoute = compileRouter(router);
     simple_api.it('rou3 (jit)', (method, path) => {
       let res = compiledFindRoute(method, path);
       return typeof res !== 'undefined' ? res.data(res.params!) : '';

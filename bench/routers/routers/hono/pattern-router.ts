@@ -1,7 +1,7 @@
+import type { Result } from 'hono/router';
 import { PatternRouter } from 'hono/router/pattern-router';
 
 import { simple_api } from '../../suites.ts';
-import type { Result } from 'hono/router';
 
 interface Handler {
   (t: Result<this> & { length: 1 }): string;

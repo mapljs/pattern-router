@@ -1,7 +1,7 @@
+import type { Result } from 'hono/router';
 import { PreparedRegExpRouter, buildInitParams } from 'hono/router/reg-exp-router';
 
 import { simple_api } from '../../suites.ts';
-import type { Result } from 'hono/router';
 
 interface Handler {
   (t: Result<this> & { length: 2 }): string;

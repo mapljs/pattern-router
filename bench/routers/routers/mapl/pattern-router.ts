@@ -3,7 +3,7 @@ import { router_compile_to_code } from '@mapl/pattern-router/jit';
 
 import { simple_api } from '../../suites.ts';
 
-const buildJIT = (router: Router<string>) =>
+const jit = (router: Router<string>) =>
   (0, eval)(`(m,p)=>{${router_compile_to_code(router, 'r', 'p', 'm')}return ""}`);
 
 {
@@ -21,6 +21,6 @@ const buildJIT = (router: Router<string>) =>
   router_set(router, 'GET', '/post/:id/comments', 'return "GET /post/:id/comments "+r.groups.id');
   router_set(router, 'POST', '/post/:id/comment', 'return "POST /post/:id/comment "+r.groups.id');
 
-  const fn = buildJIT(router);
+  const fn = jit(router);
   simple_api.it('@mapl/pattern-router (jit)', fn);
 }
