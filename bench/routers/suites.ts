@@ -291,4 +291,5 @@ export const simple_api = suite(
 export default category({
   iters: 256,
   warmupIters: 64,
+  measureGC: true,
 }).it('simple api', simple_api.category);

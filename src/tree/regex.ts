@@ -132,7 +132,7 @@ export const named_group_to_regexp = (key: string): string => {
 export const connect_node_compile_to_regexp = (connectNode: ConnectNode<unknown>): string => {
   if (connectNode[0] !== null) {
     HANDLERS.push(connectNode[0]);
-    return connectNode[1] === null ? '()$' : `(?:()$|${node_compile_to_regexp(connectNode[1])})`;
+    return connectNode[1] === null ? '()' : `(?:()|${node_compile_to_regexp(connectNode[1])})`;
   }
 
   return node_compile_to_regexp(connectNode[1]!);
@@ -143,7 +143,7 @@ export const node_compile_to_regexp = (node: Node<unknown>): string => {
 
   if (node[1] !== null) {
     HANDLERS.push(node[1]);
-    regexPaths.push('()$');
+    regexPaths.push('()');
   }
 
   if (node[2] !== null)
@@ -175,4 +175,4 @@ export const node_compile_to_regexp = (node: Node<unknown>): string => {
 };
 
 export const node_compile_root_to_regexp = (root: Node<unknown>): string =>
-  '^' + node_compile_to_regexp(root);
+  `^${node_compile_to_regexp(root)}$`;
