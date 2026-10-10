@@ -28,10 +28,10 @@ export const router_compile_to_code = (
 
       str += 'case"HEAD":{' + handleHeadCode;
       {
-        let headIdx = linear_map_index_from(router, 'HEAD', i);
+        const headIdx = linear_map_index_from(router, 'HEAD', i);
         if (headIdx !== -1) {
           linear_map_swap(router, headIdx, i);
-          str += tree_compile_to_code(trees[(headIdx = i++)], resultId, pathId);
+          str += tree_compile_to_code(trees[i++], resultId, pathId);
         }
       }
       str += `}case "GET":{${tree_compile_to_code(trees[getIdx], resultId, pathId)}break}`;
