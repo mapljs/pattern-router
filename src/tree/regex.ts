@@ -1,9 +1,9 @@
 import type { ConnectNode, Node } from './node.ts';
 import {
   unnamed_group_to_regexp,
-  findNamedGroupEnd,
-  findUnnamedGroupEnd,
-  isModifier,
+  named_group_end,
+  unnamed_group_end,
+  is_modifier,
 } from './utils.ts';
 
 export type Handlers<T> = (T | null)[];
@@ -19,13 +19,13 @@ export const static_part_to_regexp = (str: string): string =>
 
 export const group_delimiter_to_regexp = (group: string): string => {
   for (
-    let j = 0, modifier = group[group.length - 1], hasModifier = isModifier(modifier);
+    let j = 0, modifier = group[group.length - 1], hasModifier = is_modifier(modifier);
     j < group.length;
     j++
   ) {
     switch (group[j]) {
       case '(': {
-        const regexpEnd = findUnnamedGroupEnd(group, j + 1),
+        const regexpEnd = unnamed_group_end(group, j + 1),
           prefixWithRegexp =
             static_part_to_regexp(group.slice(0, j)) + unnamed_group_to_regexp(group, j, regexpEnd);
 
@@ -38,7 +38,7 @@ export const group_delimiter_to_regexp = (group: string): string => {
         HANDLERS.length++;
 
         const prefix = static_part_to_regexp(group.slice(0, j)),
-          endIdx = findNamedGroupEnd(group, j),
+          endIdx = named_group_end(group, j),
           suffix = static_part_to_regexp(group.slice(endIdx, hasModifier ? -2 : -1));
 
         let namedCapture: string, regex: string;
@@ -50,7 +50,7 @@ export const group_delimiter_to_regexp = (group: string): string => {
           }
 
           if (group[curIdx] === '(') {
-            regex = unnamed_group_to_regexp(group, curIdx, findUnnamedGroupEnd(group, curIdx + 1));
+            regex = unnamed_group_to_regexp(group, curIdx, unnamed_group_end(group, curIdx + 1));
             namedCapture = `(?<${group.slice(startIdx, curIdx)}>`;
             break;
           }
@@ -95,7 +95,7 @@ export const named_group_to_regexp = (key: string): string => {
 
   for (let curIdx = startIdx; curIdx < key.length; curIdx++) {
     if (key[curIdx] === '(') {
-      const regex = unnamed_group_to_regexp(key, curIdx, findUnnamedGroupEnd(key, curIdx + 1)),
+      const regex = unnamed_group_to_regexp(key, curIdx, unnamed_group_end(key, curIdx + 1)),
         namedCapture = `(?<${key.slice(startIdx, curIdx)}>`;
 
       return autoGroupPrefixing
@@ -117,7 +117,7 @@ export const named_group_to_regexp = (key: string): string => {
     }
   }
 
-  const namedCapture = `(?<${isModifier(modifier) ? key.slice(startIdx, -1) : key.slice(startIdx)}>`;
+  const namedCapture = `(?<${is_modifier(modifier) ? key.slice(startIdx, -1) : key.slice(startIdx)}>`;
   return autoGroupPrefixing
     ? modifier === '?'
       ? `(?:\\/${namedCapture}[^/]+))?`

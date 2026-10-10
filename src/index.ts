@@ -6,7 +6,7 @@ import {
   tree_set_static,
   type Tree,
 } from './tree/index.ts';
-import { isDynamicPattern } from './tree/utils.ts';
+import { is_dynamic_pattern } from './tree/utils.ts';
 import {
   linear_map_add,
   linear_map_get,
@@ -46,7 +46,7 @@ export const router_set_dynamic = <T>(
   } else tree_set_dynamic(linear_map_get(router, idx), path, store);
 };
 export const router_set = <T>(router: Router<T>, method: string, path: string, store: T): void =>
-  isDynamicPattern(path)
+  is_dynamic_pattern(path)
     ? router_set_dynamic(router, method, path, store)
     : router_set_static(router, method, path, store);
 
@@ -82,6 +82,6 @@ export const router_remove_dynamic = <T>(
   );
 };
 export const router_remove = <T>(router: Router<T>, method: string, path: string): boolean =>
-  isDynamicPattern(path)
+  is_dynamic_pattern(path)
     ? router_remove_dynamic(router, method, path)
     : router_remove_static(router, method, path);

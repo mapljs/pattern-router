@@ -41,7 +41,7 @@ export type InferParams<Path extends string> =
           ? InferNamedGroup<Group, '?'>
           : {};
 
-export const checkEndModifier = (path: string, groupEndIdx: number): number => {
+export const group_modifier_end = (path: string, groupEndIdx: number): number => {
   if (groupEndIdx < path.length)
     switch (path[groupEndIdx]) {
       case '+':
@@ -57,19 +57,19 @@ export const checkEndModifier = (path: string, groupEndIdx: number): number => {
  * @param startIdx position after {
  * @returns position after } or a modifier
  */
-export const findGroupDelimEnd = (path: string, startIdx: number): number =>
-  checkEndModifier(path, path.indexOf('}', startIdx) + 1);
+export const group_delimiter_end = (path: string, startIdx: number): number =>
+  group_modifier_end(path, path.indexOf('}', startIdx) + 1);
 
 /**
  * @param path
  * @param startIdx position after (
  * @returns position after ) or a modifier
  */
-export const findUnnamedGroupEnd = (path: string, startIdx: number): number => {
+export const unnamed_group_end = (path: string, startIdx: number): number => {
   let stack = 1;
   while (true) {
     if (path[startIdx] === ')') {
-      if (--stack === 0) return checkEndModifier(path, startIdx + 1);
+      if (--stack === 0) return group_modifier_end(path, startIdx + 1);
     } else if (path[startIdx] === '(') stack++;
 
     startIdx++;
@@ -80,7 +80,7 @@ export const findUnnamedGroupEnd = (path: string, startIdx: number): number => {
  * @param path
  * @param startIdx position of : or /:
  */
-export const findNamedGroupEnd = (path: string, startIdx: number): number => {
+export const named_group_end = (path: string, startIdx: number): number => {
   let groupEndIdx = startIdx + 2;
   while (groupEndIdx < path.length) {
     switch (path[groupEndIdx]) {
@@ -90,7 +90,7 @@ export const findNamedGroupEnd = (path: string, startIdx: number): number => {
         return groupEndIdx + 1;
 
       case '(':
-        return findUnnamedGroupEnd(path, groupEndIdx + 1);
+        return unnamed_group_end(path, groupEndIdx + 1);
 
       case '{':
       case '}':
@@ -112,9 +112,9 @@ export const findNamedGroupEnd = (path: string, startIdx: number): number => {
   return groupEndIdx;
 };
 
-export const isDynamicPattern = (pat: string): boolean => /[({:*]/.test(pat);
-export const validatePattern = (pat: string): URLPattern => new URLPattern({ pathname: pat });
-export const isModifier = (modifier: string): boolean =>
+export const is_dynamic_pattern = (pat: string): boolean => /[({:*]/.test(pat);
+export const url_pattern = (pat: string): URLPattern => new URLPattern({ pathname: pat });
+export const is_modifier = (modifier: string): boolean =>
   modifier === '?' || modifier === '+' || modifier === '*';
 
 export const unnamed_group_to_regexp = (group: string, startIdx: number, endIdx: number): string =>

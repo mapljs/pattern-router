@@ -7,9 +7,9 @@ import {
 } from '../linear-map.ts';
 import {
   unnamed_group_to_regexp,
-  findGroupDelimEnd,
-  findNamedGroupEnd,
-  findUnnamedGroupEnd,
+  group_delimiter_end,
+  named_group_end,
+  unnamed_group_end,
 } from './utils.ts';
 
 // Sort by priority
@@ -40,7 +40,7 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
   while (pathIdx < path.length) {
     switch (path[pathIdx]) {
       case '{': {
-        const groupEndIdx = findGroupDelimEnd(path, pathIdx + 1),
+        const groupEndIdx = group_delimiter_end(path, pathIdx + 1),
           groupKey = path.slice(pathIdx + 1, groupEndIdx);
 
         return [
@@ -62,7 +62,7 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
       }
 
       case '(': {
-        const groupEndIdx = findUnnamedGroupEnd(path, pathIdx + 1),
+        const groupEndIdx = unnamed_group_end(path, pathIdx + 1),
           groupKey = unnamed_group_to_regexp(path, pathIdx, groupEndIdx);
 
         return [
@@ -89,7 +89,7 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
         if (pathIdx + 1 === path.length || path[pathIdx + 1] !== ':') break;
 
       case ':': {
-        const groupEndIdx = findNamedGroupEnd(path, pathIdx),
+        const groupEndIdx = named_group_end(path, pathIdx),
           groupKey = path.slice(pathIdx, groupEndIdx);
 
         return [
@@ -166,7 +166,7 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
     if (nodePathIdx === nodePath.length) {
       switch (pathChar) {
         case '{': {
-          const groupEndIdx = findGroupDelimEnd(path, pathIdx + 1),
+          const groupEndIdx = group_delimiter_end(path, pathIdx + 1),
             groupKey = path.slice(pathIdx + 1, groupEndIdx);
 
           // Create new map
@@ -184,7 +184,7 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
         }
 
         case '(': {
-          const groupEndIdx = findUnnamedGroupEnd(path, pathIdx + 1),
+          const groupEndIdx = unnamed_group_end(path, pathIdx + 1),
             groupKey = path.slice(pathIdx, groupEndIdx);
 
           // Create new map
@@ -207,7 +207,7 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
           if (pathIdx + 1 === path.length || path[pathIdx + 1] !== ':') break;
 
         case ':': {
-          const groupEndIdx = findNamedGroupEnd(path, pathIdx),
+          const groupEndIdx = named_group_end(path, pathIdx),
             groupKey = path.slice(pathIdx, groupEndIdx);
 
           // Create new map
@@ -363,7 +363,7 @@ export const node_remove = (node: Node<any>, path: string, pathIdx: number): boo
       case '{': {
         if (node[3] === null) return false;
 
-        const groupEndIdx = findGroupDelimEnd(path, pathIdx + 1);
+        const groupEndIdx = group_delimiter_end(path, pathIdx + 1);
         return (
           connect_node_remove_from_map(
             node[3],
@@ -383,7 +383,7 @@ export const node_remove = (node: Node<any>, path: string, pathIdx: number): boo
       case '(': {
         if (node[4] === null) return false;
 
-        const groupEndIdx = findUnnamedGroupEnd(path, pathIdx + 1);
+        const groupEndIdx = unnamed_group_end(path, pathIdx + 1);
         return (
           connect_node_remove_from_map(
             node[4],
@@ -408,7 +408,7 @@ export const node_remove = (node: Node<any>, path: string, pathIdx: number): boo
       case ':': {
         if (node[5] === null) return false;
 
-        const groupEndIdx = findNamedGroupEnd(path, pathIdx);
+        const groupEndIdx = named_group_end(path, pathIdx);
         return (
           connect_node_remove_from_map(
             node[5],
