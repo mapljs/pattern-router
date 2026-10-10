@@ -5,7 +5,8 @@ export interface LinearMap<K, V> {
 
 export const linear_map_is_empty = (m: LinearMap<any, any>): boolean => m[0].length === 0;
 export const linear_map_index = <K>(m: LinearMap<K, any>, k: K): number => m[0].indexOf(k);
-export const linear_map_index_from = <K>(m: LinearMap<K, any>, k: K, from: number): number => m[0].indexOf(k, from);
+export const linear_map_index_from = <K>(m: LinearMap<K, any>, k: K, from: number): number =>
+  m[0].indexOf(k, from);
 export const linear_map_get = <V>(m: LinearMap<any, V>, i: number): V => m[1][i];
 
 /**
@@ -29,18 +30,18 @@ export const linear_map_remove_reordered = <V>(m: LinearMap<any, V>, i: number):
 };
 
 export const linear_map_swap = <V>(m: LinearMap<any, V>, i: number, newIdx: number): void => {
-  if (i === newIdx) return;
+  if (i !== newIdx) {
+    const keys = m[0],
+      values = m[1],
+      oldKey = keys[i],
+      value = values[i];
 
-  const keys = m[0],
-    values = m[1];
+    keys[i] = keys[newIdx];
+    keys[newIdx] = oldKey;
 
-  const key = keys[i];
-  keys[i] = keys[newIdx];
-  keys[newIdx] = key;
-
-  const value = values[i];
-  values[i] = values[newIdx];
-  values[newIdx] = value;
+    values[i] = values[newIdx];
+    values[newIdx] = value;
+  }
 };
 
 export const linear_map_add = <K, V>(m: LinearMap<K, V>, k: K, v: V): void => {

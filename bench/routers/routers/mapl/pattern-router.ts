@@ -4,7 +4,7 @@ import { router_compile_to_code } from '@mapl/pattern-router/jit';
 import { simple_api } from '../../suites.ts';
 
 const jit = (router: Router<string>) =>
-  (0, eval)(`(m,p)=>{${router_compile_to_code(router, 'r', 'p', 'm')}return ""}`);
+  (0, eval)(`(m,p)=>{${router_compile_to_code(router, 'r', 'p', 'm', '')}return ""}`);
 
 {
   const router = router_init<string>();

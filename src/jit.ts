@@ -26,15 +26,15 @@ export const router_compile_to_code = (
       linear_map_swap(router, getIdx, i);
       getIdx = i++;
 
+      str += 'case"HEAD":{' + handleHeadCode;
+
       let headIdx = linear_map_index_from(router, 'HEAD', i);
       if (headIdx !== -1) {
         linear_map_swap(router, headIdx, i);
-        headIdx = i++;
-
-        handleHeadCode += tree_compile_to_code(trees[headIdx], resultId, pathId);
+        str += tree_compile_to_code(trees[headIdx = i++], resultId, pathId);
       }
 
-      str += `case"HEAD":{${handleHeadCode}}case "GET":{${tree_compile_to_code(trees[getIdx], resultId, pathId)}break}`;
+      str += `}case "GET":{${tree_compile_to_code(trees[getIdx], resultId, pathId)}break}`;
     }
   }
 
