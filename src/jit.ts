@@ -30,9 +30,11 @@ export const router_compile_to_code = (
       if (headIdx !== -1) {
         linear_map_swap(router, headIdx, i);
         headIdx = i++;
-        str += `case"HEAD":{${tree_compile_to_code(trees[headIdx], resultId, pathId) + handleHeadCode}}case "GET":{${tree_compile_to_code(trees[getIdx], resultId, pathId)}break}`;
-      } else
-        str += `case"HEAD":{${handleHeadCode}}case "GET":{${tree_compile_to_code(trees[getIdx], resultId, pathId)}break}`;
+
+        handleHeadCode += tree_compile_to_code(trees[headIdx], resultId, pathId);
+      }
+
+      str += `case"HEAD":{${handleHeadCode}}case "GET":{${tree_compile_to_code(trees[getIdx], resultId, pathId)}break}`;
     }
   }
 
