@@ -3,16 +3,27 @@
     case 'HEAD': {
     }
     case 'GET': {
-      if (p === '/user') {
-        return 'GET /user';
-      } else if (p === '/user/comments') {
-        return 'GET /user/comments';
-      } else if (p === '/user/avatar') {
-        return 'GET /user/avatar';
-      } else if (p === '/status') {
-        return 'GET /status';
-      } else if (p === '/very/deeply/nested/route/hello/there') {
-        return 'GET /very/deeply/nested/route/hello/there';
+      switch (p) {
+        case '/user': {
+          return 'GET /user';
+          break;
+        }
+        case '/user/comments': {
+          return 'GET /user/comments';
+          break;
+        }
+        case '/user/avatar': {
+          return 'GET /user/avatar';
+          break;
+        }
+        case '/status': {
+          return 'GET /status';
+          break;
+        }
+        case '/very/deeply/nested/route/hello/there': {
+          return 'GET /very/deeply/nested/route/hello/there';
+          break;
+        }
       }
       let r =
         /^\/(?:user\/lookup\/(?:username\/(?<username>[^/]+)()|email\/(?<email>[^/]+)())|event\/(?<event>[^/]+)(?:()|\/comments())|map\/(?<location>[^/]+)\/events()|static\/(?<file>.+)())$/.exec(

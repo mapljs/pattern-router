@@ -3,34 +3,63 @@
     case 'HEAD': {
     }
     case 'GET': {
-      if (p === '/auth/sso/providers') {
-        return 'GET /auth/sso/providers';
-      } else if (p === '/user/me') {
-        return 'GET /user/me';
-      } else if (p === '/user/me/preferences') {
-        return 'GET /user/me/preferences';
-      } else if (p === '/user/me/sessions') {
-        return 'GET /user/me/sessions';
-      } else if (p === '/user/notifications') {
-        return 'GET /user/notifications';
-      } else if (p === '/search') {
-        return 'GET /search';
-      } else if (p === '/search/filters') {
-        return 'GET /search/filters';
-      } else if (p === '/tags') {
-        return 'GET /tags';
-      } else if (p === '/status') {
-        return 'GET /status';
-      } else if (p === '/admin/reports/time') {
-        return 'GET /admin/reports/time';
-      } else if (p === '/admin/users') {
-        return 'GET /admin/users';
-      } else if (p === '/admin/projects') {
-        return 'GET /admin/projects';
-      } else if (p === '/admin/audit-logs') {
-        return 'GET /admin/audit-logs';
-      } else if (p === '/admin/stats') {
-        return 'GET /admin/stats';
+      switch (p) {
+        case '/auth/sso/providers': {
+          return 'GET /auth/sso/providers';
+          break;
+        }
+        case '/user/me': {
+          return 'GET /user/me';
+          break;
+        }
+        case '/user/me/preferences': {
+          return 'GET /user/me/preferences';
+          break;
+        }
+        case '/user/me/sessions': {
+          return 'GET /user/me/sessions';
+          break;
+        }
+        case '/user/notifications': {
+          return 'GET /user/notifications';
+          break;
+        }
+        case '/search': {
+          return 'GET /search';
+          break;
+        }
+        case '/search/filters': {
+          return 'GET /search/filters';
+          break;
+        }
+        case '/tags': {
+          return 'GET /tags';
+          break;
+        }
+        case '/status': {
+          return 'GET /status';
+          break;
+        }
+        case '/admin/reports/time': {
+          return 'GET /admin/reports/time';
+          break;
+        }
+        case '/admin/users': {
+          return 'GET /admin/users';
+          break;
+        }
+        case '/admin/projects': {
+          return 'GET /admin/projects';
+          break;
+        }
+        case '/admin/audit-logs': {
+          return 'GET /admin/audit-logs';
+          break;
+        }
+        case '/admin/stats': {
+          return 'GET /admin/stats';
+          break;
+        }
       }
       let r =
         /^\/(?:user\/(?<user>[^/]+)(?:()|\/(?:notifications()|invites\/(?<invite>[^/]+)()))|org\/(?<org>[^/]+)(?:()|\/(?:members()|roles()|domains()|projects\/(?<project>[^/]+)(?:()|\/(?:members()|activity()|tasks(?:()|\/(?:time-entries()|attachments()))))|tasks(?:()|\/(?<task>[^/]+)(?:()|\/(?:comments()|time-entries()|attachments())))|billing\/(?:p(?:lans()|ayment-methods())|subscription()|invoices(?:()|\/(?<invoice>[^/]+)()))|api-keys()|webhooks(?:()|\/(?<hook>[^/]+)\/deliveries(?:()|\/(?<delivery>[^/]+)()))))|files\/(?<file>.+)()|admin\/reports\/(?:projects\/(?<project>[^/]+)\/summary()|users\/(?<user>[^/]+)\/activity()))$/.exec(
@@ -102,36 +131,67 @@
       break;
     }
     case 'POST': {
-      if (p === '/auth/register') {
-        return 'POST /auth/register';
-      } else if (p === '/auth/login') {
-        return 'POST /auth/login';
-      } else if (p === '/auth/logout') {
-        return 'POST /auth/logout';
-      } else if (p === '/auth/refresh') {
-        return 'POST /auth/refresh';
-      } else if (p === '/auth/password/forgot') {
-        return 'POST /auth/password/forgot';
-      } else if (p === '/auth/password/reset') {
-        return 'POST /auth/password/reset';
-      } else if (p === '/auth/sso') {
-        return 'POST /auth/sso';
-      } else if (p === '/user') {
-        return 'POST /user';
-      } else if (p === '/user/me') {
-        return 'POST /user/me';
-      } else if (p === '/user/notifications/read-all') {
-        return 'POST /user/notifications/read-all';
-      } else if (p === '/org') {
-        return 'POST /org';
-      } else if (p === '/files/upload') {
-        return 'POST /files/upload';
-      } else if (p === '/search/filters') {
-        return 'POST /search/filters';
-      } else if (p === '/tags') {
-        return 'POST /tags';
-      } else if (p === '/admin/impersonate') {
-        return 'POST /admin/impersonate';
+      switch (p) {
+        case '/auth/register': {
+          return 'POST /auth/register';
+          break;
+        }
+        case '/auth/login': {
+          return 'POST /auth/login';
+          break;
+        }
+        case '/auth/logout': {
+          return 'POST /auth/logout';
+          break;
+        }
+        case '/auth/refresh': {
+          return 'POST /auth/refresh';
+          break;
+        }
+        case '/auth/password/forgot': {
+          return 'POST /auth/password/forgot';
+          break;
+        }
+        case '/auth/password/reset': {
+          return 'POST /auth/password/reset';
+          break;
+        }
+        case '/auth/sso': {
+          return 'POST /auth/sso';
+          break;
+        }
+        case '/user': {
+          return 'POST /user';
+          break;
+        }
+        case '/user/me': {
+          return 'POST /user/me';
+          break;
+        }
+        case '/user/notifications/read-all': {
+          return 'POST /user/notifications/read-all';
+          break;
+        }
+        case '/org': {
+          return 'POST /org';
+          break;
+        }
+        case '/files/upload': {
+          return 'POST /files/upload';
+          break;
+        }
+        case '/search/filters': {
+          return 'POST /search/filters';
+          break;
+        }
+        case '/tags': {
+          return 'POST /tags';
+          break;
+        }
+        case '/admin/impersonate': {
+          return 'POST /admin/impersonate';
+          break;
+        }
       }
       let r =
         /^\/(?:user(?:\/notifications\/(?<notification>[^/]+)\/read()|\/(?<user>[^/]+)(?:()|\/invites(?:()|\/(?<invite>[^/]+)\/(?:accept()|resend()))))|org\/(?<org>[^/]+)\/(?:members(?:()|\/(?<member>[^/]+)())|roles(?:()|\/(?<role>[^/]+)())|domains(?:()|\/(?<domain>[^/]+)())|projects(?:()|\/(?<project>[^/]+)\/(?:members()|tasks(?:()|\/(?:t(?:ime-entries(?:()|\/(?<entry>[^/]+)())|ags())|attachments()))))|tasks\/(?<task>[^/]+)\/(?:a(?:ssign()|ttachments())|status()|comments()|t(?:ime-entries(?:()|\/(?<entry>[^/]+)\/stop())|ags()))|billing\/(?:subscription(?:()|\/cancel())|invoices\/(?<invoice>[^/]+)()|payment-methods())|api-keys()|webhooks()))$/.exec(
@@ -205,8 +265,11 @@
       break;
     }
     case 'PATCH': {
-      if (p === '/user/me/preferences') {
-        return 'PATCH /user/me/preferences';
+      switch (p) {
+        case '/user/me/preferences': {
+          return 'PATCH /user/me/preferences';
+          break;
+        }
       }
       let r =
         /^\/(?:org\/(?<org>[^/]+)(?:()|\/(?:projects\/(?<project>[^/]+)()|tasks\/(?<task>[^/]+)()|webhooks\/(?<hook>[^/]+)()))|search\/filters\/(?<filter>[^/]+)()|tags\/(?<tag>[^/]+)())$/.exec(

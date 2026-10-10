@@ -10,11 +10,12 @@ export const tree_compile_to_code = (
     keys = tree[0],
     values = tree[1];
 
-  if (keys.length > 0)
-    for (let i = 0, prefix = `if(${pathId}===`; i < keys.length; i++) {
-      str += prefix + JSON.stringify(keys[i]) + `){${values[i]}}`;
-      if (i === 0) prefix = 'else ' + prefix;
-    }
+  if (keys.length > 0) {
+    str += `switch(${pathId}){`;
+    for (let i = 0; i < keys.length; i++)
+      str += `case${JSON.stringify(keys[i])}:{${values[i]};break}`;
+    str += '}';
+  }
 
   if (tree[2] !== null) {
     let root = tree[2],
