@@ -33,10 +33,18 @@ const writeFormatted = async (pathFromSnap: string, content: string) => {
       router_set(router, method, path, `return "${id}"`);
     }
 
-    let timeStart = performance.now(),
-      code = router_compile_to_code(router, 'r', 'p', 'm'),
-      timeEnd = performance.now();
-    console.log(fmt.name(`[${name}]`), fmt.duration((timeEnd - timeStart) * 1e6));
+    const group = fmt.name(`[${name}]`);
+
+    let timeStart = performance.now();
+
+    let code = router_compile_to_code(router, 'r', 'p', 'm', '');
+    code[0];
+
+    let timeEnd = performance.now();
+
+    console.log(group, 'routes:', routeList.length);
+    console.log(group, 'took:', fmt.duration((timeEnd - timeStart) * 1e6));
+    console.log(group, 'size:', fmt.byte(code.length));
 
     promises.push(
       writeFormatted(name + '.js', `(m,p)=>{${code}return ''}`),

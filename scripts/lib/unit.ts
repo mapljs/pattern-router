@@ -7,7 +7,7 @@ interface UnitData {
 
 const unitSelectId = (u: UnitData, value: number): number => {
   let idx = 0;
-  while (idx < u.units.length - 1 && value > (u.divs[idx + 1] * 3) / 2) idx++;
+  while (idx < u.units.length - 1 && value > u.divs[idx + 1]) idx++;
   return idx;
 };
 

@@ -1,41 +1,48 @@
 (m, p) => {
-  if (m === 'GET') {
-    if (p === '/user') {
-      return 'GET /user';
-    } else if (p === '/user/comments') {
-      return 'GET /user/comments';
-    } else if (p === '/user/avatar') {
-      return 'GET /user/avatar';
-    } else if (p === '/status') {
-      return 'GET /status';
-    } else if (p === '/very/deeply/nested/route/hello/there') {
-      return 'GET /very/deeply/nested/route/hello/there';
+  switch (m) {
+    case 'HEAD': {
     }
-    let r =
-      /^\/(?:user\/lookup\/(?:username\/(?<username>[^/]+)()|email\/(?<email>[^/]+)())|event\/(?<event>[^/]+)(?:()|\/comments())|map\/(?<location>[^/]+)\/events()|static\/(?<file>.+)())$/.exec(
-        p,
-      );
-    if (r !== null) {
-      if (r[2] === '') {
-        return 'GET /user/lookup/username/:username';
-      } else if (r[4] === '') {
-        return 'GET /user/lookup/email/:email';
-      } else if (r[6] === '') {
-        return 'GET /event/:event';
-      } else if (r[7] === '') {
-        return 'GET /event/:event/comments';
-      } else if (r[9] === '') {
-        return 'GET /map/:location/events';
-      } else if (r[11] === '') {
-        return 'GET /static/:file+';
+    case 'GET': {
+      if (p === '/user') {
+        return 'GET /user';
+      } else if (p === '/user/comments') {
+        return 'GET /user/comments';
+      } else if (p === '/user/avatar') {
+        return 'GET /user/avatar';
+      } else if (p === '/status') {
+        return 'GET /status';
+      } else if (p === '/very/deeply/nested/route/hello/there') {
+        return 'GET /very/deeply/nested/route/hello/there';
       }
+      let r =
+        /^\/(?:user\/lookup\/(?:username\/(?<username>[^/]+)()|email\/(?<email>[^/]+)())|event\/(?<event>[^/]+)(?:()|\/comments())|map\/(?<location>[^/]+)\/events()|static\/(?<file>.+)())$/.exec(
+          p,
+        );
+      if (r !== null) {
+        if (r[2] === '') {
+          return 'GET /user/lookup/username/:username';
+        } else if (r[4] === '') {
+          return 'GET /user/lookup/email/:email';
+        } else if (r[6] === '') {
+          return 'GET /event/:event';
+        } else if (r[7] === '') {
+          return 'GET /event/:event/comments';
+        } else if (r[9] === '') {
+          return 'GET /map/:location/events';
+        } else if (r[11] === '') {
+          return 'GET /static/:file+';
+        }
+      }
+      break;
     }
-  } else if (m === 'POST') {
-    let r = /^\/event\/(?<event>[^/]+)\/comment()$/.exec(p);
-    if (r !== null) {
-      if (r[2] === '') {
-        return 'POST /event/:event/comment';
+    case 'POST': {
+      let r = /^\/event\/(?<event>[^/]+)\/comment()$/.exec(p);
+      if (r !== null) {
+        if (r[2] === '') {
+          return 'POST /event/:event/comment';
+        }
       }
+      break;
     }
   }
   return '';

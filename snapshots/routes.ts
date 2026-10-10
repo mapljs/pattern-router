@@ -26,29 +26,6 @@ export const buildRoutes = (routes: Routes): RouteList => {
 };
 
 export const routesList = {
-  'simple api': buildRoutes({
-    '/user': {
-      '/': 'GET',
-      '/comments': 'GET',
-      '/avatar': 'GET',
-      '/lookup': {
-        '/username/:username': 'GET',
-        '/email/:email': 'GET',
-      },
-    },
-    '/event': {
-      '/:event': {
-        '/': 'GET',
-        '/comments': 'GET',
-        '/comment': 'POST',
-      },
-    },
-    '/map/:location/events': 'GET',
-    '/status': 'GET',
-    '/very/deeply/nested/route/hello/there': 'GET',
-    '/static/:file+': 'GET',
-  }),
-
   'complex api': buildRoutes({
     '/auth': {
       '/register': 'POST',
@@ -202,4 +179,27 @@ export const routesList = {
       '/impersonate': 'POST',
     },
   }),
+
+  'simple api': buildRoutes({
+    '/user': {
+      '/': 'GET',
+      '/comments': 'GET',
+      '/avatar': 'GET',
+      '/lookup': {
+        '/username/:username': 'GET',
+        '/email/:email': 'GET',
+      },
+    },
+    '/event': {
+      '/:event': {
+        '/': 'GET',
+        '/comments': 'GET',
+        '/comment': 'POST',
+      },
+    },
+    '/map/:location/events': 'GET',
+    '/status': 'GET',
+    '/very/deeply/nested/route/hello/there': 'GET',
+    '/static/:file+': 'GET',
+  })
 };

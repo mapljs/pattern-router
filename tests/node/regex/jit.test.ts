@@ -5,7 +5,7 @@ import type { Suite } from '../tree/suites/types.ts';
 
 import { tree_init, tree_set_dynamic, tree_set_static } from '@mapl/pattern-router/tree';
 import { tree_compile_to_code } from '@mapl/pattern-router/tree/jit';
-import { isDynamicPattern, validatePattern } from '@mapl/pattern-router/tree/utils';
+import { is_dynamic_pattern, url_pattern } from '@mapl/pattern-router/tree/utils';
 
 import customer_api from '../tree/suites/customer-api.json' with { type: 'json' };
 import group_delimiters from '../tree/suites/group-delimiters.json' with { type: 'json' };
@@ -16,7 +16,7 @@ const run = (name: string, suite: Suite) => {
   describe(name + ` (${Object.keys(suite).length} routes)`, () => {
     const tree = tree_init<string>();
     for (const pattern in suite) {
-      isDynamicPattern(pattern)
+      is_dynamic_pattern(pattern)
         ? tree_set_dynamic(tree, pattern, `return {id:${JSON.stringify(pattern)},params:r.groups}`)
         : tree_set_static(tree, pattern, `return {id:${JSON.stringify(pattern)},params:{}}`);
     }
@@ -30,7 +30,7 @@ const run = (name: string, suite: Suite) => {
     for (const pattern in suite) {
       describe(pattern, () => {
         for (
-          let j = 0, tests = suite[pattern], urlPattern = validatePattern(pattern);
+          let j = 0, tests = suite[pattern], urlPattern = url_pattern(pattern);
           j < tests.length;
           j++
         ) {
