@@ -13,11 +13,10 @@ export const linear_map_get = <V>(m: LinearMap<any, V>, i: number): V => m[1][i]
  * @returns true if no items remain
  */
 export const linear_map_remove_reordered = <V>(m: LinearMap<any, V>, i: number): boolean => {
-  const lastIdx = m[0].length - 1;
-  if (lastIdx === -1) return true;
+  const keys = m[0];
+  if (keys.length === 0) return true;
 
-  const keys = m[0],
-    values = m[1];
+  const values = m[1], lastIdx = keys.length - 1;
 
   // Move last item to the target index
   keys[i] = keys[lastIdx];
@@ -29,18 +28,18 @@ export const linear_map_remove_reordered = <V>(m: LinearMap<any, V>, i: number):
   return keys.length === 0;
 };
 
-export const linear_map_swap = <V>(m: LinearMap<any, V>, i: number, newIdx: number): void => {
-  if (i !== newIdx) {
+export const linear_map_swap = <V>(m: LinearMap<any, V>, i: number, j: number): void => {
+  if (i !== j) {
     const keys = m[0],
       values = m[1],
       oldKey = keys[i],
-      value = values[i];
+      oldValue = values[i];
 
-    keys[i] = keys[newIdx];
-    keys[newIdx] = oldKey;
+    keys[i] = keys[j];
+    keys[j] = oldKey;
 
-    values[i] = values[newIdx];
-    values[newIdx] = value;
+    values[i] = values[j];
+    values[j] = oldValue;
   }
 };
 
@@ -50,13 +49,12 @@ export const linear_map_add = <K, V>(m: LinearMap<K, V>, k: K, v: V): void => {
 };
 
 export const linear_map_set = <K, V>(m: LinearMap<K, V>, k: K, v: V): void => {
-  const keys = m[0],
-    idx = keys.indexOf(k);
+  const idx = m[0].indexOf(k);
   if (idx === -1) {
-    keys.push(k);
+    m[0].push(k);
     m[1].push(v);
   } else {
-    keys[idx] = k;
+    m[0][idx] = k;
     m[1][idx] = v;
   }
 };

@@ -139,7 +139,7 @@ export const connect_node_compile_to_regexp = (connectNode: ConnectNode<unknown>
 };
 
 export const node_compile_to_regexp = (node: Node<unknown>): string => {
-  let regexPaths = [];
+  const regexPaths = [];
 
   if (node[1] !== null) {
     HANDLERS.push(node[1]);
