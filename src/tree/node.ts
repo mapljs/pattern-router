@@ -40,15 +40,14 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
   while (pathIdx < path.length) {
     switch (path[pathIdx]) {
       case '{': {
-        const groupEndIdx = group_delimiter_end(path, pathIdx + 1),
-          groupKey = path.slice(pathIdx + 1, groupEndIdx);
+        const groupEndIdx = group_delimiter_end(path, pathIdx + 1);
 
         return [
           path.slice(prevIdx, pathIdx),
           null,
           null,
           [
-            [groupKey],
+            [path.slice(pathIdx + 1, groupEndIdx)],
             [
               groupEndIdx === path.length
                 ? [store, null]
@@ -62,8 +61,7 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
       }
 
       case '(': {
-        const groupEndIdx = unnamed_group_end(path, pathIdx + 1),
-          groupKey = unnamed_group_to_regexp(path, pathIdx, groupEndIdx);
+        const groupEndIdx = unnamed_group_end(path, pathIdx + 1);
 
         return [
           path.slice(prevIdx, pathIdx),
@@ -71,7 +69,7 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
           null,
           null,
           [
-            [groupKey],
+            [unnamed_group_to_regexp(path, pathIdx, groupEndIdx)],
             [
               groupEndIdx === path.length
                 ? [store, null]
@@ -89,8 +87,7 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
         if (pathIdx + 1 === path.length || path[pathIdx + 1] !== ':') break;
 
       case ':': {
-        const groupEndIdx = named_group_end(path, pathIdx),
-          groupKey = path.slice(pathIdx, groupEndIdx);
+        const groupEndIdx = named_group_end(path, pathIdx);
 
         return [
           path.slice(prevIdx, pathIdx),
@@ -99,7 +96,7 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
           null,
           null,
           [
-            [groupKey],
+            [path.slice(pathIdx, groupEndIdx)],
             [
               groupEndIdx === path.length
                 ? [store, null]
