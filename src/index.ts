@@ -7,17 +7,10 @@ import {
   type Tree,
 } from './tree/index.ts';
 import { is_dynamic_pattern } from './tree/utils.ts';
-import {
-  linear_map_add,
-  linear_map_get,
-  linear_map_index,
-  linear_map_remove_reordered,
-  type LinearMap,
-} from './linear-map.ts';
 
-export type Router<T> = LinearMap<string, Tree<T>>;
+export type Router<T> = Map<string, Tree<T>>;
 
-export const router_init = <T>(): Router<T> => [[], []];
+export const router_init = <T>(): Router<T> => new Map();
 
 export const router_set_static = <T>(
   router: Router<T>,
@@ -25,12 +18,12 @@ export const router_set_static = <T>(
   path: string,
   store: T,
 ): void => {
-  const idx = linear_map_index(router, method);
-  if (idx === -1) {
-    const tree = tree_init();
+  let tree = router.get(method);
+  if (tree == null) {
+    tree = tree_init<T>();
     tree_set_static(tree, path, store);
-    linear_map_add(router, method, tree);
-  } else tree_set_static(linear_map_get(router, idx), path, store);
+    router.set(method, tree);
+  } else tree_set_static(tree, path, store);
 };
 export const router_set_dynamic = <T>(
   router: Router<T>,
@@ -38,12 +31,12 @@ export const router_set_dynamic = <T>(
   path: string,
   store: T,
 ): void => {
-  const idx = linear_map_index(router, method);
-  if (idx === -1) {
-    const tree = tree_init();
+  let tree = router.get(method);
+  if (tree == null) {
+    tree = tree_init<T>();
     tree_set_dynamic(tree, path, store);
-    linear_map_add(router, method, tree);
-  } else tree_set_dynamic(linear_map_get(router, idx), path, store);
+    router.set(method, tree);
+  } else tree_set_dynamic(tree, path, store);
 };
 export const router_set = <T>(router: Router<T>, method: string, path: string, store: T): void =>
   is_dynamic_pattern(path)
@@ -58,11 +51,11 @@ export const router_remove_static = <T>(
   method: string,
   path: string,
 ): boolean => {
-  const idx = linear_map_index(router, method);
+  const tree = router.get(method);
   return (
-    idx !== -1 &&
-    tree_remove_static(linear_map_get(router, idx), path) &&
-    linear_map_remove_reordered(router, idx)
+    tree != null &&
+    tree_remove_static(tree, path) &&
+    (router.delete(method), router.size === 0)
   );
 };
 
@@ -74,11 +67,11 @@ export const router_remove_dynamic = <T>(
   method: string,
   path: string,
 ): boolean => {
-  const idx = linear_map_index(router, method);
+  const tree = router.get(method);
   return (
-    idx !== -1 &&
-    tree_remove_dynamic(linear_map_get(router, idx), path) &&
-    linear_map_remove_reordered(router, idx)
+    tree != null &&
+    tree_remove_dynamic(tree, path) &&
+    (router.delete(method), router.size === 0)
   );
 };
 export const router_remove = <T>(router: Router<T>, method: string, path: string): boolean =>

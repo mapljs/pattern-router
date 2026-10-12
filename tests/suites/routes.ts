@@ -1,4 +1,4 @@
-export type Method = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+export type Method = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | '';
 export type Routes = {
   [key: string]: Routes | Method | [Method, ...Method[]];
 };
@@ -6,8 +6,8 @@ export type RouteList = [method: string, path: string, item: string][];
 
 const addRoutes = (routeList: RouteList, routes: Routes, path: string): void => {
   for (const key in routes) {
-    const route = routes[key];
-    const subpath = key === '/' ? path : path === '/' ? key : path + key;
+    const route = routes[key],
+      subpath = key === '/' ? path : path === '/' ? key : path + key;
 
     if (Array.isArray(route))
       for (const method of route) {
@@ -19,14 +19,14 @@ const addRoutes = (routeList: RouteList, routes: Routes, path: string): void => 
   }
 };
 
-export const buildRoutes = (routes: Routes): RouteList => {
+const routes = (routes: Routes): RouteList => {
   const list: RouteList = [];
   addRoutes(list, routes, '/');
   return list;
 };
 
-export const routesList = {
-  'complex api': buildRoutes({
+export default {
+  'complex api': routes({
     '/auth': {
       '/register': 'POST',
       '/login': 'POST',
@@ -178,9 +178,9 @@ export const routesList = {
       '/stats': 'GET',
       '/impersonate': 'POST',
     },
+    '*': 'GET'
   }),
-
-  'simple api': buildRoutes({
+  'simple api': routes({
     '/user': {
       '/': 'GET',
       '/comments': 'GET',

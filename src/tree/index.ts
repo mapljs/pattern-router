@@ -1,35 +1,24 @@
-import {
-  linear_map_add,
-  linear_map_index,
-  linear_map_is_empty,
-  linear_map_remove_reordered,
-  type LinearMap,
-} from '../linear-map.ts';
 import { node_insert, node_remove, type Node } from './node.ts';
 
-export interface Tree<T> extends LinearMap<string, T> {
-  2: Node<T> | null;
-}
+export type Tree<T> = [staticMap: Map<string, T>] | [staticMap: Map<string, T>, root: Node<T>];
 
-export const tree_init = <T>(): Tree<T> => [[], [], null];
-export const tree_set_static: <T>(tree: Tree<T>, path: string, store: T) => void = linear_map_add;
+export const tree_init = <T>(): Tree<T> => [new Map()];
+export const tree_set_static = <T>(tree: Tree<T>, path: string, store: T): void => {
+  tree[0].set(path, store);
+};
 export const tree_set_dynamic = <T>(tree: Tree<T>, path: string, store: T): void => {
-  node_insert((tree[2] ??= ['', null, null, null, null, null, null]), path, 0, store);
+  tree.length === 1 && tree.push(['', null, null, null, null, null, null] as any);
+  node_insert(tree[1]!, path, 0, store);
 };
 
 /**
- * @returns true if the tree has no item
+ * @returns true if the tree is empty
  */
-export const tree_remove_static = <T>(tree: Tree<T>, path: string): boolean => {
-  const idx = linear_map_index(tree, path);
-  return idx !== -1 && linear_map_remove_reordered(tree, idx) && tree[2] === null;
-};
+export const tree_remove_static = <T>(tree: Tree<T>, path: string): boolean =>
+  (tree[0].delete(path), tree.length === 1 && tree[0].size === 0);
 
 /**
- * @returns true if the tree has no item
+ * @returns true if the tree is empty
  */
 export const tree_remove_dynamic = <T>(tree: Tree<T>, path: string): boolean =>
-  tree[2] !== null &&
-  node_remove(tree[2], path, 0) &&
-  // @ts-ignore
-  ((tree[2] = null), linear_map_is_empty(tree));
+  tree.length === 2 && node_remove(tree[1], path, 0) && (tree.pop(), tree[0].size === 0);

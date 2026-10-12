@@ -1,11 +1,4 @@
 import {
-  linear_map_add,
-  linear_map_get,
-  linear_map_index,
-  linear_map_remove_reordered,
-  type LinearMap,
-} from '../linear-map.ts';
-import {
   unnamed_group_to_regexp,
   group_delimiter_end,
   named_group_end,
@@ -18,22 +11,33 @@ export type Node<T> = [
   store: T | null,
 
   // map by first characters
-  staticChildren: LinearMap<string, Node<T>> | null,
+  staticChildren: Dict<Node<T>> | null,
 
   // map group delimiters with modifier ({abc}?)
-  delimGroups: LinearMap<string, ConnectNode<T>> | null,
+  delimGroups: Dict<ConnectNode<T>> | null,
 
   // map regexp to next node
-  unnamedGroups: LinearMap<string, ConnectNode<T>> | null,
+  unnamedGroups: Dict<ConnectNode<T>> | null,
 
   // map regexp to next node
-  namedGroups: LinearMap<string, ConnectNode<T>> | null,
+  namedGroups: Dict<ConnectNode<T>> | null,
 
   // next node after wildcard
   wildcard: ConnectNode<T> | null,
 ];
 
 export type ConnectNode<T> = [store: T | null, next: Node<T> | null];
+
+const dict = <T>(key: string, value: T) => {
+  const v: Dict<T> = Object.create(null);
+  v[key] = value;
+  return v;
+};
+
+const dict_remove = (dict: Dict<any>, key: string): boolean => (
+  delete dict[key],
+  Object.keys(dict).length === 0
+);
 
 export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T> => {
   let prevIdx = pathIdx;
@@ -46,14 +50,12 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
           path.slice(prevIdx, pathIdx),
           null,
           null,
-          [
-            [path.slice(pathIdx + 1, groupEndIdx)],
-            [
-              groupEndIdx === path.length
-                ? [store, null]
-                : [null, node_create(path, groupEndIdx, store)],
-            ],
-          ],
+          dict(
+            path.slice(pathIdx + 1, groupEndIdx),
+            groupEndIdx === path.length
+              ? [store, null]
+              : [null, node_create(path, groupEndIdx, store)],
+          ),
           null,
           null,
           null,
@@ -68,14 +70,12 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
           null,
           null,
           null,
-          [
-            [unnamed_group_to_regexp(path, pathIdx, groupEndIdx)],
-            [
-              groupEndIdx === path.length
-                ? [store, null]
-                : [null, node_create(path, groupEndIdx, store)],
-            ],
-          ],
+          dict(
+            unnamed_group_to_regexp(path, pathIdx, groupEndIdx),
+            groupEndIdx === path.length
+              ? [store, null]
+              : [null, node_create(path, groupEndIdx, store)],
+          ),
           null,
           null,
         ];
@@ -95,14 +95,12 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
           null,
           null,
           null,
-          [
-            [path.slice(pathIdx, groupEndIdx)],
-            [
-              groupEndIdx === path.length
-                ? [store, null]
-                : [null, node_create(path, groupEndIdx, store)],
-            ],
-          ],
+          dict(
+            path.slice(pathIdx, groupEndIdx),
+            groupEndIdx === path.length
+              ? [store, null]
+              : [null, node_create(path, groupEndIdx, store)],
+          ),
           null,
         ];
       }
@@ -127,25 +125,20 @@ export const node_create = <T>(path: string, pathIdx: number, store: T): Node<T>
   return [path.slice(prevIdx), store, null, null, null, null, null];
 };
 
-export const connect_node_insert_to_map = <T>(
-  map: LinearMap<string, ConnectNode<T>>,
+export const insert_connect_node = <T>(
+  map: Dict<ConnectNode<T>>,
   groupKey: string,
   path: string,
   groupEndIdx: number,
   store: T,
 ): void => {
-  const idx = linear_map_index(map, groupKey);
+  const connectNode = map[groupKey];
 
   // Create new node
-  if (idx === -1)
-    linear_map_add(
-      map,
-      groupKey,
-      groupEndIdx === path.length ? [store, null] : [null, node_create(path, groupEndIdx, store)],
-    );
+  if (connectNode == null)
+    map[groupKey] =
+      groupEndIdx === path.length ? [store, null] : [null, node_create(path, groupEndIdx, store)];
   else {
-    const connectNode = linear_map_get(map, idx);
-
     if (groupEndIdx === path.length) connectNode[0] = store;
     else if (connectNode[1] === null) connectNode[1] = node_create(path, groupEndIdx, store);
     else node_insert(connectNode[1], path, groupEndIdx, store);
@@ -168,15 +161,13 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
 
           // Create new map
           if (node[3] === null)
-            node[3] = [
-              [groupKey],
-              [
-                groupEndIdx === path.length
-                  ? [store, null]
-                  : [null, node_create(path, groupEndIdx, store)],
-              ],
-            ];
-          else connect_node_insert_to_map(node[3], groupKey, path, groupEndIdx, store);
+            node[3] = dict(
+              groupKey,
+              groupEndIdx === path.length
+                ? [store, null]
+                : [null, node_create(path, groupEndIdx, store)],
+            );
+          else insert_connect_node(node[3], groupKey, path, groupEndIdx, store);
           return;
         }
 
@@ -186,15 +177,13 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
 
           // Create new map
           if (node[4] === null)
-            node[4] = [
-              [groupKey],
-              [
-                groupEndIdx === path.length
-                  ? [store, null]
-                  : [null, node_create(path, groupEndIdx, store)],
-              ],
-            ];
-          else connect_node_insert_to_map(node[4], groupKey, path, groupEndIdx, store);
+            node[4] = dict(
+              groupKey,
+              groupEndIdx === path.length
+                ? [store, null]
+                : [null, node_create(path, groupEndIdx, store)],
+            );
+          else insert_connect_node(node[4], groupKey, path, groupEndIdx, store);
           return;
         }
 
@@ -209,15 +198,13 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
 
           // Create new map
           if (node[5] === null)
-            node[5] = [
-              [groupKey],
-              [
-                groupEndIdx === path.length
-                  ? [store, null]
-                  : [null, node_create(path, groupEndIdx, store)],
-              ],
-            ];
-          else connect_node_insert_to_map(node[5], groupKey, path, groupEndIdx, store);
+            node[5] = dict(
+              groupKey,
+              groupEndIdx === path.length
+                ? [store, null]
+                : [null, node_create(path, groupEndIdx, store)],
+            );
+          else insert_connect_node(node[5], groupKey, path, groupEndIdx, store);
           return;
         }
 
@@ -243,14 +230,14 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
           return;
       }
 
-      if (node[2] === null) node[2] = [[pathChar], [node_create(path, pathIdx, store)]];
+      if (node[2] === null) node[2] = dict(pathChar, node_create(path, pathIdx, store));
       else {
         const map = node[2],
-          idx = linear_map_index(map, pathChar);
+          newNode = map[pathChar];
 
-        if (idx === -1) linear_map_add(map, pathChar, node_create(path, pathIdx, store));
+        if (newNode == null) map[pathChar] = node_create(path, pathIdx, store);
         else {
-          node = linear_map_get(map, idx);
+          node = newNode;
           pathIdx++;
 
           nodePath = node[0];
@@ -275,7 +262,7 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
 
         nodePath = node[0] = nodePath.slice(0, nodePathIdx);
         node[1] = node[3] = node[4] = node[5] = node[6] = null;
-        node[2] = [[nodePathChar], [movedNode]];
+        node[2] = dict(nodePathChar, movedNode);
 
         continue insert;
       }
@@ -299,7 +286,7 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
 
           node[0] = nodePath.slice(0, nodePathIdx);
           node[3] = node[4] = node[5] = node[6] = null;
-          node[2] = [[nodePathChar], [movedNode]];
+          node[2] = dict(nodePathChar, movedNode);
         }
 
         node[1] = store;
@@ -313,17 +300,16 @@ export const node_insert = <T>(node: Node<T>, path: string, pathIdx: number, sto
 /**
  * @returns true if no items remain
  */
-export const connect_node_remove_from_map = (
-  map: LinearMap<string, ConnectNode<any>>,
+export const connect_node_map_remove = (
+  map: Dict<ConnectNode<any>>,
   key: string,
   path: string,
   pathIdx: number,
 ): boolean => {
-  const idx = linear_map_index(map, key);
+  const connectNode = map[key];
+
   return (
-    idx !== -1 &&
-    connect_node_remove(linear_map_get(map, idx), path, pathIdx) &&
-    linear_map_remove_reordered(map, idx)
+    connectNode != null && connect_node_remove(connectNode, path, pathIdx) && dict_remove(map, key)
   );
 };
 
@@ -362,7 +348,7 @@ export const node_remove = (node: Node<any>, path: string, pathIdx: number): boo
 
         const groupEndIdx = group_delimiter_end(path, pathIdx + 1);
         return (
-          connect_node_remove_from_map(
+          connect_node_map_remove(
             node[3],
             path.slice(pathIdx + 1, groupEndIdx),
             path,
@@ -382,12 +368,7 @@ export const node_remove = (node: Node<any>, path: string, pathIdx: number): boo
 
         const groupEndIdx = unnamed_group_end(path, pathIdx + 1);
         return (
-          connect_node_remove_from_map(
-            node[4],
-            path.slice(pathIdx, groupEndIdx),
-            path,
-            groupEndIdx,
-          ) &&
+          connect_node_map_remove(node[4], path.slice(pathIdx, groupEndIdx), path, groupEndIdx) &&
           ((node[4] = null),
           node[1] === null &&
             node[2] === null &&
@@ -407,12 +388,7 @@ export const node_remove = (node: Node<any>, path: string, pathIdx: number): boo
 
         const groupEndIdx = named_group_end(path, pathIdx);
         return (
-          connect_node_remove_from_map(
-            node[5],
-            path.slice(pathIdx, groupEndIdx),
-            path,
-            groupEndIdx,
-          ) &&
+          connect_node_map_remove(node[5], path.slice(pathIdx, groupEndIdx), path, groupEndIdx) &&
           ((node[5] = null),
           node[1] === null &&
             node[2] === null &&
@@ -438,11 +414,12 @@ export const node_remove = (node: Node<any>, path: string, pathIdx: number): boo
     if (node[2] === null) return false;
 
     const map = node[2],
-      idx = linear_map_index(map, path[pathIdx]);
+      childNode = map[path[pathIdx]];
+
     return (
-      idx !== -1 &&
-      node_remove(linear_map_get(map, idx), path, pathIdx) &&
-      linear_map_remove_reordered(map, idx) &&
+      childNode != null &&
+      node_remove(childNode, path, pathIdx) &&
+      dict_remove(map, path[pathIdx]) &&
       ((node[2] = null),
       node[1] === null &&
         node[3] === null &&

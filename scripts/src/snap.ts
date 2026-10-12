@@ -9,7 +9,7 @@ import { router_compile_to_code } from '@mapl/pattern-router/jit';
 
 import { SNAPSHOTS } from '../lib/constants.ts';
 
-import { routesList } from '../../snapshots/routes.ts';
+import routesList from '../../tests/suites/routes.ts';
 import { fmt } from '../lib/fmt.ts';
 
 const writeFormatted = async (pathFromSnap: string, content: string) => {
@@ -47,8 +47,8 @@ const writeFormatted = async (pathFromSnap: string, content: string) => {
     console.log(group, 'size:', fmt.byte(code.length));
 
     promises.push(
-      writeFormatted(name + '.js', `(m,p)=>{${code}return ''}`),
-      writeFormatted(name + '.json', JSON.stringify(router)),
+      writeFormatted(name + '.js', `(m,p)=>{${code}}`),
+      writeFormatted(name + '.json', JSON.stringify(Object.fromEntries(router.entries()))),
     );
   }
   await Promise.all(promises);
