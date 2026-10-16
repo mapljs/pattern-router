@@ -1,4 +1,4 @@
-export type Method = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | '';
+export type Method = 'GET' | 'QUERY' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'OPTIONS' | 'TRACE' | '';
 export type Routes = {
   [key: string]: Routes | Method | [Method, ...Method[]];
 };

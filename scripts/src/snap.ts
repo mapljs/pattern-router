@@ -7,9 +7,11 @@ import oxfmtrc from '../../.oxfmtrc.jsonc';
 import { router_init, router_set } from '@mapl/pattern-router';
 import { router_compile_to_code } from '@mapl/pattern-router/jit';
 
+import sideEffect from 'measure-loop/side-effect';
+
 import { SNAPSHOTS } from '../lib/constants.ts';
 
-import routesList from '../../tests/suites/routes.ts';
+import routesList from '../../tests/suites/index.ts';
 import { fmt } from '../lib/fmt.ts';
 
 const writeFormatted = async (pathFromSnap: string, content: string) => {
@@ -34,17 +36,13 @@ const writeFormatted = async (pathFromSnap: string, content: string) => {
     }
 
     const group = fmt.name(`[${name}]`);
-
     let timeStart = performance.now();
 
     let code = router_compile_to_code(router, 'r', 'p', 'm', '');
-    code[0];
+    sideEffect(code[0]);
 
     let timeEnd = performance.now();
-
-    console.log(group, 'routes:', routeList.length);
-    console.log(group, 'took:', fmt.duration((timeEnd - timeStart) * 1e6));
-    console.log(group, 'size:', fmt.byte(code.length));
+    console.log(group, 'routes:', routeList.length, '- took:', fmt.duration((timeEnd - timeStart) * 1e6), '- size:', fmt.byte(code.length));
 
     promises.push(
       writeFormatted(name + '.js', `(m,p)=>{${code}}`),
