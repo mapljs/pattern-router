@@ -10,26 +10,31 @@ const root = node_create_root<string>();
 
 // in a router implementation static patterns should be matched first
 // using a Map instead of using the regexp router.
-node_insert(root, '/', 0, 'home'); 
+node_insert(root, '/', 0, 'home');
 
 node_insert(root, '/forum/:forum+', 0, 'forum');
 
-const handlers: string[] = [],
-  /**
-   * map positions of each handler in the final regexp array.
-   *
-   * @example
-   * let match = regexp.exec(path);
-   * for (let i = 0; i < handlers.length; i++) {
-   *   if (match[offsets[i]] === '') {
-   *     // matched handlers[i]
-   *   }
-   * }
-   */
-  offsets = [1];
+const handlers: string[] = [], 
+  offsets = [1],
+  regexp = new RegExp('^' + node_compile_to_regexp(root, handlers, offsets) + '$'); // /^\/(?:()|forum\/(?<forum>.+)())$/
 
-const regexp = new RegExp('^' + node_compile_to_regexp(root, handlers, offsets) + '$');
-console.log(regexp); // /^\/(?:()|forum\/(?<forum>.+)())$/
+handlers; // ["home", "forum"]
+offsets; // [1, 3, 4]
+
+const match = (path: string) => {
+  let match = regexp.exec(path);
+  for (let i = 0; i < handlers.length; i++) {
+    // check for each empty capture group position in the regexp
+    // if a path matches the capture group will capture an empty string at offsets[i]
+    if (match[offsets[i]] === '') {
+      return { result: handlers[i], params: match.groups };
+    }
+  }
+}
+
+match('/'); // { result: "home", params: { forum: undefined } }
+match('/about'); // undefined
+match('/forum/@mapl/pattern-router'); // { result: 'forum', params: { forum: '@mapl/pattern-router' } }
 ```
 
 ### Types
@@ -49,8 +54,8 @@ import { router_init, router_set } from '@mapl/pattern-router';
 import { router_compile_to_code } from '@mapl/pattern-router/jit';
 
 const router = router_init<string>();
-router_set(router, 'GET', '/', 'return"Home"');
-router_set(router, 'POST', '/forum/:forum+', 'return"Posting to "+match.groups.forum');
+router_set(router, 'GET', '/', 'return"home"');
+router_set(router, 'POST', '/forum/:forum+', 'return"posting to "+match.groups.forum');
 
 const match = Function(
   'method', 
@@ -68,9 +73,9 @@ const match = Function(
   )
 );
 
-match('GET', '/'); // "Home"
+match('GET', '/'); // "home"
 match('GET', '/about'); // undefined
-match('POST', '/forum/@mapl/pattern-router'); // "Posting to @mapl/pattern-router"
+match('POST', '/forum/@mapl/pattern-router'); // "posting to @mapl/pattern-router"
 ```
 
 In the above example, `router_compile_to_code()` outputs:
