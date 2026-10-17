@@ -1,0 +1,26 @@
+{
+  "name": "pattern-router",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "homepage": "",
+  "repository": "",
+  "exports": {
+    ".": "./index.mjs",
+    "./*": "./*.mjs"
+  },
+  "scripts": {
+    "fmt": "oxfmt"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "oxc-minify": "^0.154.0",
+    "oxc-transform": "^0.154.0",
+    "oxfmt": "^0.73.0",
+    "picocolors": "^1.1.1",
+    "tinyglobby": "^0.2.17",
+    "typescript": "^7.0.2"
+  },
+  "sideEffects": false
+}
