@@ -1,0 +1,122 @@
+type Evaluate<T> = T extends infer U ? { [K in keyof U]: U[K] } : never;
+
+type SkipCaptureGroup<
+  Path extends string,
+  Stack extends 0[],
+> = Path extends `${string}(${infer Rest}`
+  ? SkipCaptureGroup<Rest, [...Stack, 0]>
+  : Path extends `${string})${infer Rest}`
+    ? Stack extends [...infer RestStack extends 0[], 0]
+      ? SkipCaptureGroup<Rest, RestStack>
+      : never
+    : Stack['length'] extends 0
+      ? Path
+      : never;
+
+export type InferNamedGroup<Group extends string, OptionalSep extends string> =
+  // Optional named params
+  Group extends `${infer Name}${OptionalSep}${infer Rest}`
+    ? Evaluate<{ [key in Name]: string | undefined } & InferParams<Rest>>
+    : Group extends `${infer Name}${'{' | '}' | '+' | '*' | '/' | '.' | '@' | '[' | ']' | '-' | '=' | '%'}${infer Rest}`
+      ? Evaluate<{ [key in Name]: string } & InferParams<Rest>>
+      : Group extends `${infer Name}:${infer Rest}`
+        ? Evaluate<{ [key in Name]: string } & InferNamedGroup<Rest, '?'>>
+        : { [key in Group]: string };
+
+export type InferParams<Path extends string> =
+  // Clear all capture groups
+  Path extends `${infer Prefix}(${infer Suffix}`
+    ? InferParams<`${Prefix}${SkipCaptureGroup<Suffix, [0]>}`>
+    : // Split and mark params in optional group delimiters as optional
+      Path extends `${infer Prefix}{${infer Body}}?${infer Suffix}`
+      ? Evaluate<
+          InferParams<Prefix> & {
+            [K in keyof InferParams<Body>]: string | undefined;
+          } & InferParams<Suffix>
+        >
+      : // Named params
+        Path extends `${string}/:${infer Group}`
+        ? InferNamedGroup<Group, '?' | '*'>
+        : Path extends `${string}:${infer Group}`
+          ? InferNamedGroup<Group, '?'>
+          : {};
+
+export const group_modifier_end = (path: string, groupEndIdx: number): number => {
+  if (groupEndIdx < path.length)
+    switch (path[groupEndIdx]) {
+      case '+':
+      case '*':
+      case '?':
+        return groupEndIdx + 1;
+    }
+  return groupEndIdx;
+};
+
+/**
+ * @param path
+ * @param startIdx position after {
+ * @returns position after } or a modifier
+ */
+export const group_delimiter_end = (path: string, startIdx: number): number =>
+  group_modifier_end(path, path.indexOf('}', startIdx) + 1);
+
+/**
+ * @param path
+ * @param startIdx position after (
+ * @returns position after ) or a modifier
+ */
+export const unnamed_group_end = (path: string, startIdx: number): number => {
+  let stack = 1;
+  while (true) {
+    if (path[startIdx] === ')') {
+      if (--stack === 0) return group_modifier_end(path, startIdx + 1);
+    } else if (path[startIdx] === '(') stack++;
+
+    startIdx++;
+  }
+};
+
+/**
+ * @param path
+ * @param startIdx position of : or /:
+ */
+export const named_group_end = (path: string, startIdx: number): number => {
+  let groupEndIdx = startIdx + 2;
+  while (groupEndIdx < path.length) {
+    switch (path[groupEndIdx]) {
+      case '*':
+      case '+':
+      case '?':
+        return groupEndIdx + 1;
+
+      case '(':
+        return unnamed_group_end(path, groupEndIdx + 1);
+
+      case '{':
+      case '}':
+      case '/':
+      case ':':
+      case '.':
+      case '@':
+      case '[':
+      case ']':
+      case '-':
+      case '=':
+      case '%':
+        return groupEndIdx;
+    }
+
+    groupEndIdx++;
+  }
+
+  return groupEndIdx;
+};
+
+export const is_dynamic_pattern = (pat: string): boolean => /[({:*]/.test(pat);
+export const url_pattern = (pat: string): URLPattern => new URLPattern({ pathname: pat });
+export const is_modifier = (modifier: string): boolean =>
+  modifier === '?' || modifier === '+' || modifier === '*';
+
+export const unnamed_group_to_regexp = (group: string, startIdx: number, endIdx: number): string =>
+  // might be lookahead or lookbehind assertions
+  group[startIdx + 1] === '?' ? group.slice(0, endIdx) : '(?:' + group.slice(startIdx + 1, endIdx);

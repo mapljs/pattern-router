@@ -1,17 +1,20 @@
 {
-  "name": "pattern-router",
   "type": "module",
   "version": "0.0.1",
-  "description": "",
-  "keywords": [],
-  "homepage": "",
-  "repository": "",
+  "description": "A fast URLPattern router.",
+  "keywords": ["router", "url-pattern", "regexp"],
+  "repository": "mapljs/pattern-router",
   "exports": {
     ".": "./index.mjs",
     "./*": "./*.mjs"
   },
   "scripts": {
-    "fmt": "oxfmt"
+    "fmt": "oxfmt",
+    "push-release": "bun scripts/src/push-release.mts",
+    "publish": "bun scripts/src/publish.mts",
+    "build": "bun scripts/src/build.mts",
+    "pkg-stats": "bun scripts/src/pkg-stats.mts",
+    "setup": "bun scripts/src/setup.mts"
   },
   "devDependencies": {
     "@types/node": "^26.4.0",

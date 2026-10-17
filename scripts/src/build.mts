@@ -15,6 +15,7 @@ if (process.argv[2] === 'help') {
   console.info('Build package to ./dist');
 } else {
   const recursively = { recursive: true } as const;
+  await mkdir('dist', recursively);
 
   await Promise.all([
     measureAsyncTask('link assets', async () =>
@@ -101,8 +102,7 @@ if (process.argv[2] === 'help') {
 
       // Initialize all dirs
       const beforeWriteTasks: Promise<void>[] = [];
-      if (await recursiveTransform('./src/', './dist/', beforeWriteTasks))
-        await mkdir('dist', recursively);
+      await recursiveTransform('./src/', './dist/', beforeWriteTasks);
       await Promise.all(beforeWriteTasks);
 
       // Write contents
@@ -118,6 +118,9 @@ if (process.argv[2] === 'help') {
     }),
 
     measureAsyncTask('create & optimize package.json', () => {
+      // @ts-ignore
+      pkg.name = buildConfig.name;
+
       // @ts-ignore
       delete pkg.devDependencies;
       // @ts-ignore
