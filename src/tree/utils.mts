@@ -112,7 +112,7 @@ export const named_group_end = (path: string, startIdx: number): number => {
   return groupEndIdx;
 };
 
-export const is_dynamic_pattern = (pat: string): boolean => /[({:*]/.test(pat);
+export const is_dynamic_pattern = (pat: string): boolean => /[({:*+?]/.test(pat);
 export const url_pattern = (pat: string): URLPattern => new URLPattern({ pathname: pat });
 export const is_modifier = (modifier: string): boolean =>
   modifier === '?' || modifier === '+' || modifier === '*';
