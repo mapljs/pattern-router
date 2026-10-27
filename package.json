@@ -16,7 +16,6 @@
     "fmt": "oxfmt",
     "test": "node --test tests/**/*.test.mts",
     "push-release": "bun scripts/src/push-release.mts",
-    "publish": "bun scripts/src/publish.mts",
     "build": "bun scripts/src/build.mts",
     "pkg-stats": "bun scripts/src/pkg-stats.mts",
     "setup": "bun scripts/src/setup.mts",

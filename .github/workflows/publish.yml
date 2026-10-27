@@ -29,6 +29,6 @@ jobs:
 
       # Publish
       - name: Publish
-        run: bun run publish
+        run: npm publish ./dist --provenance --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

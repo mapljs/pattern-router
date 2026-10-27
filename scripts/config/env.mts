@@ -10,7 +10,6 @@ export default defineConfig({
   },
   packageManager: {
     init: () => pm('i'),
-    devInstall: () => pm('i', '--no-save', './dist'),
-    publish: () => spawnSync('npm', ['publish', './dist', '--provenance', '--access=public'], { stdio: 'inherit' }),
+    devInstall: () => pm('i', '--no-save', './dist')
   },
 });

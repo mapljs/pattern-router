@@ -12,11 +12,6 @@ export interface EnvConfig {
      * Install dev package.
      */
     devInstall: () => void;
-
-    /**
-     * Publish package.
-     */
-    publish: () => void;
   };
 }
 const defineConfig = (c: EnvConfig) => c;
