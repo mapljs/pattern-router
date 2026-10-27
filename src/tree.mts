@@ -14,8 +14,10 @@ export const tree_set_dynamic = <T,>(tree: Tree<T>, path: string, store: T): voi
 /**
  * @returns true if the tree is empty
  */
-export const tree_remove_static = <T,>(tree: Tree<T>, path: string): boolean =>
-  (tree[0].delete(path), tree.length === 1 && tree[0].size === 0);
+export const tree_remove_static = <T,>(tree: Tree<T>, path: string): boolean => (
+  tree[0].delete(path),
+  tree.length === 1 && tree[0].size === 0
+);
 
 /**
  * @returns true if the tree is empty

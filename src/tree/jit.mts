@@ -43,8 +43,7 @@ export const tree_compile_to_code = (
       }
     }
 
-    if (wildcardValue !== null)
-      str += wildcard![0] = wildcardValue;
+    if (wildcardValue !== null) str += wildcard![0] = wildcardValue;
     root[6] = wildcard;
   }
 

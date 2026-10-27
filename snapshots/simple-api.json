@@ -1,0 +1,156 @@
+{
+  "GET": [
+    {},
+    [
+      "",
+      null,
+      {
+        "/": [
+          "/",
+          null,
+          {
+            "u": [
+              "user/lookup/",
+              null,
+              {
+                "u": [
+                  "username",
+                  null,
+                  null,
+                  null,
+                  null,
+                  {
+                    "/:username": [
+                      "return isHead?'':\"GET /user/lookup/username/:username\"",
+                      null
+                    ]
+                  },
+                  null
+                ],
+                "e": [
+                  "email",
+                  null,
+                  null,
+                  null,
+                  null,
+                  {
+                    "/:email": [
+                      "return isHead?'':\"GET /user/lookup/email/:email\"",
+                      null
+                    ]
+                  },
+                  null
+                ]
+              },
+              null,
+              null,
+              null,
+              null
+            ],
+            "e": [
+              "event",
+              null,
+              null,
+              null,
+              null,
+              {
+                "/:event": [
+                  "return isHead?'':\"GET /event/:event\"",
+                  [
+                    "/comments",
+                    "return isHead?'':\"GET /event/:event/comments\"",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                  ]
+                ]
+              },
+              null
+            ],
+            "m": [
+              "map",
+              null,
+              null,
+              null,
+              null,
+              {
+                "/:location": [
+                  null,
+                  [
+                    "/events",
+                    "return isHead?'':\"GET /map/:location/events\"",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                  ]
+                ]
+              },
+              null
+            ],
+            "s": [
+              "static",
+              null,
+              null,
+              null,
+              null,
+              {
+                "/:file+": [
+                  "return isHead?'':\"GET /static/:file+\"",
+                  null
+                ]
+              },
+              null
+            ]
+          },
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      null,
+      null,
+      null,
+      null
+    ]
+  ],
+  "POST": [
+    {},
+    [
+      "",
+      null,
+      {
+        "/": [
+          "/event",
+          null,
+          null,
+          null,
+          null,
+          {
+            "/:event": [
+              null,
+              [
+                "/comment",
+                "return \"POST /event/:event/comment\"",
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            ]
+          },
+          null
+        ]
+      },
+      null,
+      null,
+      null,
+      null
+    ]
+  ]
+}

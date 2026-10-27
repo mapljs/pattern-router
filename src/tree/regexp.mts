@@ -38,7 +38,7 @@ string => {
           suffix = static_part_to_regexp(group.slice(endIdx, hasModifier ? -2 : -1));
 
         let namedCapture: string, regex: string;
-        for (let curIdx = j + 1, startIdx = curIdx; ; ) {
+        for (let curIdx = j + 1, startIdx = curIdx; ;) {
           if (curIdx === endIdx) {
             regex = '[^/]+';
             namedCapture = `(?<${group.slice(startIdx, endIdx)}>`;

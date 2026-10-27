@@ -133,8 +133,7 @@ if (process.argv[2] === 'help') {
         let scripts: Record<string, string> = (pkg.scripts ||= {}),
           scriptRegex = new RegExp(`^(?:pre|post)?(?:${buildConfig.scripts.join('|')})$`);
 
-        for (const key in scripts)
-          if (!scriptRegex.test(key)) delete scripts[key];
+        for (const key in scripts) if (!scriptRegex.test(key)) delete scripts[key];
 
         // @ts-ignore
         if (Object.keys(scripts).length === 0) delete pkg.scripts;
