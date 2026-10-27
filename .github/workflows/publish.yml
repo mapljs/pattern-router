@@ -30,3 +30,5 @@ jobs:
       # Publish
       - name: Publish
         run: bun run publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
