@@ -33,6 +33,4 @@ jobs:
 
       # Publish
       - name: Publish
-        run: npm stage publish ./dist --provenance --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm stage publish

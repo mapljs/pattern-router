@@ -25,7 +25,11 @@ if (process.argv[2] === 'help') {
 
           return measureAsyncTask(`symlink ./${file} to ${finalPath}`, async () => {
             await mkdir(finalPath.slice(0, finalPath.lastIndexOf('/')), recursively);
-            return link(file, finalPath);
+            try {
+              return await link(file, finalPath);
+            } catch (e: any) {
+              if (e.code !== 'EEXIST') throw e;
+            }
           });
         }),
       ),
