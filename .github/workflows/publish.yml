@@ -33,4 +33,4 @@ jobs:
 
       # Publish
       - name: Publish
-        run: npm stage publish
+        run: npm stage publish ./dist
