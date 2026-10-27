@@ -1,7 +1,7 @@
 {
   "type": "module",
   "version": "0.0.1",
-  "description": "A fast URLPattern router.",
+  "description": "A fast URLPattern router",
   "keywords": [
     "router",
     "url-pattern",
