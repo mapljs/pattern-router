@@ -11,6 +11,6 @@ export default defineConfig({
   packageManager: {
     init: () => pm('i'),
     devInstall: () => pm('i', '--no-save', './dist'),
-    publish: () => pm('publish', './dist', '--provenance', '--access=public'),
+    publish: () => spawnSync('npm', ['publish', './dist', '--provenance', '--access=public'], { stdio: 'inherit' }),
   },
 });

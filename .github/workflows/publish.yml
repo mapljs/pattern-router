@@ -17,6 +17,7 @@ jobs:
 
       # Setup runtime
       - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v7
 
       # Setup
       - name: Setup package
