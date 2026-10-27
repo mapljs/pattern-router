@@ -18,6 +18,10 @@ jobs:
       # Setup runtime
       - uses: oven-sh/setup-bun@v2
       - uses: actions/setup-node@v7
+        with:
+          node-version: '26.x'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false # Disable automatic npm dependency caching to reduce cache poisoning risk
 
       # Setup
       - name: Setup package
