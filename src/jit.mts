@@ -27,12 +27,12 @@ export const router_compile_to_code = (
       str += tree_compile_to_code(headTree, resultId, pathId);
     }
 
-    str += `}case "GET":{${tree_compile_to_code(getTree, resultId, pathId)}}break;`;
+    str += `}case "GET":${tree_compile_to_code(getTree, resultId, pathId)}break;`;
   }
 
   // Handle other methods
   router.forEach((value, key) => {
-    str += `case"${key}":{${tree_compile_to_code(value, resultId, pathId)}}break;`;
+    str += `case"${key}":${tree_compile_to_code(value, resultId, pathId)}break;`;
   });
 
   // Re-add GET & HEAD

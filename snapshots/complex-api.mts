@@ -5,39 +5,39 @@ export default (method: string, path: string) => {
       isHead = true;
     }
     case "GET":
+      switch (path) {
+        case "/auth/sso/providers":
+          {
+            return isHead ? "" : "GET /auth/sso/providers";
+          }
+          break;
+        case "/user/me":
+          {
+            return isHead ? "" : "GET /user/me";
+          }
+          break;
+        case "/user/me/preferences":
+          {
+            return isHead ? "" : "GET /user/me/preferences";
+          }
+          break;
+        case "/user/me/sessions":
+          {
+            return isHead ? "" : "GET /user/me/sessions";
+          }
+          break;
+        case "/user/notifications":
+          {
+            return isHead ? "" : "GET /user/notifications";
+          }
+          break;
+        case "/status":
+          {
+            return isHead ? "" : "GET /status";
+          }
+          break;
+      }
       {
-        switch (path) {
-          case "/auth/sso/providers":
-            {
-              return isHead ? "" : "GET /auth/sso/providers";
-            }
-            break;
-          case "/user/me":
-            {
-              return isHead ? "" : "GET /user/me";
-            }
-            break;
-          case "/user/me/preferences":
-            {
-              return isHead ? "" : "GET /user/me/preferences";
-            }
-            break;
-          case "/user/me/sessions":
-            {
-              return isHead ? "" : "GET /user/me/sessions";
-            }
-            break;
-          case "/user/notifications":
-            {
-              return isHead ? "" : "GET /user/notifications";
-            }
-            break;
-          case "/status":
-            {
-              return isHead ? "" : "GET /status";
-            }
-            break;
-        }
         let match =
           /^\/(?:user\/(?<user>[^/]+)(?:\/(?:notifications()|invites\/(?<invite>[^/]+)())|())|org\/(?<org>[^/]+)(?:\/(?:members()|roles()|domains()|projects\/(?<project>[^/]+)(?:\/(?:members()|activity()|tasks(?:()|\/(?:time-entries()|attachments())))|())|tasks(?:()|\/(?<task>[^/]+)(?:\/comments()|()))|billing\/(?:p(?:lans()|ayment-methods())|subscription()|invoices(?:()|\/(?<invoice>[^/]+)()))|api-keys()|webhooks())|())|files\/(?<file>.+)())$/.exec(
             path,
@@ -96,64 +96,64 @@ export default (method: string, path: string) => {
       }
       break;
     case "POST":
+      switch (path) {
+        case "/auth/register":
+          {
+            return "POST /auth/register";
+          }
+          break;
+        case "/auth/login":
+          {
+            return "POST /auth/login";
+          }
+          break;
+        case "/auth/logout":
+          {
+            return "POST /auth/logout";
+          }
+          break;
+        case "/auth/refresh":
+          {
+            return "POST /auth/refresh";
+          }
+          break;
+        case "/auth/password/forgot":
+          {
+            return "POST /auth/password/forgot";
+          }
+          break;
+        case "/auth/password/reset":
+          {
+            return "POST /auth/password/reset";
+          }
+          break;
+        case "/auth/sso":
+          {
+            return "POST /auth/sso";
+          }
+          break;
+        case "/user":
+          {
+            return "POST /user";
+          }
+          break;
+        case "/user/me":
+          {
+            return "POST /user/me";
+          }
+          break;
+        case "/org":
+          {
+            return "POST /org";
+          }
+          break;
+        case "/files/upload":
+          {
+            return "POST /files/upload";
+          }
+          break;
+      }
       {
-        switch (path) {
-          case "/auth/register":
-            {
-              return "POST /auth/register";
-            }
-            break;
-          case "/auth/login":
-            {
-              return "POST /auth/login";
-            }
-            break;
-          case "/auth/logout":
-            {
-              return "POST /auth/logout";
-            }
-            break;
-          case "/auth/refresh":
-            {
-              return "POST /auth/refresh";
-            }
-            break;
-          case "/auth/password/forgot":
-            {
-              return "POST /auth/password/forgot";
-            }
-            break;
-          case "/auth/password/reset":
-            {
-              return "POST /auth/password/reset";
-            }
-            break;
-          case "/auth/sso":
-            {
-              return "POST /auth/sso";
-            }
-            break;
-          case "/user":
-            {
-              return "POST /user";
-            }
-            break;
-          case "/user/me":
-            {
-              return "POST /user/me";
-            }
-            break;
-          case "/org":
-            {
-              return "POST /org";
-            }
-            break;
-          case "/files/upload":
-            {
-              return "POST /files/upload";
-            }
-            break;
-        }
         let match =
           /^\/(?:user(?:\/notifications\/read(?:\/(?<notification>[^/]+))?()|\/(?<user>[^/]+)(?:\/invites(?:()|\/(?<invite>[^/]+)\/(?:accept()|resend()))|()))|org\/(?<org>[^/]+)\/(?:members(?:()|\/(?<member>[^/]+)())|roles(?:()|\/(?<role>[^/]+)())|domains(?:()|\/(?<domain>[^/]+)())|projects(?:()|\/(?<project>[^/]+)\/(?:members()|tasks(?:()|\/(?:t(?:ime-entries()|ags())|attachments()))))|tasks\/(?<task>[^/]+)\/(?:assign()|status()|comments())|billing\/(?:subscription(?:()|\/cancel())|invoices\/(?<invoice>[^/]+)()|payment-methods())|api-keys()|webhooks()))$/.exec(
             path,
@@ -216,14 +216,14 @@ export default (method: string, path: string) => {
       }
       break;
     case "PATCH":
+      switch (path) {
+        case "/user/me/preferences":
+          {
+            return "PATCH /user/me/preferences";
+          }
+          break;
+      }
       {
-        switch (path) {
-          case "/user/me/preferences":
-            {
-              return "PATCH /user/me/preferences";
-            }
-            break;
-        }
         let match =
           /^\/org\/(?<org>[^/]+)(?:\/(?:projects\/(?<project>[^/]+)()|tasks\/(?<task>[^/]+)()|webhooks\/(?<hook>[^/]+)())|())$/.exec(
             path,
@@ -290,5 +290,7 @@ export default (method: string, path: string) => {
       }
       break;
   }
-  return " *";
+  {
+    return " *";
+  }
 };

@@ -5,34 +5,34 @@ export default (method: string, path: string) => {
       isHead = true;
     }
     case "GET":
+      switch (path) {
+        case "/user":
+          {
+            return isHead ? "" : "GET /user";
+          }
+          break;
+        case "/user/comments":
+          {
+            return isHead ? "" : "GET /user/comments";
+          }
+          break;
+        case "/user/avatar":
+          {
+            return isHead ? "" : "GET /user/avatar";
+          }
+          break;
+        case "/status":
+          {
+            return isHead ? "" : "GET /status";
+          }
+          break;
+        case "/very/deeply/nested/route/hello/there":
+          {
+            return isHead ? "" : "GET /very/deeply/nested/route/hello/there";
+          }
+          break;
+      }
       {
-        switch (path) {
-          case "/user":
-            {
-              return isHead ? "" : "GET /user";
-            }
-            break;
-          case "/user/comments":
-            {
-              return isHead ? "" : "GET /user/comments";
-            }
-            break;
-          case "/user/avatar":
-            {
-              return isHead ? "" : "GET /user/avatar";
-            }
-            break;
-          case "/status":
-            {
-              return isHead ? "" : "GET /status";
-            }
-            break;
-          case "/very/deeply/nested/route/hello/there":
-            {
-              return isHead ? "" : "GET /very/deeply/nested/route/hello/there";
-            }
-            break;
-        }
         let match =
           /^\/(?:user\/lookup\/(?:username\/(?<username>[^/]+)()|email\/(?<email>[^/]+)())|event\/(?<event>[^/]+)(?:\/comments()|())|map\/(?<location>[^/]+)\/events()|static\/(?<file>.+)())$/.exec(
             path,

@@ -17,6 +17,8 @@ export const tree_compile_to_code = (
   }
 
   if (tree.length === 2) {
+    str += '{';
+
     let root = tree[1],
       wildcard = root[6],
       wildcardValue: string | null = null;
@@ -45,6 +47,8 @@ export const tree_compile_to_code = (
 
     if (wildcardValue !== null) str += wildcard![0] = wildcardValue;
     root[6] = wildcard;
+
+    str += '}';
   }
 
   return str;
