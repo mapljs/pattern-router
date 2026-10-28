@@ -4,7 +4,7 @@ import defineConfig from '../lib/build.mts';
 export default defineConfig({
   name: '@mapl/pattern-router',
   scripts: ['install', 'uninstall', 'prepare', 'prepublish'],
-  assets: ['LICENSE'],
+  assets: ['README.md', 'LICENSE'],
 
   transform: (relativePath, content) =>
     transformSync(relativePath, content, {
