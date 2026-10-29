@@ -6,6 +6,7 @@ import { readFile, writeFile, readdir, mkdir, link, glob } from 'node:fs/promise
 
 import { measureAsyncTask } from '../lib/tasks.mts';
 import config from '../config.mts';
+import { minifySync } from 'oxc-minify';
 
 if (process.argv[2] === 'help') {
   console.info('Build package to ./dist');
@@ -74,7 +75,14 @@ if (process.argv[2] === 'help') {
                     },
                   );
 
-                  writeContents.push(outPathWithoutExt + 'mjs', transformed.code);
+                  writeContents.push(
+                    outPathWithoutExt + 'mjs',
+                    minifySync(srcPath, transformed.code, {
+                      module: true,
+                      compress: false,
+                      mangle: false,
+                    }).code,
+                  );
                   if (transformed.declaration != null)
                     writeContents.push(outPathWithoutExt + 'd.mts', transformed.declaration);
                 }),
