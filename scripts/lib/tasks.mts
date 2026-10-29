@@ -1,4 +1,4 @@
-import { styleText } from "node:util";
+import { styleText } from 'node:util';
 
 export const measureAsyncTask = async <R,>(
   name: string,

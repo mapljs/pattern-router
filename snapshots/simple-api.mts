@@ -1,34 +1,34 @@
 export default (method: string, path: string) => {
   let isHead = false;
   switch (method) {
-    case "HEAD": {
+    case 'HEAD': {
       isHead = true;
     }
-    case "GET":
+    case 'GET':
       switch (path) {
-        case "/user":
+        case '/user':
           {
-            return isHead ? "" : "GET /user";
+            return isHead ? '' : 'GET /user';
           }
           break;
-        case "/user/comments":
+        case '/user/comments':
           {
-            return isHead ? "" : "GET /user/comments";
+            return isHead ? '' : 'GET /user/comments';
           }
           break;
-        case "/user/avatar":
+        case '/user/avatar':
           {
-            return isHead ? "" : "GET /user/avatar";
+            return isHead ? '' : 'GET /user/avatar';
           }
           break;
-        case "/status":
+        case '/status':
           {
-            return isHead ? "" : "GET /status";
+            return isHead ? '' : 'GET /status';
           }
           break;
-        case "/very/deeply/nested/route/hello/there":
+        case '/very/deeply/nested/route/hello/there':
           {
-            return isHead ? "" : "GET /very/deeply/nested/route/hello/there";
+            return isHead ? '' : 'GET /very/deeply/nested/route/hello/there';
           }
           break;
       }
@@ -38,28 +38,28 @@ export default (method: string, path: string) => {
             path,
           );
         if (match !== null) {
-          if (match[2] === "") {
-            return isHead ? "" : "GET /user/lookup/username/:username";
-          } else if (match[4] === "") {
-            return isHead ? "" : "GET /user/lookup/email/:email";
-          } else if (match[6] === "") {
-            return isHead ? "" : "GET /event/:event/comments";
-          } else if (match[7] === "") {
-            return isHead ? "" : "GET /event/:event";
-          } else if (match[9] === "") {
-            return isHead ? "" : "GET /map/:location/events";
-          } else if (match[11] === "") {
-            return isHead ? "" : "GET /static/:file+";
+          if (match[2] === '') {
+            return isHead ? '' : 'GET /user/lookup/username/:username';
+          } else if (match[4] === '') {
+            return isHead ? '' : 'GET /user/lookup/email/:email';
+          } else if (match[6] === '') {
+            return isHead ? '' : 'GET /event/:event/comments';
+          } else if (match[7] === '') {
+            return isHead ? '' : 'GET /event/:event';
+          } else if (match[9] === '') {
+            return isHead ? '' : 'GET /map/:location/events';
+          } else if (match[11] === '') {
+            return isHead ? '' : 'GET /static/:file+';
           }
         }
       }
       break;
-    case "POST":
+    case 'POST':
       {
         let match = /^\/event\/(?<event>[^/]+)\/comment()$/.exec(path);
         if (match !== null) {
-          if (match[2] === "") {
-            return "POST /event/:event/comment";
+          if (match[2] === '') {
+            return 'POST /event/:event/comment';
           }
         }
       }
