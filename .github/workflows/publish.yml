@@ -55,4 +55,4 @@ jobs:
           node --run build
 
       - name: Publish
-        run: upm stage publish ./dist --no-git-checks
+        run: upm stage publish ./dist
