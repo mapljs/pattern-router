@@ -1,7 +1,7 @@
 {
   "lockfileVersion": 1,
   "root": {
-    "version": "0.1.0",
+    "version": "0.1.2",
     "specs": {
       "devDependencies": {
         "@mapl/pattern-router": "link:dist",
@@ -9,7 +9,6 @@
         "oxc-minify": "^0.154.0",
         "oxc-transform": "^0.154.0",
         "oxfmt": "^0.73.0",
-        "picocolors": "^1.1.1",
         "typescript": "^7.0.2"
       }
     },
@@ -19,7 +18,6 @@
       "oxc-minify": "0.154.0",
       "oxc-transform": "0.154.0",
       "oxfmt": "0.73.0",
-      "picocolors": "1.1.1",
       "typescript": "7.0.2"
     }
   },
@@ -882,9 +880,6 @@
         "svelte": "optional",
         "vite-plus": "optional"
       }
-    },
-    "picocolors@1.1.1": {
-      "integrity": "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA=="
     },
     "tinypool@2.2.0": {
       "integrity": "sha512-jBrmx4lYmaC9k/mgPbylxs7kBUxHtD8256up+HjLaDFfXScKJQyil+SWXSvhAtT7XHo+yTVlpB81PGmHP8oLSQ=="
