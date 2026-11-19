@@ -62,18 +62,18 @@ export const group_delimiter_end = (path: string, startIdx: number): number =>
 
 /**
  * @param path
- * @param startIdx position after (
+ * @param startIdx position of ( or /(
  * @returns position after ) or a modifier
  */
 export const unnamed_group_end = (path: string, startIdx: number): number => {
-  let stack = 1;
-  while (true) {
-    if (path[startIdx] === ')') {
-      if (--stack === 0) return group_modifier_end(path, startIdx + 1);
-    } else if (path[startIdx] === '(') stack++;
-
+  let stack = 0;
+  while (startIdx < path.length) {
+    if (path[startIdx] === '(') stack++;
+    else if (path[startIdx] === ')' && --stack === 0) return group_modifier_end(path, startIdx + 1);
     startIdx++;
   }
+
+  throw new Error('invalid unnamed group in path: ' + path);
 };
 
 /**
@@ -90,7 +90,7 @@ export const named_group_end = (path: string, startIdx: number): number => {
         return groupEndIdx + 1;
 
       case '(':
-        return unnamed_group_end(path, groupEndIdx + 1);
+        return unnamed_group_end(path, groupEndIdx);
 
       case '{':
       case '}':
@@ -116,7 +116,3 @@ export const is_dynamic_pattern = (pat: string): boolean => /[({:*+?]/.test(pat)
 export const url_pattern = (pat: string): URLPattern => new URLPattern({ pathname: pat });
 export const is_modifier = (modifier: string): boolean =>
   modifier === '?' || modifier === '+' || modifier === '*';
-
-export const unnamed_group_to_regexp = (group: string, startIdx: number, endIdx: number): string =>
-  // might be lookahead or lookbehind assertions
-  group[startIdx + 1] === '?' ? group.slice(0, endIdx) : '(?:' + group.slice(startIdx + 1, endIdx);

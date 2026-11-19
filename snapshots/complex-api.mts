@@ -290,7 +290,4 @@ export default (method: string, path: string) => {
       }
       break;
   }
-  {
-    return ' *';
-  }
 };

@@ -1,4 +1,4 @@
-import suite, { rand, randstr, sample, type Suite } from './lib.mts';
+import suite, { number_alphabet, rand, randstr, sample, type Suite } from './lib.mts';
 
 const name_part = () => '/' + randstr(8),
   optional_name_part = () => (rand(1) ? name_part() : ''),
@@ -12,7 +12,8 @@ const name_part = () => '/' + randstr(8),
       str = '';
     while (parts-- > 0) str += name_part();
     return str;
-  };
+  },
+  number_part = () => (rand(2) ? '/' + randstr(8, number_alphabet) : '');
 
 const suites: Record<string, Suite> = {
   'simple-api': suite({
@@ -187,7 +188,12 @@ const suites: Record<string, Suite> = {
       '/:file+': [sample(file_part, 5), ['GET', 'DELETE']],
     },
     '/status': 'GET',
-    '*': [() => [], ''],
+  }),
+  'weird-apis': suite({
+    '/users': {
+      '/admin/*': 'GET',
+      '/([0-9]+)?': [sample(number_part, 10), 'GET'],
+    },
   }),
 };
 export default suites;

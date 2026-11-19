@@ -101,7 +101,9 @@ export const str_range = (a: string, b: string) => {
     a += String.fromCharCode(c_start);
   return a;
 };
-export const id_alphabet = str_range('a', 'z') + str_range('A', 'Z') + str_range('0', '9');
+
+export const number_alphabet = str_range('0', '9');
+export const id_alphabet = str_range('a', 'z') + str_range('A', 'Z') + number_alphabet;
 
 // fixed seed random
 let SEED = 0x1950;

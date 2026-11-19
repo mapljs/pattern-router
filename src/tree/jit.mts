@@ -17,38 +17,20 @@ export const tree_compile_to_code = (
   }
 
   if (tree.length === 2) {
-    str += '{';
+    const root = tree[1],
+      handlers: string[] = [],
+      offsets = [1],
+      regexp = node_compile_to_regexp(root, handlers, offsets);
 
-    let root = tree[1],
-      wildcard = root[6],
-      wildcardValue: string | null = null;
+    if (handlers.length > 0) {
+      let prefix = `if(${resultId}[`;
+      str += `{let ${resultId}=/^${regexp}$/.exec(${pathId});if(${resultId}!==null){${prefix + offsets[0]}]===""){${handlers[0]}}`;
+      prefix = 'else ' + prefix;
 
-    if (wildcard !== null) {
-      wildcardValue = wildcard[0];
-      if (wildcard[1] === null) root[6] = null;
-      else wildcard[0] = null;
+      for (let i = 1; i < handlers.length; i++)
+        str += prefix + offsets[i] + `]===""){${handlers[i]}}`;
+      str += '}}';
     }
-
-    {
-      const handlers: string[] = [],
-        offsets = [1],
-        regexp = node_compile_to_regexp(root, handlers, offsets);
-
-      if (handlers.length > 0) {
-        let prefix = `if(${resultId}[`;
-        str += `let ${resultId}=/^${regexp}$/.exec(${pathId});if(${resultId}!==null){${prefix + offsets[0]}]===""){${handlers[0]}}`;
-        prefix = 'else ' + prefix;
-
-        for (let i = 1; i < handlers.length; i++)
-          str += prefix + offsets[i] + `]===""){${handlers[i]}}`;
-        str += '}';
-      }
-    }
-
-    if (wildcardValue !== null) str += wildcard![0] = wildcardValue;
-    root[6] = wildcard;
-
-    str += '}';
   }
 
   return str;

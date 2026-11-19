@@ -1,13 +1,30 @@
 import type { ConnectNode, Node } from './node.mts';
-import {
-  unnamed_group_to_regexp,
-  named_group_end,
-  unnamed_group_end,
-  is_modifier,
-} from './utils.mts';
+import { named_group_end, unnamed_group_end, is_modifier } from './utils.mts';
 
 export const static_part_to_regexp = (str: string): string =>
   str.replace(/([.+*?^${}()[\]|/\\])/g, '\\$1');
+
+export const unnamed_group_to_regexp = (
+  group: string,
+  startIdx: number,
+  endIdx: number,
+): string => {
+  if (group[startIdx] === '/') {
+    const modifier = group[endIdx - 1];
+    if (modifier !== ')')
+      return group[startIdx + 2] === '?'
+        ? '(?:\\/' + group.slice(startIdx + 1, endIdx - 1)
+        : '(?:\\/(?:' + group.slice(startIdx + 2, endIdx - 1) + ')' + modifier;
+    return group[startIdx + 2] === '?'
+      ? '\\/' + group.slice(startIdx + 1, endIdx)
+      : '\\/(?:' + group.slice(startIdx + 2, endIdx);
+  }
+
+  // might be lookahead or lookbehind assertions
+  return group[startIdx + 1] === '?'
+    ? group.slice(startIdx, endIdx)
+    : '(?:' + group.slice(startIdx + 1, endIdx);
+};
 
 export const group_delimiter_to_regexp = (
   group: string,
@@ -21,7 +38,7 @@ string => {
   ) {
     switch (group[j]) {
       case '(': {
-        const regexpEnd = unnamed_group_end(group, j + 1),
+        const regexpEnd = unnamed_group_end(group, j),
           prefixWithRegexp =
             static_part_to_regexp(group.slice(0, j)) + unnamed_group_to_regexp(group, j, regexpEnd);
 
@@ -46,7 +63,7 @@ string => {
           }
 
           if (group[curIdx] === '(') {
-            regex = unnamed_group_to_regexp(group, curIdx, unnamed_group_end(group, curIdx + 1));
+            regex = unnamed_group_to_regexp(group, curIdx, unnamed_group_end(group, curIdx));
             namedCapture = `(?<${group.slice(startIdx, curIdx)}>`;
             break;
           }
@@ -88,7 +105,7 @@ export const named_group_to_regexp = (key: string, offsets: number[]): string =>
 
   for (let curIdx = startIdx; curIdx < key.length; curIdx++) {
     if (key[curIdx] === '(') {
-      const regex = unnamed_group_to_regexp(key, curIdx, unnamed_group_end(key, curIdx + 1)),
+      const regex = unnamed_group_to_regexp(key, curIdx, unnamed_group_end(key, curIdx)),
         namedCapture = `(?<${key.slice(startIdx, curIdx)}>`;
 
       return autoGroupPrefixing
@@ -172,7 +189,10 @@ export const node_compile_to_regexp = <T,>(
   if (node[4] !== null) {
     const map = node[4];
     for (const regexp in map)
-      regexPaths.push(regexp + connect_node_compile_to_regexp(map[regexp]!, handlers, offsets));
+      regexPaths.push(
+        unnamed_group_to_regexp(regexp, 0, regexp.length) +
+          connect_node_compile_to_regexp(map[regexp]!, handlers, offsets),
+      );
   }
 
   if (node[5] !== null) {
@@ -183,9 +203,6 @@ export const node_compile_to_regexp = <T,>(
           connect_node_compile_to_regexp(map[group]!, handlers, offsets),
       );
   }
-
-  if (node[6] !== null)
-    regexPaths.push('.*' + connect_node_compile_to_regexp(node[6], handlers, offsets));
 
   return (
     (node[0].length > 0 ? static_part_to_regexp(node[0]) : '') +

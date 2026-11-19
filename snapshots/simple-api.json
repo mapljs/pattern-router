@@ -1,6 +1,12 @@
 {
   "GET": [
-    {},
+    {
+      "/user": "return isHead?'':\"GET /user\"",
+      "/user/comments": "return isHead?'':\"GET /user/comments\"",
+      "/user/avatar": "return isHead?'':\"GET /user/avatar\"",
+      "/status": "return isHead?'':\"GET /status\"",
+      "/very/deeply/nested/route/hello/there": "return isHead?'':\"GET /very/deeply/nested/route/hello/there\""
+    },
     [
       "",
       null,
@@ -24,8 +30,7 @@
                       "return isHead?'':\"GET /user/lookup/username/:username\"",
                       null
                     ]
-                  },
-                  null
+                  }
                 ],
                 "e": [
                   "email",
@@ -38,11 +43,9 @@
                       "return isHead?'':\"GET /user/lookup/email/:email\"",
                       null
                     ]
-                  },
-                  null
+                  }
                 ]
               },
-              null,
               null,
               null,
               null
@@ -62,12 +65,10 @@
                     null,
                     null,
                     null,
-                    null,
                     null
                   ]
                 ]
-              },
-              null
+              }
             ],
             "m": [
               "map",
@@ -84,12 +85,10 @@
                     null,
                     null,
                     null,
-                    null,
                     null
                   ]
                 ]
-              },
-              null
+              }
             ],
             "s": [
               "static",
@@ -102,17 +101,14 @@
                   "return isHead?'':\"GET /static/:file+\"",
                   null
                 ]
-              },
-              null
+              }
             ]
           },
-          null,
           null,
           null,
           null
         ]
       },
-      null,
       null,
       null,
       null
@@ -139,15 +135,12 @@
                 null,
                 null,
                 null,
-                null,
                 null
               ]
             ]
-          },
-          null
+          }
         ]
       },
-      null,
       null,
       null,
       null

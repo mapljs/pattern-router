@@ -1,0 +1,36 @@
+{
+  "GET": [
+    {},
+    [
+      "",
+      null,
+      {
+        "/": [
+          "/users",
+          null,
+          {
+            "/": [
+              "/admin/*",
+              "return isHead?'':\"GET /users/admin/*\"",
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          null,
+          {
+            "/([0-9]+)?": [
+              "return isHead?'':\"GET /users/([0-9]+)?\"",
+              null
+            ]
+          },
+          null
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  ]
+}

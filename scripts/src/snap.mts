@@ -28,7 +28,11 @@ for (const name in suites) {
   pending.push(
     writeFile(
       `snapshots/${name}.json`,
-      JSON.stringify(Object.fromEntries(router.entries()), null, 2),
+      JSON.stringify(
+        router,
+        (_, value) => (value instanceof Map ? Object.fromEntries(value) : value),
+        2,
+      ),
     ),
     format(
       filename,
