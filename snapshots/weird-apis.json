@@ -18,7 +18,9 @@
           },
           {
             "/([0-9]+)?": [
+              "",
               "return isHead?'':\"GET /users/([0-9]+)?\"",
+              null,
               null
             ]
           }

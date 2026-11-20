@@ -1,4 +1,4 @@
-import type { ConnectNode, Node } from './node.mts';
+import type { Node } from './node.mts';
 import { named_group_end, unnamed_group_end, is_modifier } from './utils.mts';
 
 export const static_part_to_regexp = (str: string): string =>
@@ -139,30 +139,6 @@ export const named_group_to_regexp = (key: string, offsets: number[]): string =>
     : namedCapture + (modifier === '?' ? '[^/]+)?' : modifier === '*' ? '[^/]*)' : '[^/]+)');
 };
 
-export const group_to_regexp = (group: string, startChar: string, offsets: number[]): string => startChar === '('
-  ? unnamed_group_to_regexp(group, 0, group.length)
-  : named_group_to_regexp(group, offsets);
-
-export const connect_node_compile_to_regexp = <T,>(
-  connectNode: ConnectNode<T>,
-  handlers: T[],
-  offsets: number[],
-): string => {
-  if (connectNode[0] !== null) {
-    const str =
-      connectNode[1] === null
-        ? '()'
-        : `(?:${node_compile_to_regexp(connectNode[1], handlers, offsets)}|())`;
-
-    handlers.push(connectNode[0]);
-    offsets.push(offsets[offsets.length - 1] + 1);
-
-    return str;
-  }
-
-  return node_compile_to_regexp(connectNode[1]!, handlers, offsets);
-};
-
 export const node_compile_to_regexp = <T,>(
   node: Node<T>,
   handlers: T[],
@@ -184,13 +160,16 @@ export const node_compile_to_regexp = <T,>(
   if (node[3] !== null) {
     const map = node[3];
     for (const group in map) {
-      const firstChar = group[0];
+      const firstChar = group[0],
+        startChar = firstChar === '/' ? group[1] : firstChar;
 
       regexPaths.push(
         (firstChar === '{'
           ? group_delimiter_to_regexp(group, offsets)
-          : group_to_regexp(group, firstChar === '/' ? group[1] : firstChar, offsets)) +
-        connect_node_compile_to_regexp(map[group]!, handlers, offsets),
+          : startChar === '('
+            ? unnamed_group_to_regexp(group, 0, group.length)
+            : named_group_to_regexp(group, offsets)) +
+        node_compile_to_regexp(map[group]!, handlers, offsets),
       );
     }
   }

@@ -31,7 +31,9 @@
                   null,
                   {
                     "/:notification?": [
+                      "",
                       "return \"POST /user/notifications/read/:notification?\"",
+                      null,
                       null
                     ]
                   }
@@ -39,15 +41,15 @@
               },
               {
                 "/:user": [
+                  "",
                   "return \"POST /user/:user\"",
-                  [
-                    "/invites",
-                    "return \"POST /user/:user/invites\"",
-                    null,
-                    {
-                      "/:invite": [
-                        null,
-                        [
+                  {
+                    "/": [
+                      "/invites",
+                      "return \"POST /user/:user/invites\"",
+                      null,
+                      {
+                        "/:invite": [
                           "/",
                           null,
                           {
@@ -66,9 +68,10 @@
                           },
                           null
                         ]
-                      ]
-                    }
-                  ]
+                      }
+                    ]
+                  },
+                  null
                 ]
               }
             ],
@@ -78,95 +81,94 @@
               null,
               {
                 "/:org": [
+                  "/",
                   null,
-                  [
-                    "/",
-                    null,
-                    {
-                      "m": [
-                        "members",
-                        "return \"POST /org/:org/members\"",
-                        null,
-                        {
-                          "/:member": [
-                            "return \"POST /org/:org/members/:member\"",
-                            null
-                          ]
-                        }
-                      ],
-                      "r": [
-                        "roles",
-                        "return \"POST /org/:org/roles\"",
-                        null,
-                        {
-                          "/:role": [
-                            "return \"POST /org/:org/roles/:role\"",
-                            null
-                          ]
-                        }
-                      ],
-                      "d": [
-                        "domains",
-                        "return \"POST /org/:org/domains\"",
-                        null,
-                        {
-                          "/:domain": [
-                            "return \"POST /org/:org/domains/:domain\"",
-                            null
-                          ]
-                        }
-                      ],
-                      "p": [
-                        "projects",
-                        "return \"POST /org/:org/projects\"",
-                        null,
-                        {
-                          "/:project": [
-                            null,
-                            [
-                              "/",
+                  {
+                    "m": [
+                      "members",
+                      "return \"POST /org/:org/members\"",
+                      null,
+                      {
+                        "/:member": [
+                          "",
+                          "return \"POST /org/:org/members/:member\"",
+                          null,
+                          null
+                        ]
+                      }
+                    ],
+                    "r": [
+                      "roles",
+                      "return \"POST /org/:org/roles\"",
+                      null,
+                      {
+                        "/:role": [
+                          "",
+                          "return \"POST /org/:org/roles/:role\"",
+                          null,
+                          null
+                        ]
+                      }
+                    ],
+                    "d": [
+                      "domains",
+                      "return \"POST /org/:org/domains\"",
+                      null,
+                      {
+                        "/:domain": [
+                          "",
+                          "return \"POST /org/:org/domains/:domain\"",
+                          null,
+                          null
+                        ]
+                      }
+                    ],
+                    "p": [
+                      "projects",
+                      "return \"POST /org/:org/projects\"",
+                      null,
+                      {
+                        "/:project": [
+                          "/",
+                          null,
+                          {
+                            "m": [
+                              "members",
+                              "return \"POST /org/:org/projects/:project/members\"",
                               null,
+                              null
+                            ],
+                            "t": [
+                              "tasks",
+                              "return \"POST /org/:org/projects/:project/tasks\"",
                               {
-                                "m": [
-                                  "members",
-                                  "return \"POST /org/:org/projects/:project/members\"",
+                                "/": [
+                                  "/",
                                   null,
-                                  null
-                                ],
-                                "t": [
-                                  "tasks",
-                                  "return \"POST /org/:org/projects/:project/tasks\"",
                                   {
-                                    "/": [
-                                      "/",
+                                    "t": [
+                                      "t",
                                       null,
                                       {
-                                        "t": [
-                                          "t",
+                                        "i": [
+                                          "ime-entries",
+                                          "return \"POST /org/:org/projects/:project/tasks/time-entries\"",
                                           null,
-                                          {
-                                            "i": [
-                                              "ime-entries",
-                                              "return \"POST /org/:org/projects/:project/tasks/time-entries\"",
-                                              null,
-                                              null
-                                            ],
-                                            "a": [
-                                              "ags",
-                                              "return \"POST /org/:org/projects/:project/tasks/tags\"",
-                                              null,
-                                              null
-                                            ]
-                                          },
                                           null
                                         ],
                                         "a": [
-                                          "attachments",
-                                          "return \"POST /org/:org/projects/:project/tasks/attachments\"",
+                                          "ags",
+                                          "return \"POST /org/:org/projects/:project/tasks/tags\"",
                                           null,
                                           null
                                         ]
                                       },
+                                      null
+                                    ],
+                                    "a": [
+                                      "attachments",
+                                      "return \"POST /org/:org/projects/:project/tasks/attachments\"",
+                                      null,
                                       null
                                     ]
                                   },
@@ -175,96 +177,96 @@
                               },
                               null
                             ]
-                          ]
-                        }
-                      ],
-                      "t": [
-                        "tasks",
-                        null,
-                        null,
-                        {
-                          "/:task": [
-                            null,
-                            [
-                              "/",
+                          },
+                          null
+                        ]
+                      }
+                    ],
+                    "t": [
+                      "tasks",
+                      null,
+                      null,
+                      {
+                        "/:task": [
+                          "/",
+                          null,
+                          {
+                            "a": [
+                              "assign",
+                              "return \"POST /org/:org/tasks/:task/assign\"",
                               null,
-                              {
-                                "a": [
-                                  "assign",
-                                  "return \"POST /org/:org/tasks/:task/assign\"",
-                                  null,
-                                  null
-                                ],
-                                "s": [
-                                  "status",
-                                  "return \"POST /org/:org/tasks/:task/status\"",
-                                  null,
-                                  null
-                                ],
-                                "c": [
-                                  "comments",
-                                  "return \"POST /org/:org/tasks/:task/comments\"",
-                                  null,
-                                  null
-                                ]
-                              },
+                              null
+                            ],
+                            "s": [
+                              "status",
+                              "return \"POST /org/:org/tasks/:task/status\"",
+                              null,
+                              null
+                            ],
+                            "c": [
+                              "comments",
+                              "return \"POST /org/:org/tasks/:task/comments\"",
+                              null,
                               null
                             ]
-                          ]
-                        }
-                      ],
-                      "b": [
-                        "billing/",
-                        null,
-                        {
-                          "s": [
-                            "subscription",
-                            "return \"POST /org/:org/billing/subscription\"",
-                            {
-                              "/": [
-                                "/cancel",
-                                "return \"POST /org/:org/billing/subscription/cancel\"",
-                                null,
-                                null
-                              ]
-                            },
-                            null
-                          ],
-                          "i": [
-                            "invoices",
-                            null,
-                            null,
-                            {
-                              "/:invoice": [
-                                "return \"POST /org/:org/billing/invoices/:invoice\"",
-                                null
-                              ]
-                            }
-                          ],
-                          "p": [
-                            "payment-methods",
-                            "return \"POST /org/:org/billing/payment-methods\"",
-                            null,
-                            null
-                          ]
-                        },
-                        null
-                      ],
-                      "a": [
-                        "api-keys",
-                        "return \"POST /org/:org/api-keys\"",
-                        null,
-                        null
-                      ],
-                      "w": [
-                        "webhooks",
-                        "return \"POST /org/:org/webhooks\"",
-                        null,
-                        null
-                      ]
-                    },
-                    null
-                  ]
+                          },
+                          null
+                        ]
+                      }
+                    ],
+                    "b": [
+                      "billing/",
+                      null,
+                      {
+                        "s": [
+                          "subscription",
+                          "return \"POST /org/:org/billing/subscription\"",
+                          {
+                            "/": [
+                              "/cancel",
+                              "return \"POST /org/:org/billing/subscription/cancel\"",
+                              null,
+                              null
+                            ]
+                          },
+                          null
+                        ],
+                        "i": [
+                          "invoices",
+                          null,
+                          null,
+                          {
+                            "/:invoice": [
+                              "",
+                              "return \"POST /org/:org/billing/invoices/:invoice\"",
+                              null,
+                              null
+                            ]
+                          }
+                        ],
+                        "p": [
+                          "payment-methods",
+                          "return \"POST /org/:org/billing/payment-methods\"",
+                          null,
+                          null
+                        ]
+                      },
+                      null
+                    ],
+                    "a": [
+                      "api-keys",
+                      "return \"POST /org/:org/api-keys\"",
+                      null,
+                      null
+                    ],
+                    "w": [
+                      "webhooks",
+                      "return \"POST /org/:org/webhooks\"",
+                      null,
+                      null
+                    ]
+                  },
+                  null
                 ]
               }
             ]
@@ -298,31 +300,37 @@
               null,
               {
                 "/:user": [
+                  "",
                   "return isHead?'':\"GET /user/:user\"",
-                  [
-                    "/",
-                    null,
-                    {
-                      "n": [
-                        "notifications",
-                        "return isHead?'':\"GET /user/:user/notifications\"",
-                        null,
-                        null
-                      ],
-                      "i": [
-                        "invites",
-                        null,
-                        null,
-                        {
-                          "/:invite": [
-                            "return isHead?'':\"GET /user/:user/invites/:invite\"",
-                            null
-                          ]
-                        }
-                      ]
-                    },
-                    null
-                  ]
+                  {
+                    "/": [
+                      "/",
+                      null,
+                      {
+                        "n": [
+                          "notifications",
+                          "return isHead?'':\"GET /user/:user/notifications\"",
+                          null,
+                          null
+                        ],
+                        "i": [
+                          "invites",
+                          null,
+                          null,
+                          {
+                            "/:invite": [
+                              "",
+                              "return isHead?'':\"GET /user/:user/invites/:invite\"",
+                              null,
+                              null
+                            ]
+                          }
+                        ]
+                      },
+                      null
+                    ]
+                  },
+                  null
                 ]
               }
             ],
@@ -332,70 +340,77 @@
               null,
               {
                 "/:org": [
+                  "",
                   "return isHead?'':\"GET /org/:org\"",
-                  [
-                    "/",
-                    null,
-                    {
-                      "m": [
-                        "members",
-                        "return isHead?'':\"GET /org/:org/members\"",
-                        null,
-                        null
-                      ],
-                      "r": [
-                        "roles",
-                        "return isHead?'':\"GET /org/:org/roles\"",
-                        null,
-                        null
-                      ],
-                      "d": [
-                        "domains",
-                        "return isHead?'':\"GET /org/:org/domains\"",
-                        null,
-                        null
-                      ],
-                      "p": [
-                        "projects",
-                        null,
-                        null,
-                        {
-                          "/:project": [
-                            "return isHead?'':\"GET /org/:org/projects/:project\"",
-                            [
-                              "/",
-                              null,
+                  {
+                    "/": [
+                      "/",
+                      null,
+                      {
+                        "m": [
+                          "members",
+                          "return isHead?'':\"GET /org/:org/members\"",
+                          null,
+                          null
+                        ],
+                        "r": [
+                          "roles",
+                          "return isHead?'':\"GET /org/:org/roles\"",
+                          null,
+                          null
+                        ],
+                        "d": [
+                          "domains",
+                          "return isHead?'':\"GET /org/:org/domains\"",
+                          null,
+                          null
+                        ],
+                        "p": [
+                          "projects",
+                          null,
+                          null,
+                          {
+                            "/:project": [
+                              "",
+                              "return isHead?'':\"GET /org/:org/projects/:project\"",
                               {
-                                "m": [
-                                  "members",
-                                  "return isHead?'':\"GET /org/:org/projects/:project/members\"",
+                                "/": [
+                                  "/",
                                   null,
-                                  null
-                                ],
-                                "a": [
-                                  "activity",
-                                  "return isHead?'':\"GET /org/:org/projects/:project/activity\"",
-                                  null,
-                                  null
-                                ],
-                                "t": [
-                                  "tasks",
-                                  "return isHead?'':\"GET /org/:org/projects/:project/tasks\"",
                                   {
-                                    "/": [
-                                      "/",
+                                    "m": [
+                                      "members",
+                                      "return isHead?'':\"GET /org/:org/projects/:project/members\"",
                                       null,
+                                      null
+                                    ],
+                                    "a": [
+                                      "activity",
+                                      "return isHead?'':\"GET /org/:org/projects/:project/activity\"",
+                                      null,
+                                      null
+                                    ],
+                                    "t": [
+                                      "tasks",
+                                      "return isHead?'':\"GET /org/:org/projects/:project/tasks\"",
                                       {
-                                        "t": [
-                                          "time-entries",
-                                          "return isHead?'':\"GET /org/:org/projects/:project/tasks/time-entries\"",
+                                        "/": [
+                                          "/",
                                           null,
-                                          null
-                                        ],
-                                        "a": [
-                                          "attachments",
-                                          "return isHead?'':\"GET /org/:org/projects/:project/tasks/attachments\"",
-                                          null,
+                                          {
+                                            "t": [
+                                              "time-entries",
+                                              "return isHead?'':\"GET /org/:org/projects/:project/tasks/time-entries\"",
+                                              null,
+                                              null
+                                            ],
+                                            "a": [
+                                              "attachments",
+                                              "return isHead?'':\"GET /org/:org/projects/:project/tasks/attachments\"",
+                                              null,
+                                              null
+                                            ]
+                                          },
                                           null
                                         ]
                                       },
@@ -407,83 +422,90 @@
                               },
                               null
                             ]
-                          ]
-                        }
-                      ],
-                      "t": [
-                        "tasks",
-                        "return isHead?'':\"GET /org/:org/tasks\"",
-                        null,
-                        {
-                          "/:task": [
-                            "return isHead?'':\"GET /org/:org/tasks/:task\"",
-                            [
-                              "/comments",
-                              "return isHead?'':\"GET /org/:org/tasks/:task/comments\"",
-                              null,
+                          }
+                        ],
+                        "t": [
+                          "tasks",
+                          "return isHead?'':\"GET /org/:org/tasks\"",
+                          null,
+                          {
+                            "/:task": [
+                              "",
+                              "return isHead?'':\"GET /org/:org/tasks/:task\"",
+                              {
+                                "/": [
+                                  "/comments",
+                                  "return isHead?'':\"GET /org/:org/tasks/:task/comments\"",
+                                  null,
+                                  null
+                                ]
+                              },
                               null
                             ]
-                          ]
-                        }
-                      ],
-                      "b": [
-                        "billing/",
-                        null,
-                        {
-                          "p": [
-                            "p",
-                            null,
-                            {
-                              "l": [
-                                "lans",
-                                "return isHead?'':\"GET /org/:org/billing/plans\"",
-                                null,
-                                null
-                              ],
-                              "a": [
-                                "ayment-methods",
-                                "return isHead?'':\"GET /org/:org/billing/payment-methods\"",
-                                null,
-                                null
-                              ]
-                            },
-                            null
-                          ],
-                          "s": [
-                            "subscription",
-                            "return isHead?'':\"GET /org/:org/billing/subscription\"",
-                            null,
-                            null
-                          ],
-                          "i": [
-                            "invoices",
-                            "return isHead?'':\"GET /org/:org/billing/invoices\"",
-                            null,
-                            {
-                              "/:invoice": [
-                                "return isHead?'':\"GET /org/:org/billing/invoices/:invoice\"",
-                                null
-                              ]
-                            }
-                          ]
-                        },
-                        null
-                      ],
-                      "a": [
-                        "api-keys",
-                        "return isHead?'':\"GET /org/:org/api-keys\"",
-                        null,
-                        null
-                      ],
-                      "w": [
-                        "webhooks",
-                        "return isHead?'':\"GET /org/:org/webhooks\"",
-                        null,
-                        null
-                      ]
-                    },
-                    null
-                  ]
+                          }
+                        ],
+                        "b": [
+                          "billing/",
+                          null,
+                          {
+                            "p": [
+                              "p",
+                              null,
+                              {
+                                "l": [
+                                  "lans",
+                                  "return isHead?'':\"GET /org/:org/billing/plans\"",
+                                  null,
+                                  null
+                                ],
+                                "a": [
+                                  "ayment-methods",
+                                  "return isHead?'':\"GET /org/:org/billing/payment-methods\"",
+                                  null,
+                                  null
+                                ]
+                              },
+                              null
+                            ],
+                            "s": [
+                              "subscription",
+                              "return isHead?'':\"GET /org/:org/billing/subscription\"",
+                              null,
+                              null
+                            ],
+                            "i": [
+                              "invoices",
+                              "return isHead?'':\"GET /org/:org/billing/invoices\"",
+                              null,
+                              {
+                                "/:invoice": [
+                                  "",
+                                  "return isHead?'':\"GET /org/:org/billing/invoices/:invoice\"",
+                                  null,
+                                  null
+                                ]
+                              }
+                            ]
+                          },
+                          null
+                        ],
+                        "a": [
+                          "api-keys",
+                          "return isHead?'':\"GET /org/:org/api-keys\"",
+                          null,
+                          null
+                        ],
+                        "w": [
+                          "webhooks",
+                          "return isHead?'':\"GET /org/:org/webhooks\"",
+                          null,
+                          null
+                        ]
+                      },
+                      null
+                    ]
+                  },
+                  null
                 ]
               }
             ],
@@ -493,7 +515,9 @@
               null,
               {
                 "/:file+": [
+                  "",
                   "return isHead?'':\"GET /files/:file+\"",
+                  null,
                   null
                 ]
               }
@@ -519,47 +543,57 @@
           null,
           {
             "/:org": [
+              "",
               "return \"PATCH /org/:org\"",
-              [
-                "/",
-                null,
-                {
-                  "p": [
-                    "projects",
-                    null,
-                    null,
-                    {
-                      "/:project": [
-                        "return \"PATCH /org/:org/projects/:project\"",
-                        null
-                      ]
-                    }
-                  ],
-                  "t": [
-                    "tasks",
-                    null,
-                    null,
-                    {
-                      "/:task": [
-                        "return \"PATCH /org/:org/tasks/:task\"",
-                        null
-                      ]
-                    }
-                  ],
-                  "w": [
-                    "webhooks",
-                    null,
-                    null,
-                    {
-                      "/:hook": [
-                        "return \"PATCH /org/:org/webhooks/:hook\"",
-                        null
-                      ]
-                    }
-                  ]
-                },
-                null
-              ]
+              {
+                "/": [
+                  "/",
+                  null,
+                  {
+                    "p": [
+                      "projects",
+                      null,
+                      null,
+                      {
+                        "/:project": [
+                          "",
+                          "return \"PATCH /org/:org/projects/:project\"",
+                          null,
+                          null
+                        ]
+                      }
+                    ],
+                    "t": [
+                      "tasks",
+                      null,
+                      null,
+                      {
+                        "/:task": [
+                          "",
+                          "return \"PATCH /org/:org/tasks/:task\"",
+                          null,
+                          null
+                        ]
+                      }
+                    ],
+                    "w": [
+                      "webhooks",
+                      null,
+                      null,
+                      {
+                        "/:hook": [
+                          "",
+                          "return \"PATCH /org/:org/webhooks/:hook\"",
+                          null,
+                          null
+                        ]
+                      }
+                    ]
+                  },
+                  null
+                ]
+              },
+              null
             ]
           }
         ]
@@ -583,7 +617,9 @@
               null,
               {
                 "/:session": [
+                  "",
                   "return \"DELETE /user/me/sessions/:session\"",
+                  null,
                   null
                 ]
               }
@@ -594,110 +630,130 @@
               null,
               {
                 "/:org": [
+                  "",
                   "return \"DELETE /org/:org\"",
-                  [
-                    "/",
-                    null,
-                    {
-                      "p": [
-                        "projects",
-                        null,
-                        null,
-                        {
-                          "/:project": [
-                            "return \"DELETE /org/:org/projects/:project\"",
-                            [
-                              "/tasks/",
-                              null,
+                  {
+                    "/": [
+                      "/",
+                      null,
+                      {
+                        "p": [
+                          "projects",
+                          null,
+                          null,
+                          {
+                            "/:project": [
+                              "",
+                              "return \"DELETE /org/:org/projects/:project\"",
                               {
-                                "t": [
-                                  "t",
+                                "/": [
+                                  "/tasks/",
                                   null,
                                   {
-                                    "i": [
-                                      "ime-entries",
+                                    "t": [
+                                      "t",
+                                      null,
+                                      {
+                                        "i": [
+                                          "ime-entries",
+                                          null,
+                                          null,
+                                          {
+                                            "/:entry": [
+                                              "",
+                                              "return \"DELETE /org/:org/projects/:project/tasks/time-entries/:entry\"",
+                                              null,
+                                              null
+                                            ]
+                                          }
+                                        ],
+                                        "a": [
+                                          "ags",
+                                          "return \"DELETE /org/:org/projects/:project/tasks/tags\"",
+                                          null,
+                                          null
+                                        ]
+                                      },
+                                      null
+                                    ],
+                                    "f": [
+                                      "fields",
                                       null,
                                       null,
                                       {
-                                        "/:entry": [
-                                          "return \"DELETE /org/:org/projects/:project/tasks/time-entries/:entry\"",
+                                        "/:field": [
+                                          "",
+                                          "return \"DELETE /org/:org/projects/:project/tasks/fields/:field\"",
+                                          null,
                                           null
                                         ]
                                       }
-                                    ],
-                                    "a": [
-                                      "ags",
-                                      "return \"DELETE /org/:org/projects/:project/tasks/tags\"",
-                                      null,
-                                      null
                                     ]
                                   },
                                   null
-                                ],
-                                "f": [
-                                  "fields",
-                                  null,
-                                  null,
-                                  {
-                                    "/:field": [
-                                      "return \"DELETE /org/:org/projects/:project/tasks/fields/:field\"",
-                                      null
-                                    ]
-                                  }
                                 ]
                               },
                               null
                             ]
-                          ]
-                        }
-                      ],
-                      "t": [
-                        "tasks",
-                        null,
-                        null,
-                        {
-                          "/:task": [
-                            "return \"DELETE /org/:org/tasks/:task\"",
-                            null
-                          ]
-                        }
-                      ],
-                      "b": [
-                        "billing/payment-methods",
-                        null,
-                        null,
-                        {
-                          "/:method": [
-                            "return \"DELETE /org/:org/billing/payment-methods/:method\"",
-                            null
-                          ]
-                        }
-                      ],
-                      "a": [
-                        "api-keys",
-                        null,
-                        null,
-                        {
-                          "/:key": [
-                            "return \"DELETE /org/:org/api-keys/:key\"",
-                            null
-                          ]
-                        }
-                      ],
-                      "w": [
-                        "webhooks",
-                        null,
-                        null,
-                        {
-                          "/:hook": [
-                            "return \"DELETE /org/:org/webhooks/:hook\"",
-                            null
-                          ]
-                        }
-                      ]
-                    },
-                    null
-                  ]
+                          }
+                        ],
+                        "t": [
+                          "tasks",
+                          null,
+                          null,
+                          {
+                            "/:task": [
+                              "",
+                              "return \"DELETE /org/:org/tasks/:task\"",
+                              null,
+                              null
+                            ]
+                          }
+                        ],
+                        "b": [
+                          "billing/payment-methods",
+                          null,
+                          null,
+                          {
+                            "/:method": [
+                              "",
+                              "return \"DELETE /org/:org/billing/payment-methods/:method\"",
+                              null,
+                              null
+                            ]
+                          }
+                        ],
+                        "a": [
+                          "api-keys",
+                          null,
+                          null,
+                          {
+                            "/:key": [
+                              "",
+                              "return \"DELETE /org/:org/api-keys/:key\"",
+                              null,
+                              null
+                            ]
+                          }
+                        ],
+                        "w": [
+                          "webhooks",
+                          null,
+                          null,
+                          {
+                            "/:hook": [
+                              "",
+                              "return \"DELETE /org/:org/webhooks/:hook\"",
+                              null,
+                              null
+                            ]
+                          }
+                        ]
+                      },
+                      null
+                    ]
+                  },
+                  null
                 ]
               }
             ],
@@ -707,7 +763,9 @@
               null,
               {
                 "/:file+": [
+                  "",
                   "return \"DELETE /files/:file+\"",
+                  null,
                   null
                 ]
               }
@@ -731,46 +789,44 @@
           null,
           {
             "/:org": [
+              "/",
               null,
-              [
-                "/",
-                null,
-                {
-                  "p": [
-                    "projects",
-                    null,
-                    null,
-                    {
-                      "/:project": [
-                        null,
-                        [
-                          "/tasks/fields",
+              {
+                "p": [
+                  "projects",
+                  null,
+                  null,
+                  {
+                    "/:project": [
+                      "/tasks/fields",
+                      null,
+                      null,
+                      {
+                        "/:field": [
+                          "",
+                          "return \"PUT /org/:org/projects/:project/tasks/fields/:field\"",
                           null,
-                          null,
-                          {
-                            "/:field": [
-                              "return \"PUT /org/:org/projects/:project/tasks/fields/:field\"",
-                              null
-                            ]
-                          }
+                          null
                         ]
-                      ]
-                    }
-                  ],
-                  "b": [
-                    "billing/payment-methods",
-                    null,
-                    null,
-                    {
-                      "/:method": [
-                        "return \"PUT /org/:org/billing/payment-methods/:method\"",
-                        null
-                      ]
-                    }
-                  ]
-                },
-                null
-              ]
+                      }
+                    ]
+                  }
+                ],
+                "b": [
+                  "billing/payment-methods",
+                  null,
+                  null,
+                  {
+                    "/:method": [
+                      "",
+                      "return \"PUT /org/:org/billing/payment-methods/:method\"",
+                      null,
+                      null
+                    ]
+                  }
+                ]
+              },
+              null
             ]
           }
         ]

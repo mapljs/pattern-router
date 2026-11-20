@@ -25,7 +25,9 @@
                   null,
                   {
                     "/:username": [
+                      "",
                       "return isHead?'':\"GET /user/lookup/username/:username\"",
+                      null,
                       null
                     ]
                   }
@@ -36,7 +38,9 @@
                   null,
                   {
                     "/:email": [
+                      "",
                       "return isHead?'':\"GET /user/lookup/email/:email\"",
+                      null,
                       null
                     ]
                   }
@@ -50,13 +54,17 @@
               null,
               {
                 "/:event": [
+                  "",
                   "return isHead?'':\"GET /event/:event\"",
-                  [
-                    "/comments",
-                    "return isHead?'':\"GET /event/:event/comments\"",
-                    null,
-                    null
-                  ]
+                  {
+                    "/": [
+                      "/comments",
+                      "return isHead?'':\"GET /event/:event/comments\"",
+                      null,
+                      null
+                    ]
+                  },
+                  null
                 ]
               }
             ],
@@ -66,13 +74,10 @@
               null,
               {
                 "/:location": [
+                  "/events",
+                  "return isHead?'':\"GET /map/:location/events\"",
                   null,
-                  [
-                    "/events",
-                    "return isHead?'':\"GET /map/:location/events\"",
-                    null,
-                    null
-                  ]
+                  null
                 ]
               }
             ],
@@ -82,7 +87,9 @@
               null,
               {
                 "/:file+": [
+                  "",
                   "return isHead?'':\"GET /static/:file+\"",
+                  null,
                   null
                 ]
               }
@@ -106,13 +113,10 @@
           null,
           {
             "/:event": [
+              "/comment",
+              "return \"POST /event/:event/comment\"",
               null,
-              [
-                "/comment",
-                "return \"POST /event/:event/comment\"",
-                null,
-                null
-              ]
+              null
             ]
           }
         ]

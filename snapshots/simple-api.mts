@@ -34,7 +34,7 @@ export default (method: string, path: string) => {
       }
       {
         let match =
-          /^\/(?:user\/lookup\/(?:username\/(?<username>[^/]+)()|email\/(?<email>[^/]+)())|event\/(?<event>[^/]+)(?:\/comments()|())|map\/(?<location>[^/]+)\/events()|static\/(?<file>.+)())$/.exec(
+          /^\/(?:user\/lookup\/(?:username\/(?<username>[^/]+)()|email\/(?<email>[^/]+)())|event\/(?<event>[^/]+)(?:()|\/comments())|map\/(?<location>[^/]+)\/events()|static\/(?<file>.+)())$/.exec(
             path,
           );
         if (match !== null) {
@@ -43,9 +43,9 @@ export default (method: string, path: string) => {
           } else if (match[4] === "") {
             return isHead ? "" : "GET /user/lookup/email/:email";
           } else if (match[6] === "") {
-            return isHead ? "" : "GET /event/:event/comments";
-          } else if (match[7] === "") {
             return isHead ? "" : "GET /event/:event";
+          } else if (match[7] === "") {
+            return isHead ? "" : "GET /event/:event/comments";
           } else if (match[9] === "") {
             return isHead ? "" : "GET /map/:location/events";
           } else if (match[11] === "") {

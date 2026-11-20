@@ -7,10 +7,8 @@ export type Node<T> = [
   prefix: string,
   store: T | null,
   staticChildren: Dict<Node<T>> | null,
-  dynamicChildren: Dict<ConnectNode<T>> | null,
+  dynamicChildren: Dict<Node<T>> | null,
 ];
-
-export type ConnectNode<T> = [store: T | null, next: Node<T> | null];
 
 const dict = <T,>(key: string, value: T) => {
   const v: Dict<T> = Object.create(null);
@@ -20,15 +18,17 @@ const dict = <T,>(key: string, value: T) => {
 
 export const node_create_root = <T,>(): Node<T> => ['', null, null, null];
 
-export const connect_node_dict_create = <T,>(
+export const node_dict_create = <T,>(
   path: string,
   keyStartIdx: number,
   keyEndIdx: number,
   store: T,
-): Dict<ConnectNode<T>> =>
+): Dict<Node<T>> =>
   dict(
     path.slice(keyStartIdx, keyEndIdx),
-    keyEndIdx === path.length ? [store, null] : [null, node_create(path, keyEndIdx, store)],
+    keyEndIdx === path.length ?
+    // fast path
+      ['', store, null, null] : node_create(path, keyEndIdx, store),
   );
 
 export const regexp_group_needs_prefixing = (
@@ -49,19 +49,20 @@ export const insert_to_connect_node_map = <T,>(
   store: T,
 ): void => {
   if (node[3] === null) {
-    node[3] = connect_node_dict_create(path, keyStartIdx, keyEndIdx, store);
+    node[3] = node_dict_create(path, keyStartIdx, keyEndIdx, store);
   } else {
     const map = node[3],
       groupKey = path.slice(keyStartIdx, keyEndIdx),
       connectNode = map[groupKey];
 
     if (connectNode == null)
-      map[groupKey] =
-        keyEndIdx === path.length ? [store, null] : [null, node_create(path, keyEndIdx, store)];
+      map[groupKey] = keyEndIdx === path.length ?
+        // fast path
+        ['', store, null, null] : node_create(path, keyEndIdx, store);
     else {
-      if (keyEndIdx === path.length) connectNode[0] = store;
-      else if (connectNode[1] === null) connectNode[1] = node_create(path, keyEndIdx, store);
-      else node_insert(connectNode[1], path, keyEndIdx, store);
+      // fast path
+      if (keyEndIdx === path.length) connectNode[1] = store;
+      else node_insert(connectNode, path, keyEndIdx, store);
     }
   }
 };
@@ -74,7 +75,7 @@ export const node_create = <T,>(path: string, startIdx: number, store: T): Node<
           path.slice(startIdx, pathIdx),
           null,
           null,
-          connect_node_dict_create(
+          node_dict_create(
             path,
             pathIdx + 1,
             group_delimiter_end(path, pathIdx + 1),
@@ -90,7 +91,7 @@ export const node_create = <T,>(path: string, startIdx: number, store: T): Node<
           path.slice(startIdx, pathIdx),
           null,
           null,
-          connect_node_dict_create(path, pathIdx, unnamed_group_end(path, pathIdx), store),
+          node_dict_create(path, pathIdx, unnamed_group_end(path, pathIdx), store),
         ];
       }
 
@@ -101,7 +102,7 @@ export const node_create = <T,>(path: string, startIdx: number, store: T): Node<
           path.slice(startIdx, pathIdx),
           null,
           null,
-          connect_node_dict_create(path, pathIdx, named_group_end(path, pathIdx), store),
+          node_dict_create(path, pathIdx, named_group_end(path, pathIdx), store),
         ];
       }
 
