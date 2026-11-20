@@ -6,18 +6,8 @@ type Dict<T> = Partial<Record<string, T>>;
 export type Node<T> = [
   prefix: string,
   store: T | null,
-
-  // map by first characters
   staticChildren: Dict<Node<T>> | null,
-
-  // map group delimiters with modifier ({abc}?)
-  delimGroups: Dict<ConnectNode<T>> | null,
-
-  // map regexp to next node
-  unnamedGroups: Dict<ConnectNode<T>> | null,
-
-  // map regexp to next node
-  namedGroups: Dict<ConnectNode<T>> | null,
+  dynamicChildren: Dict<ConnectNode<T>> | null,
 ];
 
 export type ConnectNode<T> = [store: T | null, next: Node<T> | null];
@@ -28,7 +18,7 @@ const dict = <T,>(key: string, value: T) => {
   return v;
 };
 
-export const node_create_root = <T,>(): Node<T> => ['', null, null, null, null, null];
+export const node_create_root = <T,>(): Node<T> => ['', null, null, null];
 
 export const connect_node_dict_create = <T,>(
   path: string,
@@ -53,16 +43,15 @@ export const is_prefixed_regexp_group = (path: string, pathIdx: number): boolean
 
 export const insert_to_connect_node_map = <T,>(
   node: Node<T>,
-  id: 3 | 4 | 5,
   path: string,
   keyStartIdx: number,
   keyEndIdx: number,
   store: T,
 ): void => {
-  if (node[id] === null) {
-    node[id] = connect_node_dict_create(path, keyStartIdx, keyEndIdx, store);
+  if (node[3] === null) {
+    node[3] = connect_node_dict_create(path, keyStartIdx, keyEndIdx, store);
   } else {
-    const map = node[id],
+    const map = node[3],
       groupKey = path.slice(keyStartIdx, keyEndIdx),
       connectNode = map[groupKey];
 
@@ -90,9 +79,7 @@ export const node_create = <T,>(path: string, startIdx: number, store: T): Node<
             pathIdx + 1,
             group_delimiter_end(path, pathIdx + 1),
             store,
-          ),
-          null,
-          null,
+          )
         ];
       }
 
@@ -103,9 +90,7 @@ export const node_create = <T,>(path: string, startIdx: number, store: T): Node<
           path.slice(startIdx, pathIdx),
           null,
           null,
-          null,
           connect_node_dict_create(path, pathIdx, unnamed_group_end(path, pathIdx), store),
-          null,
         ];
       }
 
@@ -114,8 +99,6 @@ export const node_create = <T,>(path: string, startIdx: number, store: T): Node<
 
         return [
           path.slice(startIdx, pathIdx),
-          null,
-          null,
           null,
           null,
           connect_node_dict_create(path, pathIdx, named_group_end(path, pathIdx), store),
@@ -129,7 +112,7 @@ export const node_create = <T,>(path: string, startIdx: number, store: T): Node<
     }
   }
 
-  return [path.slice(startIdx), store, null, null, null, null];
+  return [path.slice(startIdx), store, null, null];
 };
 
 export const node_insert = <T,>(node: Node<T>, path: string, pathIdx: number, store: T): void => {
@@ -145,7 +128,6 @@ export const node_insert = <T,>(node: Node<T>, path: string, pathIdx: number, st
         case '{': {
           insert_to_connect_node_map(
             node,
-            3,
             path,
             pathIdx + 1,
             group_delimiter_end(path, pathIdx + 1),
@@ -157,7 +139,6 @@ export const node_insert = <T,>(node: Node<T>, path: string, pathIdx: number, st
         case '(': {
           insert_to_connect_node_map(
             node,
-            4,
             path,
             pathIdx,
             unnamed_group_end(path, pathIdx),
@@ -167,7 +148,7 @@ export const node_insert = <T,>(node: Node<T>, path: string, pathIdx: number, st
         }
 
         case ':': {
-          insert_to_connect_node_map(node, 5, path, pathIdx, named_group_end(path, pathIdx), store);
+          insert_to_connect_node_map(node, path, pathIdx, named_group_end(path, pathIdx), store);
           return;
         }
       }
@@ -197,14 +178,12 @@ export const node_insert = <T,>(node: Node<T>, path: string, pathIdx: number, st
           nodePath.slice(nodePathIdx),
           node[1],
           node[2],
-          node[3],
-          node[4],
-          node[5],
+          node[3]
         ];
 
         nodePath = node[0] = nodePath.slice(0, nodePathIdx);
         node[2] = dict(nodePathChar, movedNode);
-        node[1] = node[3] = node[4] = node[5] = null;
+        node[1] = node[3] = null;
       } else {
         pathIdx++;
         nodePathIdx++;
@@ -218,14 +197,12 @@ export const node_insert = <T,>(node: Node<T>, path: string, pathIdx: number, st
       nodePath.slice(nodePathIdx),
       node[1],
       node[2],
-      node[3],
-      node[4],
-      node[5],
+      node[3]
     ];
 
     node[0] = nodePath.slice(0, nodePathIdx);
     node[2] = dict(nodePath[nodePathIdx], movedNode);
-    node[3] = node[4] = node[5] = null;
+    node[3] = null;
   }
 
   node[1] = store;

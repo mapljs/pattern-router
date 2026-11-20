@@ -139,6 +139,10 @@ export const named_group_to_regexp = (key: string, offsets: number[]): string =>
     : namedCapture + (modifier === '?' ? '[^/]+)?' : modifier === '*' ? '[^/]*)' : '[^/]+)');
 };
 
+export const group_to_regexp = (group: string, startChar: string, offsets: number[]): string => startChar === '('
+  ? unnamed_group_to_regexp(group, 0, group.length)
+  : named_group_to_regexp(group, offsets);
+
 export const connect_node_compile_to_regexp = <T,>(
   connectNode: ConnectNode<T>,
   handlers: T[],
@@ -179,29 +183,16 @@ export const node_compile_to_regexp = <T,>(
 
   if (node[3] !== null) {
     const map = node[3];
-    for (const group in map)
-      regexPaths.push(
-        group_delimiter_to_regexp(group, offsets) +
-          connect_node_compile_to_regexp(map[group]!, handlers, offsets),
-      );
-  }
+    for (const group in map) {
+      const firstChar = group[0];
 
-  if (node[4] !== null) {
-    const map = node[4];
-    for (const regexp in map)
       regexPaths.push(
-        unnamed_group_to_regexp(regexp, 0, regexp.length) +
-          connect_node_compile_to_regexp(map[regexp]!, handlers, offsets),
+        (firstChar === '{'
+          ? group_delimiter_to_regexp(group, offsets)
+          : group_to_regexp(group, firstChar === '/' ? group[1] : firstChar, offsets)) +
+        connect_node_compile_to_regexp(map[group]!, handlers, offsets),
       );
-  }
-
-  if (node[5] !== null) {
-    const map = node[5];
-    for (const group in map)
-      regexPaths.push(
-        named_group_to_regexp(group, offsets) +
-          connect_node_compile_to_regexp(map[group]!, handlers, offsets),
-      );
+    }
   }
 
   return (

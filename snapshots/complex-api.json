@@ -29,8 +29,6 @@
                   "/notifications/read",
                   null,
                   null,
-                  null,
-                  null,
                   {
                     "/:notification?": [
                       "return \"POST /user/notifications/read/:notification?\"",
@@ -39,16 +37,12 @@
                   }
                 ]
               },
-              null,
-              null,
               {
                 "/:user": [
                   "return \"POST /user/:user\"",
                   [
                     "/invites",
                     "return \"POST /user/:user/invites\"",
-                    null,
-                    null,
                     null,
                     {
                       "/:invite": [
@@ -61,21 +55,15 @@
                               "accept",
                               "return \"POST /user/:user/invites/:invite/accept\"",
                               null,
-                              null,
-                              null,
                               null
                             ],
                             "r": [
                               "resend",
                               "return \"POST /user/:user/invites/:invite/resend\"",
                               null,
-                              null,
-                              null,
                               null
                             ]
                           },
-                          null,
-                          null,
                           null
                         ]
                       ]
@@ -86,8 +74,6 @@
             ],
             "o": [
               "org",
-              null,
-              null,
               null,
               null,
               {
@@ -101,8 +87,6 @@
                         "members",
                         "return \"POST /org/:org/members\"",
                         null,
-                        null,
-                        null,
                         {
                           "/:member": [
                             "return \"POST /org/:org/members/:member\"",
@@ -113,8 +97,6 @@
                       "r": [
                         "roles",
                         "return \"POST /org/:org/roles\"",
-                        null,
-                        null,
                         null,
                         {
                           "/:role": [
@@ -127,8 +109,6 @@
                         "domains",
                         "return \"POST /org/:org/domains\"",
                         null,
-                        null,
-                        null,
                         {
                           "/:domain": [
                             "return \"POST /org/:org/domains/:domain\"",
@@ -140,8 +120,6 @@
                         "projects",
                         "return \"POST /org/:org/projects\"",
                         null,
-                        null,
-                        null,
                         {
                           "/:project": [
                             null,
@@ -152,8 +130,6 @@
                                 "m": [
                                   "members",
                                   "return \"POST /org/:org/projects/:project/members\"",
-                                  null,
-                                  null,
                                   null,
                                   null
                                 ],
@@ -173,44 +149,30 @@
                                               "ime-entries",
                                               "return \"POST /org/:org/projects/:project/tasks/time-entries\"",
                                               null,
-                                              null,
-                                              null,
                                               null
                                             ],
                                             "a": [
                                               "ags",
                                               "return \"POST /org/:org/projects/:project/tasks/tags\"",
                                               null,
-                                              null,
-                                              null,
                                               null
                                             ]
                                           },
-                                          null,
-                                          null,
                                           null
                                         ],
                                         "a": [
                                           "attachments",
                                           "return \"POST /org/:org/projects/:project/tasks/attachments\"",
                                           null,
-                                          null,
-                                          null,
                                           null
                                         ]
                                       },
-                                      null,
-                                      null,
                                       null
                                     ]
                                   },
-                                  null,
-                                  null,
                                   null
                                 ]
                               },
-                              null,
-                              null,
                               null
                             ]
                           ]
@@ -218,8 +180,6 @@
                       ],
                       "t": [
                         "tasks",
-                        null,
-                        null,
                         null,
                         null,
                         {
@@ -233,15 +193,11 @@
                                   "assign",
                                   "return \"POST /org/:org/tasks/:task/assign\"",
                                   null,
-                                  null,
-                                  null,
                                   null
                                 ],
                                 "s": [
                                   "status",
                                   "return \"POST /org/:org/tasks/:task/status\"",
-                                  null,
-                                  null,
                                   null,
                                   null
                                 ],
@@ -249,13 +205,9 @@
                                   "comments",
                                   "return \"POST /org/:org/tasks/:task/comments\"",
                                   null,
-                                  null,
-                                  null,
                                   null
                                 ]
                               },
-                              null,
-                              null,
                               null
                             ]
                           ]
@@ -273,19 +225,13 @@
                                 "/cancel",
                                 "return \"POST /org/:org/billing/subscription/cancel\"",
                                 null,
-                                null,
-                                null,
                                 null
                               ]
                             },
-                            null,
-                            null,
                             null
                           ],
                           "i": [
                             "invoices",
-                            null,
-                            null,
                             null,
                             null,
                             {
@@ -299,20 +245,14 @@
                             "payment-methods",
                             "return \"POST /org/:org/billing/payment-methods\"",
                             null,
-                            null,
-                            null,
                             null
                           ]
                         },
-                        null,
-                        null,
                         null
                       ],
                       "a": [
                         "api-keys",
                         "return \"POST /org/:org/api-keys\"",
-                        null,
-                        null,
                         null,
                         null
                       ],
@@ -320,26 +260,18 @@
                         "webhooks",
                         "return \"POST /org/:org/webhooks\"",
                         null,
-                        null,
-                        null,
                         null
                       ]
                     },
-                    null,
-                    null,
                     null
                   ]
                 ]
               }
             ]
           },
-          null,
-          null,
           null
         ]
       },
-      null,
-      null,
       null
     ]
   ],
@@ -364,8 +296,6 @@
               "user",
               null,
               null,
-              null,
-              null,
               {
                 "/:user": [
                   "return isHead?'':\"GET /user/:user\"",
@@ -377,14 +307,10 @@
                         "notifications",
                         "return isHead?'':\"GET /user/:user/notifications\"",
                         null,
-                        null,
-                        null,
                         null
                       ],
                       "i": [
                         "invites",
-                        null,
-                        null,
                         null,
                         null,
                         {
@@ -395,8 +321,6 @@
                         }
                       ]
                     },
-                    null,
-                    null,
                     null
                   ]
                 ]
@@ -404,8 +328,6 @@
             ],
             "o": [
               "org",
-              null,
-              null,
               null,
               null,
               {
@@ -419,15 +341,11 @@
                         "members",
                         "return isHead?'':\"GET /org/:org/members\"",
                         null,
-                        null,
-                        null,
                         null
                       ],
                       "r": [
                         "roles",
                         "return isHead?'':\"GET /org/:org/roles\"",
-                        null,
-                        null,
                         null,
                         null
                       ],
@@ -435,14 +353,10 @@
                         "domains",
                         "return isHead?'':\"GET /org/:org/domains\"",
                         null,
-                        null,
-                        null,
                         null
                       ],
                       "p": [
                         "projects",
-                        null,
-                        null,
                         null,
                         null,
                         {
@@ -456,15 +370,11 @@
                                   "members",
                                   "return isHead?'':\"GET /org/:org/projects/:project/members\"",
                                   null,
-                                  null,
-                                  null,
                                   null
                                 ],
                                 "a": [
                                   "activity",
                                   "return isHead?'':\"GET /org/:org/projects/:project/activity\"",
-                                  null,
-                                  null,
                                   null,
                                   null
                                 ],
@@ -480,31 +390,21 @@
                                           "time-entries",
                                           "return isHead?'':\"GET /org/:org/projects/:project/tasks/time-entries\"",
                                           null,
-                                          null,
-                                          null,
                                           null
                                         ],
                                         "a": [
                                           "attachments",
                                           "return isHead?'':\"GET /org/:org/projects/:project/tasks/attachments\"",
                                           null,
-                                          null,
-                                          null,
                                           null
                                         ]
                                       },
-                                      null,
-                                      null,
                                       null
                                     ]
                                   },
-                                  null,
-                                  null,
                                   null
                                 ]
                               },
-                              null,
-                              null,
                               null
                             ]
                           ]
@@ -514,16 +414,12 @@
                         "tasks",
                         "return isHead?'':\"GET /org/:org/tasks\"",
                         null,
-                        null,
-                        null,
                         {
                           "/:task": [
                             "return isHead?'':\"GET /org/:org/tasks/:task\"",
                             [
                               "/comments",
                               "return isHead?'':\"GET /org/:org/tasks/:task/comments\"",
-                              null,
-                              null,
                               null,
                               null
                             ]
@@ -542,36 +438,26 @@
                                 "lans",
                                 "return isHead?'':\"GET /org/:org/billing/plans\"",
                                 null,
-                                null,
-                                null,
                                 null
                               ],
                               "a": [
                                 "ayment-methods",
                                 "return isHead?'':\"GET /org/:org/billing/payment-methods\"",
                                 null,
-                                null,
-                                null,
                                 null
                               ]
                             },
-                            null,
-                            null,
                             null
                           ],
                           "s": [
                             "subscription",
                             "return isHead?'':\"GET /org/:org/billing/subscription\"",
                             null,
-                            null,
-                            null,
                             null
                           ],
                           "i": [
                             "invoices",
                             "return isHead?'':\"GET /org/:org/billing/invoices\"",
-                            null,
-                            null,
                             null,
                             {
                               "/:invoice": [
@@ -581,15 +467,11 @@
                             }
                           ]
                         },
-                        null,
-                        null,
                         null
                       ],
                       "a": [
                         "api-keys",
                         "return isHead?'':\"GET /org/:org/api-keys\"",
-                        null,
-                        null,
                         null,
                         null
                       ],
@@ -597,13 +479,9 @@
                         "webhooks",
                         "return isHead?'':\"GET /org/:org/webhooks\"",
                         null,
-                        null,
-                        null,
                         null
                       ]
                     },
-                    null,
-                    null,
                     null
                   ]
                 ]
@@ -611,8 +489,6 @@
             ],
             "f": [
               "files",
-              null,
-              null,
               null,
               null,
               {
@@ -623,13 +499,9 @@
               }
             ]
           },
-          null,
-          null,
           null
         ]
       },
-      null,
-      null,
       null
     ]
   ],
@@ -645,8 +517,6 @@
           "/org",
           null,
           null,
-          null,
-          null,
           {
             "/:org": [
               "return \"PATCH /org/:org\"",
@@ -656,8 +526,6 @@
                 {
                   "p": [
                     "projects",
-                    null,
-                    null,
                     null,
                     null,
                     {
@@ -671,8 +539,6 @@
                     "tasks",
                     null,
                     null,
-                    null,
-                    null,
                     {
                       "/:task": [
                         "return \"PATCH /org/:org/tasks/:task\"",
@@ -684,8 +550,6 @@
                     "webhooks",
                     null,
                     null,
-                    null,
-                    null,
                     {
                       "/:hook": [
                         "return \"PATCH /org/:org/webhooks/:hook\"",
@@ -694,16 +558,12 @@
                     }
                   ]
                 },
-                null,
-                null,
                 null
               ]
             ]
           }
         ]
       },
-      null,
-      null,
       null
     ]
   ],
@@ -721,8 +581,6 @@
               "user/me/sessions",
               null,
               null,
-              null,
-              null,
               {
                 "/:session": [
                   "return \"DELETE /user/me/sessions/:session\"",
@@ -734,8 +592,6 @@
               "org",
               null,
               null,
-              null,
-              null,
               {
                 "/:org": [
                   "return \"DELETE /org/:org\"",
@@ -745,8 +601,6 @@
                     {
                       "p": [
                         "projects",
-                        null,
-                        null,
                         null,
                         null,
                         {
@@ -764,8 +618,6 @@
                                       "ime-entries",
                                       null,
                                       null,
-                                      null,
-                                      null,
                                       {
                                         "/:entry": [
                                           "return \"DELETE /org/:org/projects/:project/tasks/time-entries/:entry\"",
@@ -777,19 +629,13 @@
                                       "ags",
                                       "return \"DELETE /org/:org/projects/:project/tasks/tags\"",
                                       null,
-                                      null,
-                                      null,
                                       null
                                     ]
                                   },
-                                  null,
-                                  null,
                                   null
                                 ],
                                 "f": [
                                   "fields",
-                                  null,
-                                  null,
                                   null,
                                   null,
                                   {
@@ -800,8 +646,6 @@
                                   }
                                 ]
                               },
-                              null,
-                              null,
                               null
                             ]
                           ]
@@ -809,8 +653,6 @@
                       ],
                       "t": [
                         "tasks",
-                        null,
-                        null,
                         null,
                         null,
                         {
@@ -824,8 +666,6 @@
                         "billing/payment-methods",
                         null,
                         null,
-                        null,
-                        null,
                         {
                           "/:method": [
                             "return \"DELETE /org/:org/billing/payment-methods/:method\"",
@@ -835,8 +675,6 @@
                       ],
                       "a": [
                         "api-keys",
-                        null,
-                        null,
                         null,
                         null,
                         {
@@ -850,8 +688,6 @@
                         "webhooks",
                         null,
                         null,
-                        null,
-                        null,
                         {
                           "/:hook": [
                             "return \"DELETE /org/:org/webhooks/:hook\"",
@@ -860,8 +696,6 @@
                         }
                       ]
                     },
-                    null,
-                    null,
                     null
                   ]
                 ]
@@ -869,8 +703,6 @@
             ],
             "f": [
               "files",
-              null,
-              null,
               null,
               null,
               {
@@ -881,13 +713,9 @@
               }
             ]
           },
-          null,
-          null,
           null
         ]
       },
-      null,
-      null,
       null
     ]
   ],
@@ -901,8 +729,6 @@
           "/org",
           null,
           null,
-          null,
-          null,
           {
             "/:org": [
               null,
@@ -914,15 +740,11 @@
                     "projects",
                     null,
                     null,
-                    null,
-                    null,
                     {
                       "/:project": [
                         null,
                         [
                           "/tasks/fields",
-                          null,
-                          null,
                           null,
                           null,
                           {
@@ -939,8 +761,6 @@
                     "billing/payment-methods",
                     null,
                     null,
-                    null,
-                    null,
                     {
                       "/:method": [
                         "return \"PUT /org/:org/billing/payment-methods/:method\"",
@@ -949,16 +769,12 @@
                     }
                   ]
                 },
-                null,
-                null,
                 null
               ]
             ]
           }
         ]
       },
-      null,
-      null,
       null
     ]
   ]
