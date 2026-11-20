@@ -6,7 +6,7 @@ export default (method: string, path: string) => {
     }
     case "GET":
       {
-        let match = /^\/users(?:\/admin\/\*()|(?:\/(?:[0-9]+))?())$/.exec(path);
+        let match = /^\/users(?:\/admin\/.*()|(?:\/(?:[0-9]+))?())$/.exec(path);
         if (match !== null) {
           if (match[1] === "") {
             return isHead ? "" : "GET /users/admin/*";

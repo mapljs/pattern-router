@@ -1,4 +1,4 @@
-import { group_delimiter_end, named_group_end, unnamed_group_end } from './utils.mts';
+import { group_delimiter_end, named_group_end, unnamed_group_end, wildcard_group_end } from './utils.mts';
 
 type Dict<T> = Partial<Record<string, T>>;
 
@@ -39,9 +39,9 @@ export const regexp_group_needs_prefixing = (
 export const is_prefixed_regexp_group = (path: string, pathIdx: number): boolean =>
   path[pathIdx] === '/' &&
   pathIdx + 1 < path.length &&
-  (path[pathIdx + 1] === '(' || path[pathIdx + 1] === ':');
+  (path[pathIdx + 1] === '(' || path[pathIdx + 1] === ':' || path[pathIdx + 1] === '*');
 
-export const insert_to_connect_node_map = <T,>(
+export const insert_to_dynamic_node_map = <T,>(
   node: Node<T>,
   path: string,
   keyStartIdx: number,
@@ -106,9 +106,20 @@ export const node_create = <T,>(path: string, startIdx: number, store: T): Node<
         ];
       }
 
+      case '*': {
+        pathIdx -= regexp_group_needs_prefixing(path, pathIdx, startIdx);
+
+        return [
+          path.slice(startIdx, pathIdx),
+          null,
+          null,
+          node_dict_create(path, pathIdx, wildcard_group_end(path, pathIdx), store),
+        ];
+      }
+
       case '\\':
         throw new Error(
-          'escaping characters are not supported, use their url-encoded equivalent instead!',
+          'escaping characters is not supported, use their url-encoded equivalent instead!',
         );
     }
   }
@@ -127,7 +138,7 @@ export const node_insert = <T,>(node: Node<T>, path: string, pathIdx: number, st
 
       switch (pathChar) {
         case '{': {
-          insert_to_connect_node_map(
+          insert_to_dynamic_node_map(
             node,
             path,
             pathIdx + 1,
@@ -138,7 +149,7 @@ export const node_insert = <T,>(node: Node<T>, path: string, pathIdx: number, st
         }
 
         case '(': {
-          insert_to_connect_node_map(
+          insert_to_dynamic_node_map(
             node,
             path,
             pathIdx,
@@ -149,7 +160,12 @@ export const node_insert = <T,>(node: Node<T>, path: string, pathIdx: number, st
         }
 
         case ':': {
-          insert_to_connect_node_map(node, path, pathIdx, named_group_end(path, pathIdx), store);
+          insert_to_dynamic_node_map(node, path, pathIdx, named_group_end(path, pathIdx), store);
+          return;
+        }
+
+        case '*': {
+          insert_to_dynamic_node_map(node, path, pathIdx, wildcard_group_end(path, pathIdx), store);
           return;
         }
       }

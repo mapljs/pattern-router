@@ -139,6 +139,18 @@ export const named_group_to_regexp = (key: string, offsets: number[]): string =>
     : namedCapture + (modifier === '?' ? '[^/]+)?' : modifier === '*' ? '[^/]*)' : '[^/]+)');
 };
 
+export const wildcard_group_to_regexp = (key: string): string => {
+  if (key[0] === '*') return '.*';
+
+  // prefixed group (/*?)
+  if (key.length === 3) {
+    if (key[2] === '?') return '(?:\\/.*)?';
+    if (key[2] === '*') return '(?:(?:\\/.*)+)?';
+  }
+
+  return '\\/.*';
+}
+
 export const node_compile_to_regexp = <T,>(
   node: Node<T>,
   handlers: T[],
@@ -168,7 +180,9 @@ export const node_compile_to_regexp = <T,>(
           ? group_delimiter_to_regexp(group, offsets)
           : startChar === '('
             ? unnamed_group_to_regexp(group, 0, group.length)
-            : named_group_to_regexp(group, offsets)) +
+            : startChar === ':'
+              ? named_group_to_regexp(group, offsets)
+              : wildcard_group_to_regexp(group)) +
         node_compile_to_regexp(map[group]!, handlers, offsets),
       );
     }

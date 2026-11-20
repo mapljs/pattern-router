@@ -112,6 +112,8 @@ export const named_group_end = (path: string, startIdx: number): number => {
   return groupEndIdx;
 };
 
+export const wildcard_group_end = (path: string, startIdx: number): number => group_modifier_end(path, path[startIdx] === '/' ? startIdx + 2 : startIdx + 1);
+
 export const is_dynamic_pattern = (pat: string): boolean => /[({:*+?]/.test(pat);
 export const url_pattern = (pat: string): URLPattern => new URLPattern({ pathname: pat });
 export const is_modifier = (modifier: string): boolean =>

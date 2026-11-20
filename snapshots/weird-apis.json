@@ -10,10 +10,17 @@
           null,
           {
             "/": [
-              "/admin/*",
-              "return isHead?'':\"GET /users/admin/*\"",
+              "/admin",
               null,
-              null
+              null,
+              {
+                "/*": [
+                  "",
+                  "return isHead?'':\"GET /users/admin/*\"",
+                  null,
+                  null
+                ]
+              }
             ]
           },
           {
