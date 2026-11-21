@@ -1,4 +1,9 @@
-import { group_delimiter_end, named_group_end, unnamed_group_end, wildcard_group_end } from './utils.mts';
+import {
+  group_delimiter_end,
+  named_group_end,
+  unnamed_group_end,
+  wildcard_group_end,
+} from './utils.mts';
 
 type Dict<T> = Partial<Record<string, T>>;
 
@@ -26,9 +31,10 @@ export const node_dict_create = <T,>(
 ): Dict<Node<T>> =>
   dict(
     path.slice(keyStartIdx, keyEndIdx),
-    keyEndIdx === path.length ?
-    // fast path
-      ['', store, null, null] : node_create(path, keyEndIdx, store),
+    keyEndIdx === path.length
+      ? // fast path
+        ['', store, null, null]
+      : node_create(path, keyEndIdx, store),
   );
 
 export const regexp_group_needs_prefixing = (
@@ -56,9 +62,11 @@ export const insert_to_dynamic_node_map = <T,>(
       connectNode = map[groupKey];
 
     if (connectNode == null)
-      map[groupKey] = keyEndIdx === path.length ?
-        // fast path
-        ['', store, null, null] : node_create(path, keyEndIdx, store);
+      map[groupKey] =
+        keyEndIdx === path.length
+          ? // fast path
+            ['', store, null, null]
+          : node_create(path, keyEndIdx, store);
     else {
       // fast path
       if (keyEndIdx === path.length) connectNode[1] = store;
@@ -75,12 +83,7 @@ export const node_create = <T,>(path: string, startIdx: number, store: T): Node<
           path.slice(startIdx, pathIdx),
           null,
           null,
-          node_dict_create(
-            path,
-            pathIdx + 1,
-            group_delimiter_end(path, pathIdx + 1),
-            store,
-          )
+          node_dict_create(path, pathIdx + 1, group_delimiter_end(path, pathIdx + 1), store),
         ];
       }
 
@@ -149,13 +152,7 @@ export const node_insert = <T,>(node: Node<T>, path: string, pathIdx: number, st
         }
 
         case '(': {
-          insert_to_dynamic_node_map(
-            node,
-            path,
-            pathIdx,
-            unnamed_group_end(path, pathIdx),
-            store,
-          );
+          insert_to_dynamic_node_map(node, path, pathIdx, unnamed_group_end(path, pathIdx), store);
           return;
         }
 
@@ -191,12 +188,7 @@ export const node_insert = <T,>(node: Node<T>, path: string, pathIdx: number, st
 
       // insert /a/bc to /a/bd
       if (pathChar !== nodePathChar || is_prefixed_regexp_group(path, pathIdx)) {
-        const movedNode: Node<T> = [
-          nodePath.slice(nodePathIdx),
-          node[1],
-          node[2],
-          node[3]
-        ];
+        const movedNode: Node<T> = [nodePath.slice(nodePathIdx), node[1], node[2], node[3]];
 
         nodePath = node[0] = nodePath.slice(0, nodePathIdx);
         node[2] = dict(nodePathChar, movedNode);
@@ -210,12 +202,7 @@ export const node_insert = <T,>(node: Node<T>, path: string, pathIdx: number, st
 
   // insert /a/b to /a/bc
   if (nodePathIdx < nodePath.length) {
-    const movedNode: Node<T> = [
-      nodePath.slice(nodePathIdx),
-      node[1],
-      node[2],
-      node[3]
-    ];
+    const movedNode: Node<T> = [nodePath.slice(nodePathIdx), node[1], node[2], node[3]];
 
     node[0] = nodePath.slice(0, nodePathIdx);
     node[2] = dict(nodePath[nodePathIdx], movedNode);

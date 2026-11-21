@@ -149,7 +149,7 @@ export const wildcard_group_to_regexp = (key: string): string => {
   }
 
   return '\\/.*';
-}
+};
 
 export const node_compile_to_regexp = <T,>(
   node: Node<T>,
@@ -183,7 +183,7 @@ export const node_compile_to_regexp = <T,>(
             : startChar === ':'
               ? named_group_to_regexp(group, offsets)
               : wildcard_group_to_regexp(group)) +
-        node_compile_to_regexp(map[group]!, handlers, offsets),
+          node_compile_to_regexp(map[group]!, handlers, offsets),
       );
     }
   }
