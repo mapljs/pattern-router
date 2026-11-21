@@ -24,7 +24,8 @@ for (const name in suites) {
         : `return ${JSON.stringify(value)}`,
     );
 
-  const filename = `snapshots/${name}.mts`;
+  const body = `{let isHead=false,path=new URL(req.url).pathname;${router_compile_to_code(router, 'match', 'path', 'req.method', 'isHead=true')}}`;
+
   pending.push(
     writeFile(
       `snapshots/${name}.json`,
@@ -34,10 +35,11 @@ for (const name in suites) {
         2,
       ),
     ),
+    writeFile(`snapshots/${name}.raw.mjs`, `export default(req)=>` + body),
     format(
-      filename,
-      `export default(method:string,path:string)=>{let isHead=false;${router_compile_to_code(router, 'match', 'path', 'method', 'isHead=true')}}`,
-    ).then((str) => writeFile(filename, str.code)),
+      name + '.mts',
+      `export default(req:Request)=>` + body,
+    ).then((str) => writeFile(`snapshots/${name}.mts`, str.code)),
   );
 }
 

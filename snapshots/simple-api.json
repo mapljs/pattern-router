@@ -1,4 +1,27 @@
 {
+  "POST": [
+    {},
+    [
+      "",
+      null,
+      {
+        "/": [
+          "/event",
+          null,
+          null,
+          {
+            "/:event": [
+              "/comment",
+              "return \"POST /event/:event/comment\"",
+              null,
+              null
+            ]
+          }
+        ]
+      },
+      null
+    ]
+  ],
   "GET": [
     {
       "/user": "return isHead?'':\"GET /user\"",
@@ -96,29 +119,6 @@
             ]
           },
           null
-        ]
-      },
-      null
-    ]
-  ],
-  "POST": [
-    {},
-    [
-      "",
-      null,
-      {
-        "/": [
-          "/event",
-          null,
-          null,
-          {
-            "/:event": [
-              "/comment",
-              "return \"POST /event/:event/comment\"",
-              null,
-              null
-            ]
-          }
         ]
       },
       null

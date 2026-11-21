@@ -1,6 +1,7 @@
-export default (method: string, path: string) => {
-  let isHead = false;
-  switch (method) {
+export default (req: Request) => {
+  let isHead = false,
+    path = new URL(req.url).pathname;
+  switch (req.method) {
     case "HEAD": {
       isHead = true;
     }
