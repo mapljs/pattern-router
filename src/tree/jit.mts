@@ -17,10 +17,9 @@ export const tree_compile_to_code = (
   }
 
   if (tree.length === 2) {
-    const root = tree[1],
-      handlers: string[] = [],
+    const handlers: string[] = [],
       offsets = [1],
-      regexp = node_compile_to_regexp(root, handlers, offsets);
+      regexp = node_compile_to_regexp(tree[1]!, handlers, offsets);
 
     if (handlers.length > 0) {
       let prefix = `if(${resultId}[`;

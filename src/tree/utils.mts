@@ -42,80 +42,76 @@ export type InferParams<Path extends string> =
           : {};
 
 export const group_modifier_end = (path: string, groupEndIdx: number): number => {
-  if (groupEndIdx < path.length)
-    switch (path[groupEndIdx]) {
-      case '+':
-      case '*':
-      case '?':
-        return groupEndIdx + 1;
-    }
-  return groupEndIdx;
-};
-
-/**
- * @param path
- * @param startIdx position after {
- * @returns position after } or a modifier
- */
-export const group_delimiter_end = (path: string, startIdx: number): number =>
-  group_modifier_end(path, path.indexOf('}', startIdx) + 1);
-
-/**
- * @param path
- * @param startIdx position of ( or /(
- * @returns position after ) or a modifier
- */
-export const unnamed_group_end = (path: string, startIdx: number): number => {
-  let stack = 0;
-  while (startIdx < path.length) {
-    if (path[startIdx] === '(') stack++;
-    else if (path[startIdx] === ')' && --stack === 0) return group_modifier_end(path, startIdx + 1);
-    startIdx++;
-  }
-
-  throw new Error('invalid unnamed group in path: ' + path);
-};
-
-/**
- * @param path
- * @param startIdx position of : or /:
- */
-export const named_group_end = (path: string, startIdx: number): number => {
-  let groupEndIdx = startIdx + 2;
-  while (groupEndIdx < path.length) {
-    switch (path[groupEndIdx]) {
-      case '*':
-      case '+':
-      case '?':
-        return groupEndIdx + 1;
-
-      case '(':
-        return unnamed_group_end(path, groupEndIdx);
-
-      case '{':
-      case '}':
-      case '/':
-      case ':':
-      case '.':
-      case '@':
-      case '[':
-      case ']':
-      case '-':
-      case '=':
-      case '%':
-        return groupEndIdx;
+    if (groupEndIdx < path.length)
+      switch (path[groupEndIdx]) {
+        case '+':
+        case '*':
+        case '?':
+          return groupEndIdx + 1;
+      }
+    return groupEndIdx;
+  },
+  /**
+   * @param path
+   * @param startIdx position after {
+   * @returns position after } or a modifier
+   */
+  group_delimiter_end = (path: string, startIdx: number): number =>
+    group_modifier_end(path, path.indexOf('}', startIdx) + 1),
+  /**
+   * @param path
+   * @param startIdx position of ( or /(
+   * @returns position after ) or a modifier
+   */
+  unnamed_group_end = (path: string, startIdx: number): number => {
+    let stack = 0;
+    while (startIdx < path.length) {
+      if (path[startIdx] === '(') stack++;
+      else if (path[startIdx] === ')' && --stack === 0)
+        return group_modifier_end(path, startIdx + 1);
+      startIdx++;
     }
 
-    groupEndIdx++;
-  }
+    throw new Error('invalid unnamed group in path: ' + path);
+  },
+  /**
+   * @param path
+   * @param startIdx position of : or /:
+   */
+  named_group_end = (path: string, startIdx: number): number => {
+    let groupEndIdx = startIdx + 2;
+    while (groupEndIdx < path.length) {
+      switch (path[groupEndIdx]) {
+        case '*':
+        case '+':
+        case '?':
+          return groupEndIdx + 1;
 
-  return groupEndIdx;
-};
+        case '(':
+          return unnamed_group_end(path, groupEndIdx);
 
-export const wildcard_group_end = (path: string, startIdx: number): number =>
-  group_modifier_end(path, path[startIdx] === '/' ? startIdx + 2 : startIdx + 1);
+        case '{':
+        case '}':
+        case '/':
+        case ':':
+        case '.':
+        case '@':
+        case '[':
+        case ']':
+        case '-':
+        case '=':
+        case '%':
+          return groupEndIdx;
+      }
 
-export const is_dynamic_pattern = (pat: string): boolean => /[({:*+?]/.test(pat);
-export const url_pattern = (pat: string): URLPattern => new URLPattern({ pathname: pat });
-export const is_modifier = (modifier: string): boolean =>
-  modifier === '?' || modifier === '+' || modifier === '*';
+      groupEndIdx++;
+    }
+
+    return groupEndIdx;
+  },
+  wildcard_group_end = (path: string, startIdx: number): number =>
+    group_modifier_end(path, path[startIdx] === '/' ? startIdx + 2 : startIdx + 1),
+  is_dynamic_pattern = (pat: string): boolean => /[({:*+?]/.test(pat),
+  url_pattern = (pat: string): URLPattern => new URLPattern({ pathname: pat }),
+  is_modifier = (modifier: string): boolean =>
+    modifier === '?' || modifier === '+' || modifier === '*';

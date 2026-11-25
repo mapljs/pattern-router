@@ -36,10 +36,9 @@ for (const name in suites) {
       ),
     ),
     writeFile(`snapshots/${name}.raw.mjs`, `export default(req)=>` + body),
-    format(
-      name + '.mts',
-      `export default(req:Request)=>` + body,
-    ).then((str) => writeFile(`snapshots/${name}.mts`, str.code)),
+    format(name + '.mts', `export default(req:Request)=>` + body).then((str) =>
+      writeFile(`snapshots/${name}.mts`, str.code),
+    ),
   );
 }
 
