@@ -60,8 +60,9 @@ export let CODE = '',
       if (handlers.length > 0) {
         let prefix = `if(${RESULT_ID}[`,
           regexp_ids = RESULT_ID + REGEXP_ID++;
-        DECLS += `,${regexp_ids}=/^${regexp}$/`;
 
+        DECLS += `,${regexp_ids}=/^${regexp}$/`;
+        // handle first case
         CODE += `{let ${RESULT_ID}=${regexp_ids}.exec(${PATH_ID});if(${RESULT_ID}!==null){${prefix + offsets[0]}]===""){${handlers[0]}}`;
 
         if (handlers.length > 1) {
