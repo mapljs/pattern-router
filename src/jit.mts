@@ -64,10 +64,12 @@ export let CODE = '',
 
         CODE += `{let ${RESULT_ID}=${regexp_ids}.exec(${PATH_ID});if(${RESULT_ID}!==null){${prefix + offsets[0]}]===""){${handlers[0]}}`;
 
-        prefix = 'else ' + prefix;
+        if (handlers.length > 1) {
+          prefix = 'else ' + prefix;
+          for (let i = 1; i < handlers.length; i++)
+            CODE += prefix + offsets[i] + `]===""){${handlers[i]}}`;
+        }
 
-        for (let i = 1; i < handlers.length; i++)
-          CODE += prefix + offsets[i] + `]===""){${handlers[i]}}`;
         CODE += '}}';
       }
     }
