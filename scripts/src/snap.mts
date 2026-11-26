@@ -2,7 +2,7 @@ import { enableCompileCache } from 'node:module';
 enableCompileCache();
 
 import { router_init, router_set } from '@mapl/pattern-router';
-import { router_compile_to_code } from '@mapl/pattern-router/jit';
+import { CODE, DECLS, router_compile_to_code } from '@mapl/pattern-router/jit';
 
 import { format } from 'oxfmt';
 
@@ -24,7 +24,10 @@ for (const name in suites) {
         : `return ${JSON.stringify(value)}`,
     );
 
-  const body = `{let isHead=false,path=new URL(req.url).pathname;${router_compile_to_code(router, 'match', 'path', 'req.method', 'isHead=true')}}`;
+  router_compile_to_code(router, 'match', 'path', 'req.method', 'isHead=true');
+  const
+    decls = `let _${DECLS};`,
+    body = `{let isHead=false,path=new URL(req.url).pathname;${CODE}}`;
 
   pending.push(
     writeFile(
@@ -35,8 +38,8 @@ for (const name in suites) {
         2,
       ),
     ),
-    writeFile(`snapshots/${name}.raw.mjs`, `export default(req)=>` + body),
-    format(name + '.mts', `export default(req:Request)=>` + body).then((str) =>
+    writeFile(`snapshots/${name}.raw.mjs`, decls + `export default(req)=>` + body),
+    format(name + '.mts', decls + `export default(req:Request)=>` + body).then((str) =>
       writeFile(`snapshots/${name}.mts`, str.code),
     ),
   );

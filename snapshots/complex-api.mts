@@ -1,3 +1,14 @@
+let _,
+  match0 =
+    /^\/(?:user\/(?<user>[^/]+)(?:()|\/(?:notifications()|invites\/(?<invite>[^/]+)()))|org\/(?<org>[^/]+)(?:()|\/(?:members()|roles()|domains()|projects\/(?<project>[^/]+)(?:()|\/(?:members()|activity()|tasks(?:()|\/(?:time-entries()|attachments()))))|tasks(?:()|\/(?<task>[^/]+)(?:()|\/comments()))|billing\/(?:p(?:lans()|ayment-methods())|subscription()|invoices(?:()|\/(?<invoice>[^/]+)()))|api-keys()|webhooks()))|files\/(?<file>.+)())$/,
+  match1 =
+    /^\/(?:user(?:\/notifications\/read(?:\/(?<notification>[^/]+))?()|\/(?<user>[^/]+)(?:()|\/invites(?:()|\/(?<invite>[^/]+)\/(?:accept()|resend()))))|org\/(?<org>[^/]+)\/(?:members(?:()|\/(?<member>[^/]+)())|roles(?:()|\/(?<role>[^/]+)())|domains(?:()|\/(?<domain>[^/]+)())|projects(?:()|\/(?<project>[^/]+)\/(?:members()|tasks(?:()|\/(?:t(?:ime-entries()|ags())|attachments()))))|tasks\/(?<task>[^/]+)\/(?:assign()|status()|comments())|billing\/(?:subscription(?:()|\/cancel())|invoices\/(?<invoice>[^/]+)()|payment-methods())|api-keys()|webhooks()))$/,
+  match2 =
+    /^\/org\/(?<org>[^/]+)(?:()|\/(?:projects\/(?<project>[^/]+)()|tasks\/(?<task>[^/]+)()|webhooks\/(?<hook>[^/]+)()))$/,
+  match3 =
+    /^\/(?:user\/me\/sessions\/(?<session>[^/]+)()|org\/(?<org>[^/]+)(?:()|\/(?:projects\/(?<project>[^/]+)(?:()|\/tasks\/(?:t(?:ime-entries\/(?<entry>[^/]+)()|ags())|fields\/(?<field>[^/]+)()))|tasks\/(?<task>[^/]+)()|billing\/payment-methods\/(?<method>[^/]+)()|api-keys\/(?<key>[^/]+)()|webhooks\/(?<hook>[^/]+)()))|files\/(?<file>.+)())$/,
+  match4 =
+    /^\/org\/(?<org>[^/]+)\/(?:projects\/(?<project>[^/]+)\/tasks\/fields\/(?<field>[^/]+)()|billing\/payment-methods\/(?<method>[^/]+)())$/;
 export default (req: Request) => {
   let isHead = false,
     path = new URL(req.url).pathname;
@@ -39,10 +50,7 @@ export default (req: Request) => {
           break;
       }
       {
-        let match =
-          /^\/(?:user\/(?<user>[^/]+)(?:()|\/(?:notifications()|invites\/(?<invite>[^/]+)()))|org\/(?<org>[^/]+)(?:()|\/(?:members()|roles()|domains()|projects\/(?<project>[^/]+)(?:()|\/(?:members()|activity()|tasks(?:()|\/(?:time-entries()|attachments()))))|tasks(?:()|\/(?<task>[^/]+)(?:()|\/comments()))|billing\/(?:p(?:lans()|ayment-methods())|subscription()|invoices(?:()|\/(?<invoice>[^/]+)()))|api-keys()|webhooks()))|files\/(?<file>.+)())$/.exec(
-            path,
-          );
+        let match = match0.exec(path);
         if (match !== null) {
           if (match[2] === "") {
             return isHead ? "" : "GET /user/:user";
@@ -155,10 +163,7 @@ export default (req: Request) => {
           break;
       }
       {
-        let match =
-          /^\/(?:user(?:\/notifications\/read(?:\/(?<notification>[^/]+))?()|\/(?<user>[^/]+)(?:()|\/invites(?:()|\/(?<invite>[^/]+)\/(?:accept()|resend()))))|org\/(?<org>[^/]+)\/(?:members(?:()|\/(?<member>[^/]+)())|roles(?:()|\/(?<role>[^/]+)())|domains(?:()|\/(?<domain>[^/]+)())|projects(?:()|\/(?<project>[^/]+)\/(?:members()|tasks(?:()|\/(?:t(?:ime-entries()|ags())|attachments()))))|tasks\/(?<task>[^/]+)\/(?:assign()|status()|comments())|billing\/(?:subscription(?:()|\/cancel())|invoices\/(?<invoice>[^/]+)()|payment-methods())|api-keys()|webhooks()))$/.exec(
-            path,
-          );
+        let match = match1.exec(path);
         if (match !== null) {
           if (match[2] === "") {
             return "POST /user/notifications/read/:notification?";
@@ -225,10 +230,7 @@ export default (req: Request) => {
           break;
       }
       {
-        let match =
-          /^\/org\/(?<org>[^/]+)(?:()|\/(?:projects\/(?<project>[^/]+)()|tasks\/(?<task>[^/]+)()|webhooks\/(?<hook>[^/]+)()))$/.exec(
-            path,
-          );
+        let match = match2.exec(path);
         if (match !== null) {
           if (match[2] === "") {
             return "PATCH /org/:org";
@@ -244,10 +246,7 @@ export default (req: Request) => {
       break;
     case "DELETE":
       {
-        let match =
-          /^\/(?:user\/me\/sessions\/(?<session>[^/]+)()|org\/(?<org>[^/]+)(?:()|\/(?:projects\/(?<project>[^/]+)(?:()|\/tasks\/(?:t(?:ime-entries\/(?<entry>[^/]+)()|ags())|fields\/(?<field>[^/]+)()))|tasks\/(?<task>[^/]+)()|billing\/payment-methods\/(?<method>[^/]+)()|api-keys\/(?<key>[^/]+)()|webhooks\/(?<hook>[^/]+)()))|files\/(?<file>.+)())$/.exec(
-            path,
-          );
+        let match = match3.exec(path);
         if (match !== null) {
           if (match[2] === "") {
             return "DELETE /user/me/sessions/:session";
@@ -277,10 +276,7 @@ export default (req: Request) => {
       break;
     case "PUT":
       {
-        let match =
-          /^\/org\/(?<org>[^/]+)\/(?:projects\/(?<project>[^/]+)\/tasks\/fields\/(?<field>[^/]+)()|billing\/payment-methods\/(?<method>[^/]+)())$/.exec(
-            path,
-          );
+        let match = match4.exec(path);
         if (match !== null) {
           if (match[4] === "") {
             return "PUT /org/:org/projects/:project/tasks/fields/:field";

@@ -51,36 +51,32 @@ type T = InferParams<'/book{s/:id}?'>; // { id: string | undefined }
 Compile a router to matching code.
 ```ts
 import { router_init, router_set } from '@mapl/pattern-router';
-import { router_compile_to_code } from '@mapl/pattern-router/jit';
+import { router_compile_to_code, DECLS, CODE } from '@mapl/pattern-router/jit';
 
 const router = router_init<string>();
 router_set(router, 'GET', '/', 'return"home"');
 router_set(router, 'POST', '/forum/:forum+', 'return"posting to "+match.groups.forum');
 
-const match = Function(
-  'method', 
+router_compile_to_code(
+  router, 
+  // regexp match result variable
+  'match', 
+  // input path variable
   'path', 
-  router_compile_to_code(
-    router, 
-    // regexp match result variable
-    'match', 
-    // input path variable
-    'path', 
-    // input method variable
-    'method', 
-    // additional code for HEAD method handling
-    ''
-  )
+  // input method variable
+  'method', 
+  // additional code for HEAD method handling
+  ''
 );
+
+const match = (0, eval)(`{
+  let _${DECLS /** required declarations for code to work */};
+  (method, path) => {${CODE /** route handling code */}}
+}`);
 
 match('GET', '/'); // "home"
 match('GET', '/about'); // undefined
 match('POST', '/forum/@mapl/pattern-router'); // "posting to @mapl/pattern-router"
-```
-
-In the above example, `router_compile_to_code()` outputs:
-```js
-switch(method){case"HEAD":{}case "GET":{switch(path){case"/":{return"Home"}break;}}break;case"POST":{let match=/^\/forum\/(?<forum>.+)()$/.exec(path);if(match!==null){if(match[2]===""){return"Posting to "+match.groups.forum}}}break;}
 ```
 
 ### Limitations

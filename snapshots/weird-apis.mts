@@ -1,3 +1,5 @@
+let _,
+  match0 = /^\/users(?:\/admin\/.*()|(?:\/(?:[0-9]+))?())$/;
 export default (req: Request) => {
   let isHead = false,
     path = new URL(req.url).pathname;
@@ -7,7 +9,7 @@ export default (req: Request) => {
     }
     case "GET":
       {
-        let match = /^\/users(?:\/admin\/.*()|(?:\/(?:[0-9]+))?())$/.exec(path);
+        let match = match0.exec(path);
         if (match !== null) {
           if (match[1] === "") {
             return isHead ? "" : "GET /users/admin/*";

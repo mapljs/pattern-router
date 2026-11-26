@@ -1,3 +1,7 @@
+let _,
+  match0 =
+    /^\/(?:user\/lookup\/(?:username\/(?<username>[^/]+)()|email\/(?<email>[^/]+)())|event\/(?<event>[^/]+)(?:()|\/comments())|map\/(?<location>[^/]+)\/events()|static\/(?<file>.+)())$/,
+  match1 = /^\/event\/(?<event>[^/]+)\/comment()$/;
 export default (req: Request) => {
   let isHead = false,
     path = new URL(req.url).pathname;
@@ -34,10 +38,7 @@ export default (req: Request) => {
           break;
       }
       {
-        let match =
-          /^\/(?:user\/lookup\/(?:username\/(?<username>[^/]+)()|email\/(?<email>[^/]+)())|event\/(?<event>[^/]+)(?:()|\/comments())|map\/(?<location>[^/]+)\/events()|static\/(?<file>.+)())$/.exec(
-            path,
-          );
+        let match = match0.exec(path);
         if (match !== null) {
           if (match[2] === "") {
             return isHead ? "" : "GET /user/lookup/username/:username";
@@ -57,7 +58,7 @@ export default (req: Request) => {
       break;
     case "POST":
       {
-        let match = /^\/event\/(?<event>[^/]+)\/comment()$/.exec(path);
+        let match = match1.exec(path);
         if (match !== null) {
           if (match[2] === "") {
             return "POST /event/:event/comment";
